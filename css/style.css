@@ -539,50 +539,80 @@ body.light-theme .copy-btn:hover {
 }
 
 /* 7. 영상제작 프롬프트 라이트 모드 스타일 */
-body.light-theme .prompt-control-panel {
-  background: rgba(255, 255, 255, 0.9);
+body.light-theme .prompt-global-lang-toggle {
+  background: #ffffff;
+  border-color: rgba(180, 131, 24, 0.4);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .global-lang-btn {
+  color: #475569;
+}
+
+body.light-theme .global-lang-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+body.light-theme .global-lang-btn.active {
+  background: var(--accent-gold);
+  color: #ffffff;
+  box-shadow: 0 1px 4px rgba(180, 131, 24, 0.25);
+}
+
+body.light-theme .google-flow-link-btn {
+  background: #ffffff;
+  color: #0369a1;
+  border-color: rgba(2, 132, 199, 0.35);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .google-flow-link-btn:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+body.light-theme .toggle-view-btn.troubleshoot-btn {
+  background: #ffffff;
+  color: #0369a1;
+  border-color: rgba(2, 132, 199, 0.35);
+}
+
+body.light-theme .toggle-view-btn.troubleshoot-btn:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+body.light-theme .prompt-scene-group {
+  background: rgba(255, 255, 255, 0.88);
   border-color: rgba(15, 23, 42, 0.08);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
-body.light-theme .control-label {
-  color: #475569;
+body.light-theme .prompt-scene-group:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.1);
 }
 
-body.light-theme .pill-btn {
-  background: #f1f5f9;
-  color: #334155;
-  border-color: rgba(15, 23, 42, 0.08);
+body.light-theme .prompt-scene-group-header {
+  border-bottom-color: rgba(15, 23, 42, 0.08);
 }
 
-body.light-theme .pill-btn:hover {
-  background: #e2e8f0;
+body.light-theme .prompt-scene-group-badge {
+  background: var(--accent-gold);
+  color: #ffffff;
+}
+
+body.light-theme .prompt-scene-group-title {
   color: #0f172a;
 }
 
-body.light-theme .pill-btn.active {
-  background: var(--accent-gold);
-  color: #ffffff;
-  border-color: var(--accent-gold);
-  box-shadow: 0 2px 8px rgba(180, 131, 24, 0.25);
-}
-
-body.light-theme .copy-all-btn {
-  background: #ffffff;
-  color: #92400e;
-  border-color: rgba(180, 131, 24, 0.45);
-  box-shadow: 0 2px 8px rgba(180, 131, 24, 0.12);
-}
-
-body.light-theme .copy-all-btn:hover {
-  background: #f8fafc;
-  border-color: var(--accent-gold);
-}
-
-body.light-theme .copy-all-btn.copied {
-  background: #16a34a;
-  color: #ffffff;
-  border-color: #16a34a;
+body.light-theme .prompt-scene-group-meta {
+  color: #475569;
+  background: #e2e8f0;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
 }
 
 body.light-theme .prompt-clip-card {
@@ -2157,7 +2187,7 @@ button {
 .prompt-action-group {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   margin-left: auto;
   flex-wrap: wrap;
 }
@@ -2167,52 +2197,68 @@ button {
   display: inline-flex;
   align-items: center;
   background: var(--bg-card);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-highlight);
   border-radius: var(--radius-full);
   padding: 2px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 0 10px rgba(229, 185, 88, 0.08);
 }
 
 .global-lang-btn {
   background: transparent;
   border: none;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-size: 0.78rem;
-  font-weight: 700;
-  padding: 0.35rem 0.85rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: all var(--transition-fast);
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.25rem;
 }
 
 .global-lang-btn:hover {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .global-lang-btn.active {
-  background: linear-gradient(135deg, var(--accent-gold), #f59e0b);
+  background: var(--accent-gold);
   color: #000000;
-  box-shadow: 0 0 10px rgba(229, 185, 88, 0.4);
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(229, 185, 88, 0.35);
 }
 
+/* 영상 오류 해결 버튼 특화 */
+.toggle-view-btn.troubleshoot-btn {
+  border-color: rgba(56, 189, 248, 0.4);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.1);
+}
 
+.toggle-view-btn.troubleshoot-btn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: var(--accent-cyan);
+  color: #ffffff;
+  box-shadow: 0 0 15px var(--accent-cyan-glow);
+}
+
+/* Google Flow 바로가기 링크 버튼 */
 .google-flow-link-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.9rem;
-  background: linear-gradient(135deg, rgba(2, 132, 199, 0.2), rgba(56, 189, 248, 0.1));
+  gap: 0.35rem;
+  padding: 0.35rem 0.8rem;
+  background: var(--bg-card);
   border: 1px solid var(--border-cyan);
   border-radius: var(--radius-full);
   color: var(--accent-cyan);
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 0.8rem;
+  font-weight: 600;
   text-decoration: none;
   transition: var(--transition-fast);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.1);
 }
 
 .google-flow-link-btn:hover {

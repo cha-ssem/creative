@@ -1721,9 +1721,9 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
     }
   }
 
-  // 로컬 스토리지에서 저장된 테마 불러오기
+  // 로컬 스토리지에서 저장된 테마 불러오기 (기본값: 라이트 모드)
   const savedTheme = (typeof localStorage !== 'undefined') ? localStorage.getItem('theme') : null;
-  let isLightTheme = savedTheme === 'light';
+  let isLightTheme = savedTheme ? (savedTheme === 'light') : true;
   applyTheme(isLightTheme);
 
   if (themeToggleBtn) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="light">
 
 <head>
   <meta charset="UTF-8">
@@ -13,7 +13,7 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
-<body>
+<body class="light-theme">
 
   <!-- ==========================================================================
        [INTRO VIDEO] 풀스크린 인트로 비디오 오버레이 (원복 시 이 블록 삭제/주석 처리)
@@ -109,8 +109,8 @@
       <!-- 프레임 최하단 라이트/다크 모드 토글 버튼 -->
       <div class="theme-toggle-wrap">
         <button id="themeToggleBtn" class="theme-toggle-btn" title="라이트 모드 / 다크 모드 전환">
-          <span class="theme-icon" id="themeIcon">☀️</span>
-          <span class="theme-text" id="themeText">라이트 모드</span>
+          <span class="theme-icon" id="themeIcon">🌙</span>
+          <span class="theme-text" id="themeText">다크 모드</span>
         </button>
       </div>
     </div>
@@ -198,10 +198,10 @@
             도구에 바로 붙여넣어 영상을 순서대로 제작할 수 있습니다.</p>
         </div>
 
-        <!-- 프롬프트 컨트롤 툴바 (씬 필터 + 언어 선택 & Google Flow 단추 1열 배치) -->
-        <div class="prompt-control-panel">
+        <!-- 뷰 컨트롤 바 (씬 필터 + 언어 선택 & 전체 펼침 & 오류 해결 & Google Flow 단추) -->
+        <div class="view-control-bar">
           <!-- 씬/클립 필터 칩 -->
-          <div class="prompt-filter-bar" id="promptSceneFilterBar">
+          <div class="filter-bar" id="promptSceneFilterBar" style="margin-bottom: 0;">
             <button class="filter-chip active" data-scene-filter="all">전체 클립 (11)</button>
             <button class="filter-chip" data-scene-filter="SCENE 01">SCENE 01 (2)</button>
             <button class="filter-chip" data-scene-filter="SCENE 02">SCENE 02 (2)</button>
@@ -211,7 +211,7 @@
             <button class="filter-chip" data-scene-filter="SCENE 06">SCENE 06 (1)</button>
           </div>
 
-          <!-- 전체 프롬프트 언어 전환 (영문/한글) & 전체 더보기/접기 & Google Flow 바로가기 -->
+          <!-- 전체 프롬프트 언어 전환 (영문/한글) & 전체 더보기/접기 & 영상 오류 해결 & Google Flow 바로가기 -->
           <div class="prompt-action-group">
             <div class="prompt-global-lang-toggle" id="globalPromptLangToggle" role="group"
               aria-label="프롬프트 언어 일괄 전환">
