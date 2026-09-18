@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>생성형 AI로 달라진 CEO의 하루 | AI 시네마틱 스토리보드</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Marked for Scenario Markdown Rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ==========================================================================
+       [INTRO VIDEO] 풀스크린 인트로 비디오 오버레이 (원복 시 이 블록 삭제/주석 처리)
+       ========================================================================== -->
+  <div id="introOverlay" class="intro-overlay">
+    <div class="intro-video-container">
+      <video id="introVideo" playsinline muted autoplay>
+        <source src="CEO_clip04.mp4" type="video/mp4">
+        브라우저가 비디오 태그를 지원하지 않습니다.
+      </video>
+      
+      <!-- 상단 컨트롤 버튼 (음소거 토글, 건너뛰기) -->
+      <div class="intro-controls">
+        <button id="introSoundBtn" class="intro-btn intro-sound-btn" type="button">🔊 소리 켜기</button>
+        <button id="introSkipBtn" class="intro-btn intro-skip-btn" type="button">건너뛰기 (Skip) ✕</button>
+      </div>
+
+      <!-- 하단 인트로 캡션 바 -->
+      <div class="intro-caption-bar">
+        <div class="intro-tag">INTRO CLIP</div>
+        <div class="intro-title">생성형 AI로 달라진 CEO의 하루 · 시네마틱 프리뷰</div>
+      </div>
+    </div>
+  </div>
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">✦</span>
+      <span class="brand-title">AI STUDIO</span>
+      <span class="brand-icon">✦</span>
+    </div>
+
+    <!-- 사이드바 상단 프로젝트 정보 박스 -->
+    <div class="sidebar-project-box">
+      <div class="sidebar-badge">AI Branded Film</div>
+      <h1 class="sidebar-project-title" id="projectTitle">생성형 AI로<br>달라진 CEO의 하루</h1>
+      <p class="sidebar-project-desc">
+        야근과 서류 작업의 압박에서 벗어나, 생성형 AI로 스마트한 리더십을 되찾은 50대 여성 CEO의 시네마틱 여정
+      </p>
+
+      <!-- 미니 프로젝트 통계 -->
+      <div class="sidebar-mini-stats">
+        <div class="mini-stat-item"><span>🎬</span> <span><strong id="statScenes">6</strong> Scenes</span></div>
+        <div class="mini-stat-item"><span>🎨</span> <span><strong id="statAssets">15</strong> Assets</span></div>
+        <div class="mini-stat-item"><span>🎞️</span> <span><strong id="statShots">19</strong> Shots</span></div>
+        <div class="mini-stat-item"><span>🎥</span> <span><strong id="statClips">11</strong> Clips</span></div>
+        <div class="mini-stat-item"><span>⏱️</span> <span><strong id="statRuntime">90s</strong></span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-menu-title">PAGES MENU</div>
+    <ul class="sidebar-menu">
+      <li>
+        <button class="sidebar-link active" data-page="page-script">
+          <span class="step-num">1</span>
+          <span>시나리오 기획안</span>
+        </button>
+      </li>
+      <li>
+        <button class="sidebar-link" data-page="page-assets">
+          <span class="step-num">2</span>
+          <span>에셋 라이브러리</span>
+        </button>
+      </li>
+      <li>
+        <button class="sidebar-link" data-page="page-storyboard">
+          <span class="step-num">3</span>
+          <span>스토리보드 콘티</span>
+        </button>
+      </li>
+      <li>
+        <button class="sidebar-link" data-page="page-prompts">
+          <span class="step-num">4</span>
+          <span>영상제작 프롬프트</span>
+        </button>
+      </li>
+      <li>
+        <button class="sidebar-link" data-page="page-results">
+          <span class="step-num">5</span>
+          <span>클립 제작 결과</span>
+        </button>
+      </li>
+    </ul>
+
+    <!-- 사이드바 푸터 정보 -->
+    <div class="sidebar-footer">
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span>PRODUCTION READY</span>
+      </div>
+      <div>AI Branded Storyboard v1.2</div>
+      <div>Runtime: 90s (11 Clips · 19 Shots)</div>
+
+      <!-- 프레임 최하단 라이트/다크 모드 토글 버튼 -->
+      <div class="theme-toggle-wrap">
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="라이트 모드 / 다크 모드 전환">
+          <span class="theme-icon" id="themeIcon">☀️</span>
+          <span class="theme-text" id="themeText">라이트 모드</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 우측 메인 콘텐츠 영역 -->
+  <div class="main-wrapper">
+    <main class="container">
+
+      <!-- 1. 전체 시나리오 기획안 페이지 -->
+      <section id="page-script" class="page-view active-page">
+        <div class="section-header">
+          <div class="section-number-badge">PAGE 01</div>
+          <h2 class="section-title">전체 시나리오 기획안</h2>
+          <p class="section-desc">프로젝트 콘셉트, 캐릭터 일관성 설정, 씬별 연출 및 엔딩 카피 기획 전문입니다.</p>
+        </div>
+        <!-- 2열 시나리오 카드 그리드 -->
+        <div class="scenario-grid" id="scenarioGrid">
+          <!-- 씬별 시나리오 카드가 2열로 동적으로 렌더링됩니다 -->
+        </div>
+      </section>
+
+      <!-- 2. 에셋 라이브러리 페이지 -->
+      <section id="page-assets" class="page-view">
+        <div class="section-header">
+          <div class="section-number-badge">PAGE 02</div>
+          <h2 class="section-title">에셋 라이브러리 (Characters & Props)</h2>
+          <p class="section-desc">스토리보드에 적용된 캐릭터, 로케이션, 소품 에셋 목록 및 비주얼 프롬프트 가이드입니다.</p>
+        </div>
+
+        <!-- 뷰 컨트롤 바 (에셋 타입 필터 + 자세히 보기 토글 버튼) -->
+        <div class="view-control-bar">
+          <div class="filter-bar" id="assetTypeFilterBar" style="margin-bottom: 0;">
+            <button class="filter-chip active" data-asset-filter="all">전체 에셋 (15)</button>
+            <button class="filter-chip" data-asset-filter="character">👤 캐릭터 (Characters)</button>
+            <button class="filter-chip" data-asset-filter="location">🏢 로케이션 (Locations)</button>
+            <button class="filter-chip" data-asset-filter="prop">📦 소품 (Props)</button>
+          </div>
+
+          <button id="toggleAssetDetailViewBtn" class="toggle-view-btn" title="에셋 프롬프트 및 세부 설명 토글">
+            <span class="btn-icon">📋</span>
+            <span id="toggleAssetBtnText">자세히 보기</span>
+          </button>
+        </div>
+
+        <!-- 카테고리별 에셋 컨테이너 (기본 보기: 에셋 이미지만 깔끔하게 표시) -->
+        <div class="asset-container" id="assetContainer">
+          <!-- 캐릭터, 로케이션, 소품별 그룹 및 카드가 동적으로 렌더링됩니다 -->
+        </div>
+      </section>
+
+      <!-- 3. 스토리보드 콘티 페이지 (씬별 구별 & 에셋 반영) -->
+      <section id="page-storyboard" class="page-view">
+        <div class="section-header">
+          <div class="section-number-badge">PAGE 03</div>
+          <h2 class="section-title">스토리보드 콘티 (19 Shots)</h2>
+          <p class="section-desc">씬(Scene)별로 구별된 19개 샷별 AI 콘티와 적용된 캐릭터/소품 에셋, 모션, 사운드 디렉션입니다.</p>
+        </div>
+
+        <!-- 뷰 컨트롤 바 (씬 필터 + 자세히 보기 토글 버튼) -->
+        <div class="view-control-bar">
+          <div class="filter-bar" id="sceneFilterBar" style="margin-bottom: 0;">
+            <button class="filter-chip active" data-filter="all">전체 씬 보기 (19)</button>
+            <!-- 씬 칩이 동적으로 생성됩니다 -->
+          </div>
+
+          <button id="toggleDetailViewBtn" class="toggle-view-btn" title="프롬프트 및 세부 연출 정보 토글">
+            <span class="btn-icon">📋</span>
+            <span id="toggleBtnText">자세히 보기</span>
+          </button>
+        </div>
+
+        <!-- 씬별 스토리보드 컨테이너 (기본 보기: 씬 제목 + 샷 이미지만 표시) -->
+        <div class="storyboard-container" id="storyboardContainer">
+          <!-- 씬별 그룹 및 샷 카드가 동적으로 렌더링됩니다 -->
+        </div>
+      </section>
+
+      <!-- 4. 클립별 영상제작 프롬프트 페이지 (Seedance 2.0 & Omni Flash) -->
+      <section id="page-prompts" class="page-view">
+        <div class="section-header">
+          <div class="section-number-badge">PAGE 04</div>
+          <h2 class="section-title">클립별 영상제작 프롬프트 (11 Clips)</h2>
+          <p class="section-desc">Seedance 2.0 스토리보드 콘티 기반으로 정밀 제작된 영상 제작 프롬프트입니다. 각 클립의 [AI 다이렉트 복사] 단추를 클릭하여 비디오 생성
+            도구에 바로 붙여넣어 영상을 순서대로 제작할 수 있습니다.</p>
+        </div>
+
+        <!-- 프롬프트 컨트롤 툴바 (씬 필터 + 언어 선택 & Google Flow 단추 1열 배치) -->
+        <div class="prompt-control-panel">
+          <!-- 씬/클립 필터 칩 -->
+          <div class="prompt-filter-bar" id="promptSceneFilterBar">
+            <button class="filter-chip active" data-scene-filter="all">전체 클립 (11)</button>
+            <button class="filter-chip" data-scene-filter="SCENE 01">SCENE 01 (2)</button>
+            <button class="filter-chip" data-scene-filter="SCENE 02">SCENE 02 (2)</button>
+            <button class="filter-chip" data-scene-filter="SCENE 03">SCENE 03 (2)</button>
+            <button class="filter-chip" data-scene-filter="SCENE 04">SCENE 04 (2)</button>
+            <button class="filter-chip" data-scene-filter="SCENE 05">SCENE 05 (2)</button>
+            <button class="filter-chip" data-scene-filter="SCENE 06">SCENE 06 (1)</button>
+          </div>
+
+          <!-- 전체 프롬프트 언어 전환 (영문/한글) & 전체 더보기/접기 & Google Flow 바로가기 -->
+          <div class="prompt-action-group">
+            <div class="prompt-global-lang-toggle" id="globalPromptLangToggle" role="group"
+              aria-label="프롬프트 언어 일괄 전환">
+              <button type="button" class="global-lang-btn active" data-lang="en" title="영문 프롬프트로 일괄 전환">영문</button>
+              <button type="button" class="global-lang-btn" data-lang="kr" title="한글 프롬프트로 일괄 전환">한글</button>
+            </div>
+            <button type="button" id="globalToggleExpandBtn" class="toggle-view-btn" title="모든 프롬프트 내용 전체 펼침/축약 일괄 전환">
+              <span class="btn-icon">📑</span>
+              <span id="globalToggleExpandText">더보기 ▾</span>
+            </button>
+            <button type="button" id="openTroubleshootModalBtn" class="toggle-view-btn troubleshoot-btn" title="AI 영상 제작 프롬프트 오류 현상 및 해결 가이드 보기">
+              <span class="btn-icon">💡</span>
+              <span id="troubleshootBtnText">영상 오류 해결</span>
+            </button>
+            <a href="https://labs.google/fx/tools/flow" target="_blank" rel="noopener noreferrer"
+              class="google-flow-link-btn" id="openGoogleFlowBtn" title="Google Flow 영상 생성 스튜디오 열기">
+              <span>⚡</span>
+              <span>Google Flow 열기 ↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 11개 클립 프롬프트 카드 컨테이너 -->
+        <div class="prompt-clips-grid" id="promptClipsContainer">
+          <!-- 클립별 프롬프트 카드가 동적으로 렌더링됩니다 -->
+        </div>
+      </section>
+
+      <!-- 5. 클립 제작 결과 페이지 (YouTube 영상 4열 그리드 & 씬별 필터) -->
+      <section id="page-results" class="page-view">
+        <div class="section-header">
+          <div class="section-number-badge">PAGE 05</div>
+          <h2 class="section-title">클립 제작 결과 (11 Clips Video Showcase)</h2>
+          <p class="section-desc">AI 비디오 생성 도구로 최종 완성된 11개 클립 제작 영상입니다. 씬(Scene 01~06)별 그룹으로 묶여 있어 전체 시네마틱 여정과 씬별 런타임을
+            한눈에 감상하고 검토할 수 있습니다.</p>
+        </div>
+
+        <!-- 뷰 컨트롤 바 (씬 필터 + 뷰 모드 토글) -->
+        <div class="view-control-bar">
+          <div class="filter-bar" id="videoSceneFilterBar" style="margin-bottom: 0;">
+            <button class="filter-chip active" data-video-scene="all">전체 클립 (11)</button>
+            <button class="filter-chip" data-video-scene="SCENE 01">SCENE 01 (2)</button>
+            <button class="filter-chip" data-video-scene="SCENE 02">SCENE 02 (2)</button>
+            <button class="filter-chip" data-video-scene="SCENE 03">SCENE 03 (2)</button>
+            <button class="filter-chip" data-video-scene="SCENE 04">SCENE 04 (2)</button>
+            <button class="filter-chip" data-video-scene="SCENE 05">SCENE 05 (2)</button>
+            <button class="filter-chip" data-video-scene="SCENE 06">SCENE 06 (1)</button>
+          </div>
+
+          <!-- 비디오 뷰 모드 토글 (씬별 그룹 구분 / 전체 4열 그리드 전환) -->
+          <div class="video-view-mode-wrap">
+            <button id="toggleVideoGroupingBtn" class="toggle-view-btn" title="씬별 그룹화 / 전체 4열 그리드 전환">
+              <span class="btn-icon">📑</span>
+              <span id="toggleVideoGroupingText">씬별 그룹 보기</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4열 클립 영상 쇼케이스 컨테이너 -->
+        <div class="video-results-container" id="videoResultsContainer">
+          <!-- 1열에 4개씩 동적으로 렌더링됩니다 -->
+        </div>
+      </section>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+      <p>© 2026 AI Cinematic Studio &bull; 생성형 AI로 달라진 CEO의 하루</p>
+    </footer>
+  </div>
+
+  <!-- 샷 상세 모달 팝업 -->
+  <div class="modal-overlay" id="shotModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+
+      <div class="modal-image-col">
+        <div class="modal-img-wrap">
+          <img src="" alt="Shot Image" class="modal-img" id="modalImg">
+        </div>
+
+        <!-- 모달 내 사용된 에셋 (캐릭터 & 소품) 쇼케이스 -->
+        <div class="modal-linked-assets-box">
+          <div class="modal-linked-assets-title">
+            <span>✦ 사용된 캐릭터 & 소품 에셋</span>
+          </div>
+          <div class="modal-linked-assets-grid" id="modalAssetGrid">
+            <!-- 사용된 에셋들이 렌더링됩니다 -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-info-col">
+        <div>
+          <span class="modal-badge" id="modalBadge">SHOT 01</span>
+          <h3 class="modal-title" id="modalTitle">The Lonely Skyscraper</h3>
+        </div>
+
+        <div class="modal-section-box">
+          <div class="modal-box-title">
+            <span>Visual Prompt (비주얼 묘사)</span>
+            <span class="copy-btn" data-copy="modalVisual">Copy Prompt</span>
+          </div>
+          <p class="modal-box-content" id="modalVisual"></p>
+        </div>
+
+        <div class="modal-section-box">
+          <div class="modal-box-title">
+            <span>Camera & Motion (카메라 워킹)</span>
+            <span class="copy-btn" data-copy="modalMotion">Copy Motion</span>
+          </div>
+          <p class="modal-box-content" id="modalMotion"></p>
+        </div>
+
+        <div class="modal-section-box">
+          <div class="modal-box-title">
+            <span>Audio & Sound (사운드 연출)</span>
+            <span class="copy-btn" data-copy="modalAudio">Copy Sound</span>
+          </div>
+          <p class="modal-box-content" id="modalAudio"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI 영상 오류 해결 모달 팝업 -->
+  <div class="modal-overlay" id="troubleshootModal">
+    <div class="modal-card troubleshoot-modal-card">
+      <button class="modal-close-btn" id="troubleshootCloseBtn">&times;</button>
+
+      <div class="troubleshoot-header">
+        <div class="troubleshoot-badge-wrap">
+          <span class="troubleshoot-badge">AI Video Prompt Troubleshooting Guide</span>
+        </div>
+        <h2 class="troubleshoot-modal-title">🎬 AI 영상 제작 프롬프트 오류 현상 &amp; 해결 가이드</h2>
+        <p class="troubleshoot-modal-desc">
+          AI 비디오 생성 모델(Google Flow, Seedance 등) 실행 시 자주 발생하는 <strong>허공생성, 소품 복제, 신체 관통, 구도 왜곡</strong> 등의 원인 분석과 실전 프롬프트 대처 방안입니다.
+        </p>
+      </div>
+
+      <div class="troubleshoot-body">
+        <!-- 1. 허공생성 & 소품 복제 오류 -->
+        <div class="troubleshoot-item-card">
+          <div class="troubleshoot-item-header">
+            <span class="error-cat-badge">01. 소품 &amp; 허공생성 오류</span>
+            <h3 class="troubleshoot-item-title">👻 허공생성(Ghost Object) 및 소품 복제 오류</h3>
+          </div>
+          
+          <div class="troubleshoot-grid-2col">
+            <div class="troubleshoot-box problem-box">
+              <div class="troubleshoot-box-header">
+                <span class="box-icon">🔴</span>
+                <strong>발생 현상 &amp; 원인</strong>
+              </div>
+              <ul class="troubleshoot-list">
+                <li>
+                  <strong>커피잔 순간이동 및 허공 생성:</strong> 우측 화면에서 커피를 마신 후 제자리에 두었으나, 원래 아무것도 없던 반대편 빈 공간(왼쪽)에 또 다른 커피잔이 허공에서 불쑥 생성됨.
+                  <div class="troubleshoot-cause">⚠️ <em>원인:</em> AI가 인물의 '마시는 동작'과 '책상 위 정적 소품'을 독립 연산하여 이전 프레임 위치 좌표를 잃고 빈 공간에 새 컵을 생성.</div>
+                </li>
+                <li>
+                  <strong>노트북 중복 복제:</strong> 1대만 있어야 할 책상 빈 공간에 2번째 노트북이 허공에서 복제되어 2대가 놓임.
+                </li>
+                <li>
+                  <strong>필수 배경 소품 누락:</strong> 좌측(Before) 화면에 필수적인 서류 더미와 노트북이 빠지고 빈 책상으로 묘사됨.
+                </li>
+              </ul>
+            </div>
+
+            <div class="troubleshoot-box solution-box">
+              <div class="troubleshoot-box-header">
+                <span class="box-icon">🟢</span>
+                <strong>프롬프트 해결 방안 &amp; 핵심 키워드</strong>
+              </div>
+              <p class="solution-summary">
+                <code>[Strict Prop Lock]</code> 섹션을 신설하여 소품의 절대 수량(STRICTLY ONE)과 제자리 복귀 동작, 유령 소품 배제(NO ghost mugs)를 명시합니다.
+              </p>
+              <div class="code-snippet-wrap">
+                <div class="code-snippet-header">
+                  <span>💡 적용 프롬프트 예시</span>
+                  <button type="button" class="copy-snippet-btn" data-copy-target="snippet-prop-lock">복사</button>
+                </div>
+                <pre class="code-snippet-content" id="snippet-prop-lock">[Strict Right Frame Prop Lock (Zero Duplicate Items)]
+- EXACTLY ONE LAPTOP: Strictly ONE single slim laptop open in center (ABSOLUTELY NO second laptop).
+- EXACTLY ONE COFFEE MUG: Strictly ONE white mug on right side (NO second cup, NO ghost mugs).
+- Subject Action: Smoothly lifts coffee with RIGHT hand, sips, and places it back down in the EXACT SAME spot on her right.</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 인물 동작 및 물리적 관통 오류 -->
+        <div class="troubleshoot-item-card">
+          <div class="troubleshoot-item-header">
+            <span class="error-cat-badge">02. 인물 모션 &amp; 충돌 오류</span>
+            <h3 class="troubleshoot-item-title">🚶‍♂️ 인물 동작(Motion) 및 물리적 관통(Clipping) 오류</h3>
+          </div>
+          
+          <div class="troubleshoot-grid-2col">
+            <div class="troubleshoot-box problem-box">
+              <div class="troubleshoot-box-header">
+                <span class="box-icon">🔴</span>
+                <strong>발생 현상 &amp; 원인</strong>
+              </div>
+              <ul class="troubleshoot-list">
+                <li>
+                  <strong>책상 관통(Clipping) 현상:</strong> 의자에서 일어날 때 장애물(책상)을 그대로 뚫고 앞으로 걸어 나오는 비현실적 인체/가구 관통 오류 발생.
+                  <div class="troubleshoot-cause">⚠️ <em>원인:</em> 포괄적으로 '창가로 걸어간다'고만 지시하면 AI가 최단 직선 경로를 택해 장애물 물리 충돌 박스를 무시함.</div>
+                </li>
+                <li>
+                  <strong>의자 및 인물 위치 어긋남:</strong> 인물이 앉아 있는 의자의 위치/각도가 책상과 비정상적으로 어긋나 붕 떠 있는 자세 연출.
+                </li>
+              </ul>
+            </div>
+
+            <div class="troubleshoot-box solution-box">
+              <div class="troubleshoot-box-header">
+                <span class="box-icon">🟢</span>
+                <strong>프롬프트 해결 방안 &amp; 핵심 키워드</strong>
+              </div>
+              <p class="solution-summary">
+                인물이 책상을 우회하는 구체적인 <strong>측면 통로 우회 동선(Blocking)</strong>과 의자-책상 간 좌표 결속 명령을 부여합니다.
+              </p>
+              <div class="code-snippet-wrap">
+                <div class="code-snippet-header">
+                  <span>💡 적용 프롬프트 예시</span>
+                  <button type="button" class="copy-snippet-btn" data-copy-target="snippet-motion-lock">복사</button>
+                </div>
+                <pre class="code-snippet-content" id="snippet-motion-lock">[Subject Action &amp; Blocking]
+- Natural seated posture directly behind the desk.
+- Movement Path: Stands up smoothly from chair, steps directly to her LEFT into the open aisle (avoiding desk), and walks gracefully to the expansive window.</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 분할 화면 대칭성 및 구도 왜곡 -->
+        <div class="troubleshoot-item-card">
+          <div class="troubleshoot-item-header">
+            <span class="error-cat-badge">03. 화면 구도 &amp; 대칭성</span>
+            <h3 class="troubleshoot-item-title">📐 분할 화면(Split-Screen) 대칭성 및 구도(Geometry) 왜곡</h3>
+          </div>
+          
+          <div class="troubleshoot-grid-2col">
+            <div class="troubleshoot-box problem-box">
+              <div class="troubleshoot-box-header">
+                <span class="box-icon">🔴</span>
+                <strong>발생 현상 &amp; 원인</strong>
+              </div>
+              <ul class="troubleshoot-list">
+                <li>
+                  <strong>좌/우 프레임 앵글 및 기준선 불일치:</strong> 50:50 분할 화면에서 좌측(야간)과 우측(주간)의 카메라 앵글, 책상 높이(수평선), 인물 크기 비율이 달라 1:1 대비가 어색해짐.
+                  <div class="troubleshoot-cause">⚠️ <em>원인:</em> 좌우의 분위기 차이로 인해 AI가 렌즈 화각과 카메라 높이를 좌우 각각 임의로 생성.</div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="troubleshoot-box solution-box">
+              <div class="troubleshoot-box-header">
+                <span class="box-icon">🟢</span>
+                <strong>프롬프트 해결 방안 &amp; 핵심 키워드</strong>
+              </div>
+              <p class="solution-summary">
+                <code>[Camera &amp; Perfect 1:1 Symmetrical Split-Screen Geometry]</code> 섹션을 도입하여 렌즈 화각(50mm), 아이레벨 높이, 책상 수평선(Aligned Horizon)을 기하학적으로 고정합니다.
+              </p>
+              <div class="code-snippet-wrap">
+                <div class="code-snippet-header">
+                  <span>💡 적용 프롬프트 예시</span>
+                  <button type="button" class="copy-snippet-btn" data-copy-target="snippet-geometry-lock">복사</button>
+                </div>
+                <pre class="code-snippet-content" id="snippet-geometry-lock">[Camera &amp; Perfect 1:1 Symmetrical Split-Screen Geometry]
+- Symmetrical 50:50 vertical split-screen comparative composition.
+- Identical Framing: Same eye-level camera height, identical 50mm focal length, identical subject scale.
+- Aligned Horizon: Desk aligned at the EXACT same horizontal baseline across both frames.</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 템포 및 조명 밸런스 왜곡 -->
+        <div class="troubleshoot-item-card">
+          <div class="troubleshoot-item-header">
+            <span class="error-cat-badge">04. 템포 &amp; 조명 밸런스</span>
+            <h3 class="troubleshoot-item-title">⏱️ 템포(Pacing) 및 조명 밸런스 왜곡</h3>
+          </div>
+          
+          <div class="troubleshoot-grid-2col">
+            <div class="troubleshoot-box problem-box">
+              <div class="troubleshoot-box-header">
+                <span class="box-icon">🔴</span>
+                <strong>발생 현상 &amp; 원인</strong>
+              </div>
+              <ul class="troubleshoot-list">
+                <li>
+                  <strong>보행 속도 과속:</strong> 여성 CEO가 너무 빠르게 헐레벌떡 걸어가 여유롭고 당당한 리더의 느낌이 사라짐.
+                </li>
+                <li>
+                  <strong>야간 조명 과도한 암전:</strong> 좌측(Before) 화면이 지나치게 어두워 인물의 표정과 주변 디테일이 검게 묻혀 식별 불가.
+                </li>
+              </ul>
+            </div>
+
+            <div class="troubleshoot-box solution-box">
+              <div class="troubleshoot-box-header">
+                <span class="box-icon">🟢</span>
+                <strong>프롬프트 해결 방안 &amp; 핵심 키워드</strong>
+              </div>
+              <p class="solution-summary">
+                모션 속도 서술어(<code>smooth, deliberate pace</code>, <code>visionary poise</code>)와 색온도 수치(<code>3200K low-key deep blue</code> vs <code>5600K golden light</code>)를 정밀 지정합니다.
+              </p>
+              <div class="code-snippet-wrap">
+                <div class="code-snippet-header">
+                  <span>💡 적용 프롬프트 예시</span>
+                  <button type="button" class="copy-snippet-btn" data-copy-target="snippet-pacing-lock">복사</button>
+                </div>
+                <pre class="code-snippet-content" id="snippet-pacing-lock">[Lighting &amp; Atmosphere]
+- Left Side: Moody 3200K low-key deep midnight blue shadows (clear subject visibility preserved).
+- Right Side: Warm 5600K bright golden morning sunlight pouring through panoramic windows.
+- Motion Pacing: Smooth, deliberate, and relaxed pace with confident posture.</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. 멀티샷 연속 생성 시 일관성 붕괴 -->
+        <div class="troubleshoot-item-card">
+          <div class="troubleshoot-item-header">
+            <span class="error-cat-badge">05. 멀티샷 &amp; 캐릭터 일관성</span>
+            <h3 class="troubleshoot-item-title">🎯 멀티샷 연속 생성 시 정보 유실 및 캐릭터 붕괴</h3>
+          </div>
+          
+          <div class="troubleshoot-grid-2col">
+            <div class="troubleshoot-box problem-box">
+              <div class="troubleshoot-box-header">
+                <span class="box-icon">🔴</span>
+                <strong>발생 현상 &amp; 원인</strong>
+              </div>
+              <ul class="troubleshoot-list">
+                <li>
+                  <strong>텍스트/UI 소실 및 얼굴·의상 변형:</strong> 콘티의 3개 샷 이미지를 1개의 연속 영상(Scene 6)으로 연결할 때, 원본 이미지의 핵심 텍스트가 사라지거나 인물 생김새가 변함.
+                  <div class="troubleshoot-cause">⚠️ <em>원인:</em> 프레임 보간 과정에서 텍스트를 노이즈로 처리하고 인물 특징 파라미터가 희석됨.</div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="troubleshoot-box solution-box">
+              <div class="troubleshoot-box-header">
+                <span class="box-icon">🟢</span>
+                <strong>프롬프트 해결 방안 &amp; 핵심 키워드</strong>
+              </div>
+              <p class="solution-summary">
+                <code>@Female_CEO</code> 에셋 참조 태그와 함께 인물 고유 속성(로우번, 골드 안경, 진주 귀걸이, 네이비 수트)을 매 프롬프트마다 명시하여 <strong>일관성(Consistency) 락</strong>을 유지합니다.
+              </p>
+              <div class="code-snippet-wrap">
+                <div class="code-snippet-header">
+                  <span>💡 적용 프롬프트 예시</span>
+                  <button type="button" class="copy-snippet-btn" data-copy-target="snippet-consistency-lock">복사</button>
+                </div>
+                <pre class="code-snippet-content" id="snippet-consistency-lock">[Character Consistency Lock]
+@Female_CEO: 50-year-old Korean female executive, low-bun hair, gold glasses, pearl earrings, tailored navy suit. Striking facial contrast: extreme burnout (Left) vs relaxed confident vitality (Right).</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 전역 토스트 알림 메시지 바 -->
+  <div id="toastNotification" class="toast-notification"></div>
+
+  <!-- 프로젝트 데이터 & 메인 스크립트 -->
+  <script src="js/project-data.js"></script>
+  <script src="js/clip-prompts-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
