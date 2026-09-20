@@ -1680,12 +1680,18 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
 
   sidebarLinks.forEach(link => {
     link.addEventListener('click', (e) => {
+<<<<<<< HEAD
       const pageId = link.getAttribute('data-page');
       if (pageId) {
         e.preventDefault();
         switchPage(pageId);
       }
       // href가 지정된 <a> 태그(auth.html 등)는 브라우저 기본 이동 동작 유지
+=======
+      e.preventDefault();
+      const pageId = link.getAttribute('data-page');
+      switchPage(pageId);
+>>>>>>> 38285c92ee191546b1081a5750709ee2fbe2ae30
     });
   });
 
@@ -1701,8 +1707,11 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
     switchPage('page-prompts');
   } else if (currentHash === 'results') {
     switchPage('page-results');
+<<<<<<< HEAD
   } else if (currentHash === 'cert' || currentHash === 'upload') {
     window.location.href = `auth.html#${currentHash}`;
+=======
+>>>>>>> 38285c92ee191546b1081a5750709ee2fbe2ae30
   } else {
     switchPage('page-script');
   }
@@ -1876,6 +1885,7 @@ function initIntroOverlay() {
 
 // 인트로 초기화 실행
 if (document.readyState === 'loading') {
+<<<<<<< HEAD
   document.addEventListener('DOMContentLoaded', () => {
     initIntroOverlay();
     initCertificationPage();
@@ -2648,8 +2658,16 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+=======
+  document.addEventListener('DOMContentLoaded', initIntroOverlay);
+} else {
+  initIntroOverlay();
+>>>>>>> 38285c92ee191546b1081a5750709ee2fbe2ae30
 }
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 38285c92ee191546b1081a5750709ee2fbe2ae30

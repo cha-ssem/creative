@@ -390,9 +390,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 4. [핵심] 가상 계단식 강의실 좌석 렌더링 (동적 정원 maxSeats 지원)
+  // 4. [핵심] 가상 계단식 강의실 좌석 렌더링 (기본 정원 72석 및 동적 정원 maxSeats 지원)
   const MAX_SEATS_KEY = 'ai_cert_max_seats_v1';
-  let maxSeats = 60;
+  let maxSeats = 72;
   try {
     const savedMax = parseInt(localStorage.getItem(MAX_SEATS_KEY), 10);
     if (savedMax && savedMax >= 1 && savedMax <= 120) {
@@ -426,10 +426,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalRows = Math.ceil(maxSeats / colsPerRow);
     let stageHtml = '';
 
+    // 각 행(Row 1 ~ Row totalRows)별로 중앙부터 좌우 대칭으로 채워지는 좌석 슬롯 계산
+    let remainingParticipants = [...displayList];
+    const rowAssignments = {};
+
+    for (let r = 1; r <= totalRows; r++) {
+      const colsInThisRow = Math.min(colsPerRow, maxSeats - (r - 1) * colsPerRow);
+      const rowSlots = new Array(colsInThisRow).fill(null);
+
+      // 이 행에 들어갈 참석자 수
+      const takeCount = Math.min(remainingParticipants.length, colsInThisRow);
+      const rowParticipants = remainingParticipants.splice(0, takeCount);
+
+      // [핵심] 중앙부터 좌우 대칭으로 채우기 위한 시작 열 인덱스 계산
+      const startCol = Math.floor((colsInThisRow - takeCount) / 2);
+      for (let c = 0; c < takeCount; c++) {
+        rowSlots[startCol + c] = rowParticipants[c];
+      }
+
+      rowAssignments[r] = {
+        colsCount: colsInThisRow,
+        slots: rowSlots
+      };
+    }
+
     // Row N(맨 뒷줄)부터 Row 1(맨 앞줄)까지 역순으로 렌더링
     for (let r = totalRows; r >= 1; r--) {
-      const startIndex = (r - 1) * colsPerRow;
-      const endIndex = Math.min(r * colsPerRow, maxSeats);
+      const rowData = rowAssignments[r];
+      if (!rowData) continue;
       const isFrontRow = (r === 1);
 
       // 원근감 스케일 및 줄간격 마진
@@ -438,11 +462,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const zIndexVal = 100 - r * 10;
 
       let seatsHtml = '';
-      for (let i = startIndex; i < endIndex; i++) {
-        const item = displayList[i];
-
+      rowData.slots.forEach((item) => {
         if (item) {
-          // 참석자가 착석한 좌석
+          // 참석자가 착석한 좌석 (중앙부터 배치)
           const isAfter = item.isCurrentViewAfter !== false;
           const rawImg = isAfter ? item.afterImg : item.beforeImg;
           const currentImg = getSafeImageSrc(rawImg);
@@ -486,11 +508,11 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           `;
         }
-      }
+      });
 
       stageHtml += `
         <div class="classroom-desk-row row-${r}" style="z-index:${zIndexVal}; transform:scale(${scaleVal}); transform-origin:center bottom; margin-bottom:${marginBottomVal};">
-          <div class="seats-line" style="grid-template-columns: repeat(${colsPerRow}, 1fr);">
+          <div class="seats-line" style="grid-template-columns: repeat(${rowData.colsCount}, 1fr);">
             ${seatsHtml}
           </div>
           <!-- 가로형 화이트 데스크 바 (앞쪽을 가려주는 책상) -->

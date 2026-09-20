@@ -379,7 +379,7 @@
         <!-- 뷰 컨트롤 툴바 (필터, QR, 등록, 캡처) -->
         <div class="view-control-bar cert-action-toolbar">
           <div class="filter-bar" id="certFilterBar" style="margin-bottom: 0;">
-            <button type="button" class="filter-chip active" id="certFilterAllBtn" data-cert-filter="all" title="클릭하여 최대 참석자 정원(좌석 수) 변경하기">전체 참석자 (<span id="certCountTotal">0 / 60</span> ⚙️)</button>
+            <button type="button" class="filter-chip active" id="certFilterAllBtn" data-cert-filter="all" title="클릭하여 최대 참석자 정원(좌석 수) 변경하기">전체 참석자 (<span id="certCountTotal">0 / 72</span> ⚙️)</button>
             <button type="button" class="filter-chip" data-cert-filter="recent">✨ 최근 등록순</button>
           </div>
 
@@ -616,8 +616,8 @@
           <button type="button" class="preset-seat-btn" data-seats="24">24명</button>
           <button type="button" class="preset-seat-btn" data-seats="36">36명</button>
           <button type="button" class="preset-seat-btn" data-seats="48">48명</button>
-          <button type="button" class="preset-seat-btn active" data-seats="60">60명 (기본)</button>
-          <button type="button" class="preset-seat-btn" data-seats="72">72명</button>
+          <button type="button" class="preset-seat-btn" data-seats="60">60명</button>
+          <button type="button" class="preset-seat-btn active" data-seats="72">72명 (기본)</button>
           <button type="button" class="preset-seat-btn" data-seats="84">84명</button>
           <button type="button" class="preset-seat-btn" data-seats="96">96명</button>
         </div>
@@ -630,7 +630,7 @@
             <span>직접 숫자 입력 (1 ~ 120명)</span>
           </label>
           <div style="display: flex; align-items: center; gap: 0.6rem;">
-            <input type="number" id="inputMaxSeats" class="form-input" min="1" max="120" value="60" required style="font-size: 1.1rem; font-weight: 800; text-align: center;">
+            <input type="number" id="inputMaxSeats" class="form-input" min="1" max="120" value="72" required style="font-size: 1.1rem; font-weight: 800; text-align: center;">
             <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-secondary);">석</span>
           </div>
         </div>
