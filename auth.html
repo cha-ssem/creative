@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>변화의 시작 인증 (참석자 인증 및 새로운 시작 다짐) | AI STUDIO</title>
+  <!-- Resource Preconnect for Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Preloaded Base64 Image Assets for 100% Zero-Taint Capture -->
+  <script src="js/image-base64-data.js"></script>
+  <!-- html2canvas for Commemorative Board Capture -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+  <!-- QRCode.js for Participant Mobile Access -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" defer></script>
+  <!-- Auth Page Specific Styles -->
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .auth-page-wrapper {
+      max-width: 1980px;
+      width: 98%;
+      margin: 0 auto;
+      padding: 0.4rem 1rem 0.5rem;
+      box-sizing: border-box;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .auth-top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .back-to-main-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.82rem;
+      transition: var(--transition-fast);
+    }
+
+    .back-to-main-btn:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--accent-gold);
+      color: var(--text-gold);
+      transform: translateX(-3px);
+    }
+
+    .auth-brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: 0.08em;
+    }
+
+    .auth-theme-toggle {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: var(--transition-fast);
+    }
+
+    .auth-theme-toggle:hover {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border-color: var(--accent-gold);
+    }
+
+    @media (max-width: 768px) {
+      .auth-page-wrapper {
+        padding: 0.6rem 0.8rem 1.5rem;
+      }
+      .auth-top-nav {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+    }
+
+    /* 전체화면(Fullscreen) 상태일 때 화면 세로 중앙 정렬 및 툴바/네비바 숨김 */
+    :fullscreen body,
+    :-webkit-full-screen body,
+    :-moz-full-screen body,
+    :-ms-fullscreen body,
+    body.is-fullscreen {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-height: 100vh !important;
+      height: 100vh !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+    }
+
+    .fullscreen-overlay-controls {
+      display: none !important;
+    }
+
+    :fullscreen .fullscreen-overlay-controls,
+    :-webkit-full-screen .fullscreen-overlay-controls,
+    :-moz-full-screen .fullscreen-overlay-controls,
+    :-ms-fullscreen .fullscreen-overlay-controls,
+    html.is-fullscreen .fullscreen-overlay-controls,
+    body.is-fullscreen .fullscreen-overlay-controls,
+    .is-fullscreen .fullscreen-overlay-controls {
+      display: flex !important;
+      flex-direction: column !important;
+      position: fixed !important;
+      bottom: 24px !important;
+      right: 24px !important;
+      gap: 12px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      z-index: 2147483647 !important;
+      pointer-events: none !important;
+    }
+
+    .fs-fab-btn {
+      pointer-events: auto;
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      min-height: 48px;
+      padding: 0;
+      border-radius: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      transition: var(--transition-fast);
+    }
+
+    .fs-fab-btn .fs-btn-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    /* 전체화면 해제 아이콘 버튼 (다크 글래스 룩) */
+    .fs-exit-fab {
+      background: rgba(15, 23, 42, 0.88);
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      color: #f8fafc;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+    }
+
+    .fs-exit-fab:hover {
+      transform: scale(1.12);
+      background: rgba(220, 38, 38, 0.92);
+      border-color: #ef4444;
+      color: #ffffff;
+      box-shadow: 0 6px 24px rgba(220, 38, 38, 0.6);
+    }
+
+    /* 화면 캡쳐 아이콘 버튼 (퍼플 골드 룩) */
+    .fs-capture-fab {
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.95) 0%, rgba(67, 56, 202, 0.95) 100%);
+      border: 1.5px solid rgba(250, 204, 21, 0.85);
+      color: #ffffff;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 12px rgba(168, 85, 247, 0.4);
+    }
+
+    .fs-capture-fab:hover {
+      transform: scale(1.12);
+      background: linear-gradient(135deg, #a855f7 0%, #4f46e5 100%);
+      border-color: #fef08a;
+      box-shadow: 0 6px 24px rgba(168, 85, 247, 0.65), 0 0 16px rgba(250, 204, 21, 0.6);
+    }
+
+    :fullscreen .auth-page-wrapper,
+    :-webkit-full-screen .auth-page-wrapper,
+    :-moz-full-screen .auth-page-wrapper,
+    :-ms-fullscreen .auth-page-wrapper,
+    html.is-fullscreen .auth-page-wrapper,
+    body.is-fullscreen .auth-page-wrapper,
+    .is-fullscreen .auth-page-wrapper {
+      padding: 0 1.2rem !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      width: 100% !important;
+      max-width: 100vw !important;
+      height: 100vh !important;
+      max-height: 100vh !important;
+      box-sizing: border-box !important;
+    }
+
+    :fullscreen main,
+    :-webkit-full-screen main,
+    :-moz-full-screen main,
+    :-ms-fullscreen main,
+    .is-fullscreen main,
+    :fullscreen #page-cert,
+    :-webkit-full-screen #page-cert,
+    :-moz-full-screen #page-cert,
+    :-ms-fullscreen #page-cert,
+    .is-fullscreen #page-cert {
+      width: 100% !important;
+      height: auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    :fullscreen .cert-capture-wrapper,
+    :-webkit-full-screen .cert-capture-wrapper,
+    :-moz-full-screen .cert-capture-wrapper,
+    :-ms-fullscreen .cert-capture-wrapper,
+    .is-fullscreen .cert-capture-wrapper {
+      margin: 0 auto !important;
+      width: 100% !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .is-fullscreen .classroom-seat {
+      height: 80px !important;
+      max-width: 110px !important;
+    }
+
+    .is-fullscreen .seat-chair-back {
+      width: 86px !important;
+      height: 52px !important;
+    }
+
+    .is-fullscreen .seat-person-wrap {
+      width: 94px !important;
+      height: 78px !important;
+      border-radius: 47px 47px 0 0 !important;
+    }
+
+    .is-fullscreen .desk-front-bar {
+      height: 14px !important;
+    }
+
+    .is-fullscreen .classroom-desk-row.row-5 {
+      margin-bottom: 6px !important;
+    }
+
+    .is-fullscreen .classroom-desk-row.row-4 {
+      margin-bottom: 6px !important;
+    }
+
+    .is-fullscreen .classroom-desk-row.row-3 {
+      margin-bottom: 5px !important;
+    }
+
+    .is-fullscreen .classroom-desk-row.row-2 {
+      margin-bottom: 4px !important;
+    }
+
+    .is-fullscreen .classroom-desk-row.row-1 {
+      margin-bottom: 0 !important;
+    }
+
+    :fullscreen .cert-action-toolbar,
+    :-webkit-full-screen .cert-action-toolbar,
+    :-moz-full-screen .cert-action-toolbar,
+    :-ms-fullscreen .cert-action-toolbar,
+    html.is-fullscreen .cert-action-toolbar,
+    body.is-fullscreen .cert-action-toolbar,
+    .is-fullscreen .cert-action-toolbar,
+    :fullscreen .auth-top-nav,
+    :-webkit-full-screen .auth-top-nav,
+    :-moz-full-screen .auth-top-nav,
+    :-ms-fullscreen .auth-top-nav,
+    html.is-fullscreen .auth-top-nav,
+    body.is-fullscreen .auth-top-nav,
+    .is-fullscreen .auth-top-nav {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    @media all and (display-mode: fullscreen) {
+      body {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 100vh !important;
+      }
+      .auth-page-wrapper {
+        justify-content: center !important;
+        align-items: center !important;
+        height: 100vh !important;
+      }
+      .cert-action-toolbar,
+      .auth-top-nav {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="light-theme">
+
+  <!-- [전체 화면 보기 전용 우측 플로팅 액션 컨트롤 (해제 & 캡처)] -->
+  <div class="fullscreen-overlay-controls" id="fullscreenOverlayControls">
+    <!-- 전체보기 해제 아이콘 단추 -->
+    <button type="button" id="fsExitBtn" class="fs-fab-btn fs-exit-fab" title="전체화면 해제 (단축키: ESC 또는 F11)" aria-label="전체화면 해제">
+      <span class="fs-btn-icon">✖</span>
+    </button>
+    <!-- 화면 캡쳐 아이콘 단추 -->
+    <button type="button" id="fsCaptureBtn" class="fs-fab-btn fs-capture-fab" title="화면 캡쳐 저장 (고화질 이미지 다운로드)" aria-label="화면 캡쳐 저장">
+      <span class="fs-btn-icon">📸</span>
+    </button>
+  </div>
+
+  <div class="auth-page-wrapper">
+    <!-- 상단 네비게이션 헤더 -->
+    <header class="auth-top-nav">
+      <a href="index.html" class="back-to-main-btn" title="메인 AI 시네마틱 스토리보드로 돌아가기">
+        <span>←</span>
+        <span>메인 스토리보드로 돌아가기</span>
+      </a>
+
+      <div class="auth-brand-logo">
+        <span class="brand-icon">✦</span>
+        <span class="brand-title">AI STUDIO · CERTIFICATION</span>
+        <span class="brand-icon">✦</span>
+      </div>
+
+      <button id="authThemeToggleBtn" class="auth-theme-toggle" title="라이트/다크 테마 전환">
+        <span id="authThemeIcon">🌙</span>
+        <span id="authThemeText">다크 모드</span>
+      </button>
+    </header>
+
+    <!-- 6. 변화의 시작 인증 메인 섹션 (스크롤 없는 단일 화면 핏) -->
+    <main>
+      <section id="page-cert" class="page-view active-page" style="display: block;">
+        <!-- 뷰 컨트롤 툴바 (필터, QR, 등록, 캡처) -->
+        <div class="view-control-bar cert-action-toolbar">
+          <div class="filter-bar" id="certFilterBar" style="margin-bottom: 0;">
+            <button type="button" class="filter-chip active" id="certFilterAllBtn" data-cert-filter="all" title="클릭하여 최대 참석자 정원(좌석 수) 변경하기">전체 참석자 (<span id="certCountTotal">0 / 60</span> ⚙️)</button>
+            <button type="button" class="filter-chip" data-cert-filter="recent">✨ 최근 등록순</button>
+          </div>
+
+          <div class="cert-btn-group">
+            <button type="button" id="openCertQrBtn" class="toggle-view-btn cert-qr-btn" title="스마트폰으로 사진을 업로드할 수 있는 QR 코드 열기">
+              <span class="btn-icon">📱</span>
+              <span>모바일 접속 QR</span>
+            </button>
+            <button type="button" id="openCertUploadBtn" class="toggle-view-btn cert-upload-trigger-btn" title="사진 촬영 또는 업로드하여 AI 인증 카드 만들기">
+              <span class="btn-icon">📸</span>
+              <span>사진 등록 &amp; AI 변환</span>
+            </button>
+            <button type="button" id="fullscreenToggleBtn" class="toggle-view-btn cert-fullscreen-btn" title="모니터 화면에 꽉 찬 전체화면으로 전환 (단축키: F11 또는 ESC로 해제)">
+              <span class="btn-icon" id="fullscreenIcon">⛶</span>
+              <span id="fullscreenText">전체화면 표시</span>
+            </button>
+            <button type="button" id="captureBoardBtn" class="google-flow-link-btn cert-capture-btn" title="상단 현수막과 참석자 전원 카드를 고화질 이미지로 캡처 저장">
+              <span class="btn-icon">🖼️</span>
+              <span>현수막 보드 캡처 저장</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- [캡처 대상 메인 영역] Zoom 가상 강의실 몰입형 보기 (auth_result.jpg 스타일) -->
+        <div class="cert-capture-wrapper" id="certCaptureArea">
+          <div class="classroom-wall-backdrop"></div>
+
+          <!-- 상단 전면 현수막 배너 (슬림 & 웅장 타이틀) -->
+          <div class="commemorative-banner">
+            <div class="banner-inner">
+              <h2 class="banner-main-title">여성기업인 디지털(AI) 교육 참여자의 새로운 시작을 응원합니다</h2>
+              <p class="banner-sub-title">생성형 AI로 여는 새로운 비즈니스의 지평 · 당당한 도전을 함께합니다</p>
+            </div>
+          </div>
+
+          <!-- 계단식 가상 강의실 데스크 & 좌석 스테이지 (Row N ~ Row 1) -->
+          <div class="classroom-auditorium-stage" id="classroomStage">
+            <!-- 동적으로 최적의 행과 열이 렌더링됩니다 -->
+          </div>
+
+          <!-- 하단 단체 기념 각인 (슬림 캡션) -->
+          <div class="classroom-footer-tag">
+            <div class="classroom-footer-badge">
+              <span>✦ 2026. 09. 19 | 여성기업인 디지털(AI) 교육 참여 인증 단체 기념 ✦</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- [인증 모달 1] 사진 등록 & AI 변환 모달 -->
+  <div class="modal-overlay" id="certUploadModal">
+    <div class="modal-card cert-modal-card">
+      <button class="modal-close-btn" id="certUploadModalCloseBtn">&times;</button>
+      
+      <div class="cert-modal-body">
+        <!-- 좌측: 사진 업로드 및 촬영/미리보기 컬럼 -->
+        <div class="cert-modal-media-col">
+          <div class="cert-media-mode-tabs">
+            <button type="button" class="cert-tab-btn active" id="certTabUploadBtn">📁 사진 업로드</button>
+            <button type="button" class="cert-tab-btn" id="certTabCameraBtn">📷 직접 촬영</button>
+          </div>
+
+          <!-- 1. 파일 업로드 영역 -->
+          <div class="cert-upload-dropzone" id="certDropzone">
+            <input type="file" id="certFileInput" accept="image/*" style="display: none;">
+            <div class="dropzone-content" id="certDropzoneContent">
+              <div class="dropzone-icon">📸</div>
+              <p class="dropzone-text"><strong>사진을 클릭하여 선택</strong>하거나<br>여기로 이미지를 끌어다 놓으세요</p>
+              <span class="dropzone-hint">JPG, PNG, WebP 지원 (최대 10MB)</span>
+            </div>
+          </div>
+
+          <!-- 2. 웹캠 직접 촬영 영역 (초기 숨김) -->
+          <div class="cert-camera-wrap" id="certCameraWrap" style="display: none;">
+            <video id="certWebcamVideo" playsinline autoplay muted></video>
+            <div class="camera-controls">
+              <button type="button" id="certCaptureCameraBtn" class="camera-action-btn">
+                <span>📸</span> 찰칵! 촬영하기
+              </button>
+              <button type="button" id="certRetakeCameraBtn" class="camera-action-btn secondary" style="display: none;">
+                <span>🔄</span> 다시 찍기
+              </button>
+            </div>
+          </div>
+
+          <!-- 공통 미리보기 및 AI 스캔 효과 컨테이너 -->
+          <div class="cert-preview-container" id="certPreviewContainer" style="display: none;">
+            <div class="preview-img-box">
+              <img id="certPreviewImg" src="" alt="참석자 원본 미리보기">
+              <div class="ai-scan-overlay" id="certAiScanOverlay">
+                <div class="scan-laser-line"></div>
+                <div class="scan-status-text">✦ AI 변환 엔진 구동 중...</div>
+              </div>
+            </div>
+            <button type="button" id="certResetImgBtn" class="cert-reset-img-btn">다른 사진 선택</button>
+          </div>
+        </div>
+
+        <!-- 우측: 정보 입력 및 프롬프트 선택 컬럼 -->
+        <div class="cert-modal-info-col">
+          <div class="cert-modal-header">
+            <span class="cert-badge">STEP 06 · CERTIFICATION</span>
+            <h3 class="cert-modal-title">변화의 시작 인증 &amp; AI 프로필 생성</h3>
+            <p class="cert-modal-desc">
+              사진을 등록하시면 선택한 AI 프롬프트 스타일로 당당하고 세련된 비즈니스 프로필이 생성되어 응원 현수막 보드에 등재됩니다.
+            </p>
+          </div>
+
+          <form id="certUploadForm" class="cert-form">
+            <!-- 참여자 이름 / 기업명 -->
+            <div class="form-group">
+              <label for="certInputName" class="form-label">
+                <span>성함 / 기업명</span>
+                <span class="required-star">*</span>
+              </label>
+              <input type="text" id="certInputName" class="form-input" placeholder="예: 김희진 대표 (디지털솔루션)" required maxlength="30">
+            </div>
+
+            <!-- 새로운 시작 다짐 메시지 -->
+            <div class="form-group">
+              <label for="certInputResolution" class="form-label">
+                <span>새로운 시작 다짐 한마디</span>
+                <span class="required-star">*</span>
+              </label>
+              <textarea id="certInputResolution" class="form-textarea" rows="3" placeholder="예: 생성형 AI와 함께 두려움 없이 비즈니스를 혁신하고, 글로벌 리더로 힘차게 도약하겠습니다!" required maxlength="120"></textarea>
+              <div class="char-counter"><span id="certResolutionCharCount">0</span>/120</div>
+            </div>
+
+            <!-- AI 프롬프트 변환 스타일 프리셋 -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>적용할 AI 프로필 스타일 프롬프트</span>
+              </label>
+              <div class="preset-selector-grid">
+                <label class="preset-card active">
+                  <input type="radio" name="certPreset" value="cinematic_gold" checked>
+                  <div class="preset-info">
+                    <strong class="preset-title">🌟 시네마틱 골든 리더</strong>
+                    <span class="preset-desc">따뜻한 5600K 골든아워 자연광과 지적인 수트 룩</span>
+                  </div>
+                </label>
+                <label class="preset-card">
+                  <input type="radio" name="certPreset" value="studio_modern">
+                  <div class="preset-info">
+                    <strong class="preset-title">💼 모던 프레스티지 비즈니스</strong>
+                    <span class="preset-desc">세련된 딥 네이비 앰비언트와 당당한 CEO 포이즈</span>
+                  </div>
+                </label>
+                <label class="preset-card">
+                  <input type="radio" name="certPreset" value="tech_innovator">
+                  <div class="preset-info">
+                    <strong class="preset-title">🚀 테크 이노베이터</strong>
+                    <span class="preset-desc">미래지향적 스마트 오피스 배경과 활력 넘치는 표정</span>
+                  </div>
+                </label>
+                <label class="preset-card">
+                  <input type="radio" name="certPreset" value="visionary_warmth">
+                  <div class="preset-info">
+                    <strong class="preset-title">🌿 비저너리 소프트 무드</strong>
+                    <span class="preset-desc">부드러운 조명과 친근하면서도 카리스마 있는 연출</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- 적용 프롬프트 요약 안내 박스 -->
+            <div class="preset-prompt-preview" id="certPromptPreviewBox">
+              <span class="prompt-preview-tag">✦ Applied Prompt:</span>
+              <span class="prompt-preview-text" id="certPromptPreviewText">50s Korean female visionary CEO, elegant navy blazer, confident radiant smile, cinematic 5600K golden hour lighting, sharp 8k portrait.</span>
+            </div>
+
+            <!-- 제출 및 AI 변환 생성 버튼 -->
+            <div class="cert-modal-action-bar">
+              <button type="submit" id="certSubmitBtn" class="cert-submit-btn">
+                <span class="btn-spinner" id="certBtnSpinner" style="display: none;"></span>
+                <span id="certBtnText">✨ AI 프로필 생성 및 보드 인증하기</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- [인증 모달 2] 모바일 접속 QR 코드 모달 -->
+  <div class="modal-overlay" id="certQrModal">
+    <div class="modal-card cert-qr-modal-card">
+      <button class="modal-close-btn" id="certQrModalCloseBtn">&times;</button>
+      
+      <div class="cert-qr-modal-body">
+        <div class="qr-modal-icon">📱</div>
+        <h3 class="qr-modal-title">스마트폰으로 간편하게 인증하기</h3>
+        <p class="qr-modal-desc">
+          현장의 스마트폰 카메라로 아래 QR 코드를 스캔하시면,<br>
+          스마트폰에서 직접 본인의 사진을 촬영하거나 갤러리에서 골라 즉시 등록할 수 있습니다.
+        </p>
+
+        <div class="qr-code-display-wrap">
+          <div id="certQrContainer" class="qr-box"></div>
+          <div class="qr-badge">SCAN TO PARTICIPATE</div>
+        </div>
+
+        <div class="qr-url-box">
+          <input type="text" id="certDirectUrlInput" class="qr-url-input" readonly value="">
+          <button type="button" id="certCopyUrlBtn" class="qr-copy-btn">링크 복사</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- [인증 모달 3] 최대 참석자 수(정원) 설정 모달 -->
+  <div class="modal-overlay" id="certMaxSeatsModal">
+    <div class="modal-card" style="max-width: 500px; padding: 1.8rem 1.6rem;">
+      <button class="modal-close-btn" id="certMaxSeatsModalCloseBtn">&times;</button>
+      
+      <div style="text-align: center; margin-bottom: 1.2rem;">
+        <div style="font-size: 2.2rem; margin-bottom: 0.3rem;">👥</div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin: 0 0 0.4rem;">전체 참석자 정원(좌석 수) 설정</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; margin: 0;">
+          가상 강의실에 배치할 최대 참석자 정원을 설정하세요.<br>
+          설정한 인원에 맞춰 최적의 좌석 행과 열이 자동으로 재구성됩니다.
+        </p>
+      </div>
+
+      <!-- 빠른 인원 선택 프리셋 버튼 -->
+      <div style="margin-bottom: 1.2rem;">
+        <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 0.5rem;">
+          ⚡ 빠른 정원 선택
+        </label>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;" id="quickSeatsPresetGrid">
+          <button type="button" class="preset-seat-btn" data-seats="12">12명</button>
+          <button type="button" class="preset-seat-btn" data-seats="24">24명</button>
+          <button type="button" class="preset-seat-btn" data-seats="36">36명</button>
+          <button type="button" class="preset-seat-btn" data-seats="48">48명</button>
+          <button type="button" class="preset-seat-btn active" data-seats="60">60명 (기본)</button>
+          <button type="button" class="preset-seat-btn" data-seats="72">72명</button>
+          <button type="button" class="preset-seat-btn" data-seats="84">84명</button>
+          <button type="button" class="preset-seat-btn" data-seats="96">96명</button>
+        </div>
+      </div>
+
+      <!-- 직접 숫자 입력 폼 -->
+      <form id="certMaxSeatsForm">
+        <div class="form-group" style="margin-bottom: 1.4rem;">
+          <label for="inputMaxSeats" class="form-label" style="font-size: 0.82rem; font-weight: 700;">
+            <span>직접 숫자 입력 (1 ~ 120명)</span>
+          </label>
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <input type="number" id="inputMaxSeats" class="form-input" min="1" max="120" value="60" required style="font-size: 1.1rem; font-weight: 800; text-align: center;">
+            <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-secondary);">석</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.6rem; justify-content: flex-end;">
+          <button type="button" id="btnCancelMaxSeats" class="toggle-view-btn" style="padding: 0.6rem 1.2rem;">취소</button>
+          <button type="submit" class="google-flow-link-btn" style="padding: 0.6rem 1.4rem; font-weight: 700;">✓ 정원 설정 적용</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 전역 토스트 알림 메시지 바 -->
+  <div id="toastNotification" class="toast-notification"></div>
+
+  <!-- 전용 인증 스크립트 -->
+  <script src="js/auth.js" defer></script>
+</body>
+
+</html>
