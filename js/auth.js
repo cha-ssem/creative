@@ -1108,12 +1108,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 12. 필터 칩 전환 (최근 등록순 등)
+  // 12. [핵심] 업로드한 참석자 인증 사진 초기화 로직
+  const certResetParticipantsBtn = document.getElementById('certResetParticipantsBtn');
+  if (certResetParticipantsBtn) {
+    certResetParticipantsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const confirmMsg = '🔄 등록된 참석자 인증 사진을 초기화하시겠습니까?\n\n(확인을 누르시면 기본 예시 참석자 목록으로 안전하게 초기화됩니다.)';
+      if (confirm(confirmMsg)) {
+        participants = [...DEFAULT_PARTICIPANTS];
+        try {
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
+        } catch (err) {
+          console.warn('LocalStorage reset error:', err);
+        }
+        renderCertCards('all');
+        if (certFilterAllBtn) {
+          const filterChips = certFilterBar ? certFilterBar.querySelectorAll('.filter-chip') : [];
+          filterChips.forEach(c => c.classList.remove('active'));
+          certFilterAllBtn.classList.add('active');
+        }
+        showToastNotification('🔄 참석자 인증 사진이 기본 상태로 초기화되었습니다.');
+      }
+    });
+  }
+
+  // 13. 필터 칩 전환 (최근 등록순 등)
   if (certFilterBar) {
     const filterChips = certFilterBar.querySelectorAll('.filter-chip');
     filterChips.forEach(chip => {
       chip.addEventListener('click', (e) => {
-        if (chip.id === 'certFilterAllBtn') return; // '전체 참석자'는 모달 오픈 담당
+        if (chip.id === 'certFilterAllBtn' || chip.id === 'certResetParticipantsBtn') return;
         filterChips.forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
         const filterType = chip.getAttribute('data-cert-filter');

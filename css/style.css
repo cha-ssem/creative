@@ -4219,11 +4219,26 @@ body.light-theme .code-snippet-wrap {
   margin-bottom: 0.35rem;
 }
 
-.cert-btn-group {
-  display: flex;
+.cert-reset-btn {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #f87171;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-sm, 6px);
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
+  gap: 0.25rem;
+  transition: var(--transition-fast, all 0.2s ease);
+}
+
+.cert-reset-btn:hover {
+  background: rgba(239, 68, 68, 0.22);
+  border-color: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
 }
 
 .cert-qr-btn {
