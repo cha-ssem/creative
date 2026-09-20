@@ -15,13 +15,6 @@
   <link rel="stylesheet" href="css/style.css">
   <!-- Marked for Scenario Markdown Rendering -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
-<<<<<<< HEAD
-  <!-- html2canvas for Commemorative Board Capture -->
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
-  <!-- QRCode.js for Participant Mobile Access -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" defer></script>
-=======
->>>>>>> 38285c92ee191546b1081a5750709ee2fbe2ae30
 </head>
 
 <body class="light-theme">
@@ -106,16 +99,13 @@
           <span>클립 제작 결과</span>
         </button>
       </li>
-<<<<<<< HEAD
       <li>
-        <a href="auth.html" class="sidebar-link" title="변화의 시작 인증 (상세 페이지 열기)">
+        <a href="auth.html" class="sidebar-link" title="변화의 시작 인증 (전용 페이지 열기)">
           <span class="step-num">6</span>
           <span>변화의 시작 인증</span>
           <span class="nav-ext-badge" style="font-size: 0.75rem; margin-left: auto; opacity: 0.8;">↗</span>
         </a>
       </li>
-=======
->>>>>>> 38285c92ee191546b1081a5750709ee2fbe2ae30
     </ul>
 
     <!-- 사이드바 푸터 정보 -->
@@ -296,65 +286,6 @@
           <!-- 1열에 4개씩 동적으로 렌더링됩니다 -->
         </div>
       </section>
-<<<<<<< HEAD
-
-      <!-- 6. 변화의 시작 인증 페이지 (참석자 인증 및 새로운 시작 다짐) -->
-      <section id="page-cert" class="page-view">
-        <div class="section-header">
-          <div class="section-number-badge">PAGE 06</div>
-          <h2 class="section-title">변화의 시작 인증 (참석자 인증 및 새로운 시작 다짐)</h2>
-          <p class="section-desc">디지털(AI) 교육에 참여한 여성기업인 여러분의 새로운 시작을 응원합니다. 사진을 등록하여 AI 프로필을 생성하고 단체 기념 보드에 인증해 보세요.</p>
-        </div>
-
-        <!-- 뷰 컨트롤 툴바 (QR 접속 열기, 사진 등록/촬영, 전체 보드 캡처 저장) -->
-        <div class="view-control-bar cert-action-toolbar">
-          <div class="filter-bar" id="certFilterBar" style="margin-bottom: 0;">
-            <button class="filter-chip active" data-cert-filter="all">전체 참석자 (<span id="certCountTotal">0</span>)</button>
-            <button class="filter-chip" data-cert-filter="recent">✨ 최근 등록순</button>
-          </div>
-
-          <div class="cert-btn-group">
-            <button type="button" id="openCertQrBtn" class="toggle-view-btn cert-qr-btn" title="스마트폰으로 사진을 업로드할 수 있는 QR 코드 열기">
-              <span class="btn-icon">📱</span>
-              <span>모바일 접속 QR</span>
-            </button>
-            <button type="button" id="openCertUploadBtn" class="toggle-view-btn cert-upload-trigger-btn" title="사진 촬영 또는 업로드하여 AI 인증 카드 만들기">
-              <span class="btn-icon">📸</span>
-              <span>사진 등록 &amp; AI 변환</span>
-            </button>
-            <button type="button" id="captureBoardBtn" class="google-flow-link-btn cert-capture-btn" title="상단 현수막과 참석자 전원 카드를 고화질 이미지로 캡처 저장">
-              <span class="btn-icon">🖼️</span>
-              <span>현수막 보드 캡처 저장</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- [캡처 대상 메인 영역] 상단 현수막 + 참석자 카드 그리드 래퍼 -->
-        <div class="cert-capture-wrapper" id="certCaptureArea">
-          <!-- 기념 디지털 현수막 배너 -->
-          <div class="commemorative-banner">
-            <div class="banner-inner">
-              <div class="banner-top-badge">
-                <span class="banner-sparkle">✦</span>
-                <span class="banner-edition">2026 여성기업인 디지털(AI) 역량강화 교육 참여 인증</span>
-                <span class="banner-sparkle">✦</span>
-              </div>
-              <h2 class="banner-main-title">여성기업인 디지털(AI) 교육 참여자의 새로운 시작을 응원합니다</h2>
-              <p class="banner-sub-title">생성형 AI로 여는 새로운 비즈니스의 지평 · 당당한 도전을 함께합니다</p>
-              <div class="banner-decor-line">
-                <span class="decor-diamond">◆</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- 참석자 인증 카드 그리드 -->
-          <div class="cert-grid-container" id="certGrid">
-            <!-- 참석자 카드들이 동적으로 렌더링됩니다 -->
-          </div>
-        </div>
-      </section>
-=======
->>>>>>> 38285c92ee191546b1081a5750709ee2fbe2ae30
     </main>
 
     <!-- 푸터 -->
@@ -659,170 +590,6 @@
     </div>
   </div>
 
-<<<<<<< HEAD
-  <!-- [인증 모달 1] 사진 등록 & AI 변환 모달 -->
-  <div class="modal-overlay" id="certUploadModal">
-    <div class="modal-card cert-modal-card">
-      <button class="modal-close-btn" id="certUploadModalCloseBtn">&times;</button>
-      
-      <div class="cert-modal-body">
-        <!-- 좌측: 사진 업로드 및 촬영/미리보기 컬럼 -->
-        <div class="cert-modal-media-col">
-          <div class="cert-media-mode-tabs">
-            <button type="button" class="cert-tab-btn active" id="certTabUploadBtn">📁 사진 업로드</button>
-            <button type="button" class="cert-tab-btn" id="certTabCameraBtn">📷 직접 촬영</button>
-          </div>
-
-          <!-- 1. 파일 업로드 영역 -->
-          <div class="cert-upload-dropzone" id="certDropzone">
-            <input type="file" id="certFileInput" accept="image/*" style="display: none;">
-            <div class="dropzone-content" id="certDropzoneContent">
-              <div class="dropzone-icon">📸</div>
-              <p class="dropzone-text"><strong>사진을 클릭하여 선택</strong>하거나<br>여기로 이미지를 끌어다 놓으세요</p>
-              <span class="dropzone-hint">JPG, PNG, WebP 지원 (최대 10MB)</span>
-            </div>
-          </div>
-
-          <!-- 2. 웹캠 직접 촬영 영역 (초기 숨김) -->
-          <div class="cert-camera-wrap" id="certCameraWrap" style="display: none;">
-            <video id="certWebcamVideo" playsinline autoplay muted></video>
-            <div class="camera-controls">
-              <button type="button" id="certCaptureCameraBtn" class="camera-action-btn">
-                <span>📸</span> 찰칵! 촬영하기
-              </button>
-              <button type="button" id="certRetakeCameraBtn" class="camera-action-btn secondary" style="display: none;">
-                <span>🔄</span> 다시 찍기
-              </button>
-            </div>
-          </div>
-
-          <!-- 공통 미리보기 및 AI 스캔 효과 컨테이너 -->
-          <div class="cert-preview-container" id="certPreviewContainer" style="display: none;">
-            <div class="preview-img-box">
-              <img id="certPreviewImg" src="" alt="참석자 원본 미리보기">
-              <div class="ai-scan-overlay" id="certAiScanOverlay">
-                <div class="scan-laser-line"></div>
-                <div class="scan-status-text">✦ AI 변환 엔진 구동 중...</div>
-              </div>
-            </div>
-            <button type="button" id="certResetImgBtn" class="cert-reset-img-btn">다른 사진 선택</button>
-          </div>
-        </div>
-
-        <!-- 우측: 정보 입력 및 프롬프트 선택 컬럼 -->
-        <div class="cert-modal-info-col">
-          <div class="cert-modal-header">
-            <span class="cert-badge">STEP 06 · CERTIFICATION</span>
-            <h3 class="cert-modal-title">변화의 시작 인증 &amp; AI 프로필 생성</h3>
-            <p class="cert-modal-desc">
-              사진을 등록하시면 선택한 AI 프롬프트 스타일로 당당하고 세련된 비즈니스 프로필이 생성되어 응원 현수막 보드에 등재됩니다.
-            </p>
-          </div>
-
-          <form id="certUploadForm" class="cert-form">
-            <!-- 참여자 이름 / 기업명 -->
-            <div class="form-group">
-              <label for="certInputName" class="form-label">
-                <span>성함 / 기업명</span>
-                <span class="required-star">*</span>
-              </label>
-              <input type="text" id="certInputName" class="form-input" placeholder="예: 김희진 대표 (디지털솔루션)" required maxlength="30">
-            </div>
-
-            <!-- 새로운 시작 다짐 메시지 -->
-            <div class="form-group">
-              <label for="certInputResolution" class="form-label">
-                <span>새로운 시작 다짐 한마디</span>
-                <span class="required-star">*</span>
-              </label>
-              <textarea id="certInputResolution" class="form-textarea" rows="3" placeholder="예: 생성형 AI와 함께 두려움 없이 비즈니스를 혁신하고, 글로벌 리더로 힘차게 도약하겠습니다!" required maxlength="120"></textarea>
-              <div class="char-counter"><span id="certResolutionCharCount">0</span>/120</div>
-            </div>
-
-            <!-- AI 프롬프트 변환 스타일 프리셋 -->
-            <div class="form-group">
-              <label class="form-label">
-                <span>적용할 AI 프로필 스타일 프롬프트</span>
-              </label>
-              <div class="preset-selector-grid">
-                <label class="preset-card active">
-                  <input type="radio" name="certPreset" value="cinematic_gold" checked>
-                  <div class="preset-info">
-                    <strong class="preset-title">🌟 시네마틱 골든 리더</strong>
-                    <span class="preset-desc">따뜻한 5600K 골든아워 자연광과 지적인 수트 룩</span>
-                  </div>
-                </label>
-                <label class="preset-card">
-                  <input type="radio" name="certPreset" value="studio_modern">
-                  <div class="preset-info">
-                    <strong class="preset-title">💼 모던 프레스티지 비즈니스</strong>
-                    <span class="preset-desc">세련된 딥 네이비 앰비언트와 당당한 CEO 포이즈</span>
-                  </div>
-                </label>
-                <label class="preset-card">
-                  <input type="radio" name="certPreset" value="tech_innovator">
-                  <div class="preset-info">
-                    <strong class="preset-title">🚀 테크 이노베이터</strong>
-                    <span class="preset-desc">미래지향적 스마트 오피스 배경과 활력 넘치는 표정</span>
-                  </div>
-                </label>
-                <label class="preset-card">
-                  <input type="radio" name="certPreset" value="visionary_warmth">
-                  <div class="preset-info">
-                    <strong class="preset-title">🌿 비저너리 소프트 무드</strong>
-                    <span class="preset-desc">부드러운 조명과 친근하면서도 카리스마 있는 연출</span>
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <!-- 적용 프롬프트 요약 안내 박스 -->
-            <div class="preset-prompt-preview" id="certPromptPreviewBox">
-              <span class="prompt-preview-tag">✦ Applied Prompt:</span>
-              <span class="prompt-preview-text" id="certPromptPreviewText">50s Korean female visionary CEO, elegant navy blazer, confident radiant smile, cinematic 5600K golden hour lighting, sharp 8k portrait.</span>
-            </div>
-
-            <!-- 제출 및 AI 변환 생성 버튼 -->
-            <div class="cert-modal-action-bar">
-              <button type="submit" id="certSubmitBtn" class="cert-submit-btn">
-                <span class="btn-spinner" id="certBtnSpinner" style="display: none;"></span>
-                <span id="certBtnText">✨ AI 프로필 생성 및 보드 인증하기</span>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- [인증 모달 2] 모바일 접속 QR 코드 모달 -->
-  <div class="modal-overlay" id="certQrModal">
-    <div class="modal-card cert-qr-modal-card">
-      <button class="modal-close-btn" id="certQrModalCloseBtn">&times;</button>
-      
-      <div class="cert-qr-modal-body">
-        <div class="qr-modal-icon">📱</div>
-        <h3 class="qr-modal-title">스마트폰으로 간편하게 인증하기</h3>
-        <p class="qr-modal-desc">
-          현장의 스마트폰 카메라로 아래 QR 코드를 스캔하시면,<br>
-          스마트폰에서 직접 본인의 사진을 촬영하거나 갤러리에서 골라 즉시 등록할 수 있습니다.
-        </p>
-
-        <div class="qr-code-display-wrap">
-          <div id="certQrContainer" class="qr-box"></div>
-          <div class="qr-badge">SCAN TO PARTICIPATE</div>
-        </div>
-
-        <div class="qr-url-box">
-          <input type="text" id="certDirectUrlInput" class="qr-url-input" readonly value="">
-          <button type="button" id="certCopyUrlBtn" class="qr-copy-btn">링크 복사</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-=======
->>>>>>> 38285c92ee191546b1081a5750709ee2fbe2ae30
   <!-- 전역 토스트 알림 메시지 바 -->
   <div id="toastNotification" class="toast-notification"></div>
 

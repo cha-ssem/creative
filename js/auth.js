@@ -861,9 +861,16 @@ document.addEventListener('DOMContentLoaded', () => {
           renderCertCards(currentFilter);
           showToastNotification(`🎉 ${name} 님의 AI 인증 카드가 성공적으로 등록되었습니다!`);
 
-          const newCardEl = document.getElementById(`card-${newParticipant.id}`);
-          if (newCardEl) {
-            newCardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const newSeatEl = document.getElementById(`seat-${newParticipant.id}`);
+          if (newSeatEl) {
+            newSeatEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            newSeatEl.style.transition = 'transform 0.4s ease, box-shadow 0.4s ease';
+            newSeatEl.style.transform = 'scale(1.15)';
+            newSeatEl.style.zIndex = '999';
+            setTimeout(() => {
+              newSeatEl.style.transform = '';
+              newSeatEl.style.zIndex = '';
+            }, 1800);
           }
         }, 1200);
 

@@ -4205,7 +4205,6 @@ body.light-theme .code-snippet-wrap {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
-<<<<<<< HEAD
 /* ==========================================================================
    [STEP 06] 변화의 시작 인증 (참석자 인증 및 새로운 시작 다짐) 스타일
    ========================================================================== */
@@ -4944,7 +4943,9 @@ body.is-fullscreen .cert-capture-wrapper {
   }
   .classroom-desk-row {
     min-width: 1080px;
-=======
+  }
+}
+
 @media (max-width: 768px) {
   .intro-controls {
     top: 1.2rem;
@@ -4961,12 +4962,9 @@ body.is-fullscreen .cert-capture-wrapper {
   }
   .intro-title {
     font-size: 1rem;
->>>>>>> 38285c92ee191546b1081a5750709ee2fbe2ae30
   }
 }
 
-
-<<<<<<< HEAD
 .cert-empty-state {
   grid-column: 1 / -1;
   text-align: center;
@@ -5774,9 +5772,4 @@ body.is-fullscreen .cert-capture-wrapper {
 .capturing-mode .fs-fab-btn {
   display: none !important;
 }
-
-
-
-=======
->>>>>>> 38285c92ee191546b1081a5750709ee2fbe2ae30
 
