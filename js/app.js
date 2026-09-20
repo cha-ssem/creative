@@ -1962,7 +1962,7 @@ function initCertificationPage() {
       promptText: PRESETS.cinematic_gold.prompt,
       beforeImg: 'images/CEO01.png',
       afterImg: 'images/CEO01.png',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -1974,7 +1974,7 @@ function initCertificationPage() {
       promptText: PRESETS.studio_modern.prompt,
       beforeImg: 'images/CEO02.png',
       afterImg: 'images/CEO02.png',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -1986,7 +1986,7 @@ function initCertificationPage() {
       promptText: PRESETS.tech_innovator.prompt,
       beforeImg: 'images/Young_Employee.jpeg',
       afterImg: 'images/Young_Employee.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -1998,7 +1998,7 @@ function initCertificationPage() {
       promptText: PRESETS.visionary_warmth.prompt,
       beforeImg: 'images/Trainees.jpeg',
       afterImg: 'images/Trainees.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     }
   ];

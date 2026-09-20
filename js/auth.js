@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.cinematic_gold.prompt,
       beforeImg: 'images/CEO01.png',
       afterImg: 'images/CEO01.png',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.studio_modern.prompt,
       beforeImg: 'images/CEO02.png',
       afterImg: 'images/CEO02.png',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.tech_innovator.prompt,
       beforeImg: 'images/Young_Employee.jpeg',
       afterImg: 'images/Young_Employee.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.visionary_warmth.prompt,
       beforeImg: 'images/Trainees.jpeg',
       afterImg: 'images/Trainees.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.cinematic_gold.prompt,
       beforeImg: 'images/Employees.jpeg',
       afterImg: 'images/Employees.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.visionary_warmth.prompt,
       beforeImg: 'images/Large Screen.jpeg',
       afterImg: 'images/Large Screen.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.tech_innovator.prompt,
       beforeImg: 'images/CEO01.png',
       afterImg: 'images/CEO01.png',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.studio_modern.prompt,
       beforeImg: 'images/CEO02.png',
       afterImg: 'images/CEO02.png',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.visionary_warmth.prompt,
       beforeImg: 'images/Young_Employee.jpeg',
       afterImg: 'images/Young_Employee.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.tech_innovator.prompt,
       beforeImg: 'images/Trainees.jpeg',
       afterImg: 'images/Trainees.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.cinematic_gold.prompt,
       beforeImg: 'images/Employees.jpeg',
       afterImg: 'images/Employees.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.studio_modern.prompt,
       beforeImg: 'images/CEO01.png',
       afterImg: 'images/CEO01.png',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.cinematic_gold.prompt,
       beforeImg: 'images/CEO02.png',
       afterImg: 'images/CEO02.png',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.tech_innovator.prompt,
       beforeImg: 'images/Young_Employee.jpeg',
       afterImg: 'images/Young_Employee.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.visionary_warmth.prompt,
       beforeImg: 'images/Trainees.jpeg',
       afterImg: 'images/Trainees.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.studio_modern.prompt,
       beforeImg: 'images/Employees.jpeg',
       afterImg: 'images/Employees.jpeg',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.cinematic_gold.prompt,
       beforeImg: 'images/CEO01.png',
       afterImg: 'images/CEO01.png',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     },
     {
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
       promptText: PRESETS.tech_innovator.prompt,
       beforeImg: 'images/CEO02.png',
       afterImg: 'images/CEO02.png',
-      date: '2026. 09. 19',
+      date: '2026. 11. 10',
       isCurrentViewAfter: true
     }
   ];
@@ -639,7 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.textAlign = 'right';
         ctx.fillText('✦ AI GENERATED LEADER PROFILE', targetWidth - 25, targetHeight - 25);
 
-        resolve(canvas.toDataURL('image/jpeg', 0.92));
+        resolve(canvas.toDataURL('image/jpeg', 0.88));
       };
       img.onerror = (err) => reject(err);
       img.src = sourceDataUrl;
@@ -676,13 +676,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function handleImageFile(file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      currentUploadedDataUrl = e.target.result;
+  // 업로드 이미지 용량 간소화(최대 800px 리사이즈 & JPEG 85% 압축) 헬퍼
+  function compressAndResizeImage(file, maxDimension = 800, quality = 0.85) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          // 가로/세로 중 긴 쪽을 maxDimension(800px) 기준으로 비율 유지 리사이즈
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // 최적화된 JPEG Base64 데이터 생성
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve(compressedDataUrl);
+        };
+        img.onerror = (err) => reject(err);
+        img.src = event.target.result;
+      };
+      reader.onerror = (err) => reject(err);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function handleImageFile(file) {
+    try {
+      showToastNotification('⚡ 사진 용량 최적화(간소화) 처리 중...');
+      const compressedDataUrl = await compressAndResizeImage(file, 800, 0.85);
+      currentUploadedDataUrl = compressedDataUrl;
       showPreviewImage(currentUploadedDataUrl);
-    };
-    reader.readAsDataURL(file);
+    } catch (err) {
+      console.warn('Image compression fallback:', err);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        currentUploadedDataUrl = e.target.result;
+        showPreviewImage(currentUploadedDataUrl);
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   function showPreviewImage(dataUrl) {
@@ -1250,7 +1297,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <div style="text-align:center; padding:6px 0 2px; margin:6px auto 0; width:100%; display:flex; justify-content:center; align-items:center;">
                 <div style="display:inline-flex; align-items:center; justify-content:center; height:32px; padding:0 24px; background:#0f172a; border:1.5px solid #fcd34d; border-radius:16px; box-shadow:0 3px 10px rgba(0,0,0,0.5); box-sizing:border-box;">
                   <span style="color:#fcd34d; font-size:13px; font-weight:800; font-family:'Noto Sans KR', sans-serif; letter-spacing:0.04em; line-height:1; display:inline-block; vertical-align:middle; margin:0; padding:0;">
-                    ✦ 2026. 09. 19 | 여성기업인 디지털(AI) 교육 참여 인증 단체 기념 ✦
+                    ✦ 2026. 11. 10 | 여성기업인 디지털(AI) 교육 참여 인증 단체 기념 ✦
                   </span>
                 </div>
               </div>
@@ -1275,7 +1322,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const ctx = canvas.getContext('2d');
         if (ctx) {
-          const badgeText = '✦ 2026. 09. 19 | 여성기업인 디지털(AI) 교육 참여 인증 단체 기념 ✦';
+          const badgeText = '✦ 2026. 11. 10 | 여성기업인 디지털(AI) 교육 참여 인증 단체 기념 ✦';
           const fontSize = 13 * 2;
           ctx.font = `800 ${fontSize}px 'Noto Sans KR', sans-serif`;
           const textMetrics = ctx.measureText(badgeText);
