@@ -1337,11 +1337,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 12. [핵심] 참석자 인증 사진 전체 비우기(0명) 로직
-  // 전체 비우기 (0명 빈 좌석 상태로 리셋)
+  // 12. [핵심] 관리자 보안 비밀번호 검증 및 참석자 사진 전체 비우기(0명) / 테스트 로직
+  const ADMIN_PASSCODE = '9985';
+
+  function verifyAdminPasscode(actionName = '이 작업') {
+    const input = window.prompt(`🔒 관리자 전용 기능입니다.\n[${actionName}]을(를) 실행하려면 비밀번호를 입력해 주세요:`);
+    if (input === null) return false;
+    if (input.trim() === ADMIN_PASSCODE) {
+      return true;
+    } else {
+      showToastNotification('⚠️ 비밀번호가 일치하지 않습니다.');
+      return false;
+    }
+  }
+
+  // A. 전체 비우기 (0명 빈 좌석 상태로 리셋)
   if (certResetParticipantsBtn) {
     certResetParticipantsBtn.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (!verifyAdminPasscode('전체 좌석 비우기(초기화)')) return;
+
       participants = [];
       try {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([]));
@@ -1364,6 +1379,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (certSimulate70Btn) {
     certSimulate70Btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (!verifyAdminPasscode('70명 실시간 업로드 테스트')) return;
+
       if (typeof window.run70SimulationTest === 'function') {
         window.run70SimulationTest(300);
       }
