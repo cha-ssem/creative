@@ -1337,10 +1337,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 12. [핵심] 참석자 인증 사진 전체 비우기(0명) 및 예시 복원 로직
-  const certLoadDemoBtn = document.getElementById('certLoadDemoBtn');
-
-  // A. 전체 비우기 (0명 빈 좌석 상태로 리셋)
+  // 12. [핵심] 참석자 인증 사진 전체 비우기(0명) 로직
+  // 전체 비우기 (0명 빈 좌석 상태로 리셋)
   if (certResetParticipantsBtn) {
     certResetParticipantsBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1361,33 +1359,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // B. 예시 데모 참석자 데이터 복원
-  if (certLoadDemoBtn) {
-    certLoadDemoBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      participants = [...DEFAULT_PARTICIPANTS];
-      try {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
-      } catch (err) {
-        console.warn('LocalStorage restore error:', err);
-      }
-      renderCertCards('all');
-      if (certFilterAllBtn) {
-        const filterChips = certFilterBar ? certFilterBar.querySelectorAll('.filter-chip') : [];
-        filterChips.forEach(c => c.classList.remove('active'));
-        certFilterAllBtn.classList.add('active');
-      }
-      broadcastResetParticipants('DEMO');
-      showToastNotification('✨ 기본 예시 참석자 60명이 성공적으로 복원되었습니다.');
-    });
-  }
-
   // 13. 필터 칩 전환 (최근 등록순 등)
   if (certFilterBar) {
     const filterChips = certFilterBar.querySelectorAll('.filter-chip');
     filterChips.forEach(chip => {
       chip.addEventListener('click', (e) => {
-        if (chip.id === 'certFilterAllBtn' || chip.id === 'certResetParticipantsBtn' || chip.id === 'certLoadDemoBtn') return;
+        if (chip.id === 'certFilterAllBtn' || chip.id === 'certResetParticipantsBtn') return;
         filterChips.forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
         const filterType = chip.getAttribute('data-cert-filter');
