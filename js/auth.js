@@ -347,6 +347,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const certBtnSpinner = document.getElementById('certBtnSpinner');
   const certBtnText = document.getElementById('certBtnText');
 
+  // 모바일 전용 등록 완료 뷰 참조
+  const certSuccessView = document.getElementById('certSuccessView');
+  const certSuccessParticipantName = document.getElementById('certSuccessParticipantName');
+  const certRegisterAnotherBtn = document.getElementById('certRegisterAnotherBtn');
+  const certModalMediaCol = document.querySelector('.cert-modal-media-col');
+  const certModalInfoCol = document.querySelector('.cert-modal-info-col');
+
   // QR 모달 참조
   const certQrContainer = document.getElementById('certQrContainer');
   const certDirectUrlInput = document.getElementById('certDirectUrlInput');
@@ -1122,7 +1129,20 @@ document.addEventListener('DOMContentLoaded', () => {
           if (certBtnSpinner) certBtnSpinner.style.display = 'none';
           if (certBtnText) certBtnText.textContent = '✨ 등록 완료하기';
 
-          closeCertUploadModal();
+          const isMobileMode = document.body.classList.contains('mobile-upload-mode');
+          if (isMobileMode && certSuccessView) {
+            // 모바일 전용 모드: 폼을 숨기고 축하 완료 화면 표시
+            if (certModalMediaCol) certModalMediaCol.style.display = 'none';
+            if (certModalInfoCol) certModalInfoCol.style.display = 'none';
+            certSuccessView.style.display = 'block';
+            if (certSuccessParticipantName) {
+              certSuccessParticipantName.textContent = `👤 ${name} 님`;
+            }
+          } else {
+            // PC 모달 모드: 모달 닫기
+            closeCertUploadModal();
+          }
+
           renderCertCards(currentFilter);
           showToastNotification(`🎉 ${name} 님의 참석 등록이 완료되었습니다!`);
 
@@ -1174,6 +1194,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (certTabUploadBtn) certTabUploadBtn.classList.add('active');
     if (certTabCameraBtn) certTabCameraBtn.classList.remove('active');
     if (certResolutionCharCount) certResolutionCharCount.textContent = '0';
+  }
+
+  if (certRegisterAnotherBtn) {
+    certRegisterAnotherBtn.addEventListener('click', () => {
+      if (certSuccessView) certSuccessView.style.display = 'none';
+      if (certModalMediaCol) certModalMediaCol.style.display = '';
+      if (certModalInfoCol) certModalInfoCol.style.display = '';
+      if (certUploadForm) certUploadForm.reset();
+      currentUploadedDataUrl = null;
+      if (certPreviewContainer) certPreviewContainer.style.display = 'none';
+      if (certDropzone) certDropzone.style.display = 'flex';
+      if (certCameraWrap) certCameraWrap.style.display = 'none';
+      if (certTabUploadBtn) certTabUploadBtn.classList.add('active');
+      if (certTabCameraBtn) certTabCameraBtn.classList.remove('active');
+      if (certInputName) {
+        certInputName.value = '';
+        certInputName.focus();
+      }
+    });
   }
 
   if (openCertUploadBtn) {
@@ -1693,11 +1732,13 @@ document.addEventListener('DOMContentLoaded', () => {
     captureBoardBtn.addEventListener('click', performBoardCapture);
   }
 
-  // 13. URL 해시(#upload) 확인 시 업로드 팝업 자동 오픈
-  if (window.location.hash === '#upload') {
+  // 13. [QR 모바일 접속] URL 해시(#upload) 또는 쿼리 파라미터(?mode=upload) 감지 시 모바일 단독 업로드 화면 활성화
+  const isUploadMode = window.location.hash.includes('upload') || urlParams.get('mode') === 'upload';
+  if (isUploadMode) {
+    document.body.classList.add('mobile-upload-mode');
     setTimeout(() => {
       openCertUploadModal();
-    }, 250);
+    }, 100);
   }
 
   // 14. 전체화면 표시/해제 기능
