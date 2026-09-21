@@ -1489,23 +1489,24 @@ document.addEventListener('DOMContentLoaded', () => {
             cloneArea.style.height = 'auto';
           }
 
-          // 1) 현수막 메인 타이틀: 스테이지 일체형 딥 네이비 벡터 SVG로 실시간 치환
+          // 1) 현수막 메인 타이틀: 완벽한 화이트-골드 그라데이션 SVG 벡터로 실시간 치환
           const mainTitle = clonedDoc.querySelector('.banner-main-title');
           if (mainTitle) {
             const titleText = mainTitle.textContent.trim();
             mainTitle.innerHTML = `
               <svg width="100%" height="48" viewBox="0 0 1100 48" style="overflow:visible; display:block; margin:0 auto;">
                 <defs>
-                  <linearGradient id="navyTitleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#0f172a" />
-                    <stop offset="50%" stop-color="#1e1b4b" />
-                    <stop offset="100%" stop-color="#78350f" />
+                  <linearGradient id="goldTitleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#ffffff" />
+                    <stop offset="30%" stop-color="#fef08a" />
+                    <stop offset="70%" stop-color="#f59e0b" />
+                    <stop offset="100%" stop-color="#fbbf24" />
                   </linearGradient>
-                  <filter id="softLightGlow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#ffffff" flood-opacity="0.8"/>
+                  <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.85"/>
                   </filter>
                 </defs>
-                <text x="550" y="35" text-anchor="middle" font-family="'Cinzel', 'Noto Sans KR', sans-serif" font-size="31" font-weight="900" letter-spacing="-0.02em" fill="url(#navyTitleGrad)" filter="url(#softLightGlow)">
+                <text x="550" y="35" text-anchor="middle" font-family="'Cinzel', 'Noto Sans KR', sans-serif" font-size="31" font-weight="900" letter-spacing="-0.02em" fill="url(#goldTitleGrad)" filter="url(#goldGlow)">
                   ${titleText}
                 </text>
               </svg>
@@ -1513,7 +1514,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mainTitle.style.background = 'none';
             mainTitle.style.webkitBackgroundClip = 'initial';
             mainTitle.style.webkitTextFillColor = 'initial';
-            mainTitle.style.color = '#0f172a';
+            mainTitle.style.color = '#ffffff';
           }
 
           // 2) 줄간격 및 원근감 균형 조정 (모든 동적 행에 여유로운 줄간격 자동 적용)
