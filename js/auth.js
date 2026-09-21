@@ -81,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-01',
       name: '김서연 대표',
       company: '㈜넥스트웨이브 솔루션',
-      resolution: '생성형 AI로 업무 효율을 300% 높이고, 글로벌 무대를 향해 당당하게 도약하겠습니다! 🚀',
       presetKey: 'cinematic_gold',
       promptText: PRESETS.cinematic_gold.prompt,
       beforeImg: 'images/CEO01.png',
@@ -93,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-02',
       name: '이지은 대표',
       company: '㈜모던 라이프스타일',
-      resolution: '배움에는 한계가 없음을 확신했습니다. AI와 함께 우리 기업의 새로운 10년을 만들어가겠습니다. ✨',
       presetKey: 'studio_modern',
       promptText: PRESETS.studio_modern.prompt,
       beforeImg: 'images/CEO02.png',
@@ -105,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-03',
       name: '정유진 대표',
       company: '㈜스마트 커머스랩',
-      resolution: '아이디어 기획부터 시각화까지! AI 날개를 달고 두려움 없이 비즈니스를 혁신합니다. 🌟',
       presetKey: 'tech_innovator',
       promptText: PRESETS.tech_innovator.prompt,
       beforeImg: 'images/Young_Employee.jpeg',
@@ -117,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-04',
       name: '한민경 대표',
       company: '㈜비전이노베이션',
-      resolution: '막연했던 두려움이 가슴 벅찬 설렘으로 바뀌었습니다. 대한민국 여성기업인의 힘찬 시작을 함께합니다! 💪',
       presetKey: 'visionary_warmth',
       promptText: PRESETS.visionary_warmth.prompt,
       beforeImg: 'images/Trainees.jpeg',
@@ -129,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-05',
       name: '박수현 대표',
       company: '㈜글로벌 에듀테크',
-      resolution: 'AI 디지털 역량강화 교육을 통해 새로운 비즈니스 모델을 구체화했습니다. 실천으로 증명하겠습니다!',
       presetKey: 'cinematic_gold',
       promptText: PRESETS.cinematic_gold.prompt,
       beforeImg: 'images/Employees.jpeg',
@@ -141,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-06',
       name: '최나영 대표',
       company: '㈜블루밍 헬스케어',
-      resolution: '기술과 감성의 융합! AI를 활용해 따뜻한 고객 경험과 가치를 전달하는 리더가 되겠습니다.',
       presetKey: 'visionary_warmth',
       promptText: PRESETS.visionary_warmth.prompt,
       beforeImg: 'images/Large Screen.jpeg',
@@ -153,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-07',
       name: '강다은 대표',
       company: '㈜오로라 디자인스튜디오',
-      resolution: '생성형 이미지와 영상 AI 툴로 브랜드 콘텐츠 제작 시간을 절반으로 단축하겠습니다! 🎨',
       presetKey: 'tech_innovator',
       promptText: PRESETS.tech_innovator.prompt,
       beforeImg: 'images/CEO01.png',
@@ -165,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-08',
       name: '윤채원 대표',
       company: '㈜케이프런티어 컨설팅',
-      resolution: '데이터와 생성 AI가 결합된 초개인화 전략으로 시장의 표준을 선도해 나가겠습니다.',
       presetKey: 'studio_modern',
       promptText: PRESETS.studio_modern.prompt,
       beforeImg: 'images/CEO02.png',
@@ -177,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-09',
       name: '조은별 대표',
       company: '㈜넥스트그린 바이오',
-      resolution: '친환경 스마트 바이오 분야에 AI 분석 기술을 접목하여 지속 가능한 미래를 열겠습니다. 🌿',
       presetKey: 'visionary_warmth',
       promptText: PRESETS.visionary_warmth.prompt,
       beforeImg: 'images/Young_Employee.jpeg',
@@ -189,7 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-10',
       name: '서미래 대표',
       company: '㈜인사이트 데이터웍스',
-      resolution: '비전공자 여성 기업인도 AI 마스터가 될 수 있다는 것을 직접 입증하겠습니다!',
       presetKey: 'tech_innovator',
       promptText: PRESETS.tech_innovator.prompt,
       beforeImg: 'images/Trainees.jpeg',
@@ -201,7 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-11',
       name: '임하늘 대표',
       company: '㈜스마트 푸드테크',
-      resolution: '자동화와 AI 프롬프트 엔지니어링으로 K-푸드의 세계화를 가속화하겠습니다.',
       presetKey: 'cinematic_gold',
       promptText: PRESETS.cinematic_gold.prompt,
       beforeImg: 'images/Employees.jpeg',
@@ -213,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-12',
       name: '백소영 대표',
       company: '㈜모션 크리에이티브',
-      resolution: '함께 배우고 나눈 동료 대표님들과 함께 대한민국 AI 경제의 든든한 주역이 되겠습니다.',
       presetKey: 'studio_modern',
       promptText: PRESETS.studio_modern.prompt,
       beforeImg: 'images/CEO01.png',
@@ -225,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-13',
       name: '고아름 대표',
       company: '㈜엘리트 비즈니스그룹',
-      resolution: '디지털 혁신은 이제 생존이자 가장 강력한 무기입니다. 앞서가는 CEO가 되겠습니다.',
       presetKey: 'cinematic_gold',
       promptText: PRESETS.cinematic_gold.prompt,
       beforeImg: 'images/CEO02.png',
@@ -237,7 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-14',
       name: '문지영 대표',
       company: '㈜알파 커넥트 마케팅',
-      resolution: '실시간 AI 트렌드 분석과 카피라이팅으로 고객의 마음을 사로잡는 기업으로 도약합니다.',
       presetKey: 'tech_innovator',
       promptText: PRESETS.tech_innovator.prompt,
       beforeImg: 'images/Young_Employee.jpeg',
@@ -249,7 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-15',
       name: '송예린 대표',
       company: '㈜클라우드 나인랩',
-      resolution: '최신 AI 기술을 두려움 없이 현업에 즉시 적용하는 능동적인 혁신을 이어가겠습니다!',
       presetKey: 'visionary_warmth',
       promptText: PRESETS.visionary_warmth.prompt,
       beforeImg: 'images/Trainees.jpeg',
@@ -261,7 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-16',
       name: '권하나 대표',
       company: '㈜더블루 로보틱스',
-      resolution: 'AI와 로봇 기술이 어우러진 미래형 솔루션으로 여성 테크 기업의 새 역사를 씁니다.',
       presetKey: 'studio_modern',
       promptText: PRESETS.studio_modern.prompt,
       beforeImg: 'images/Employees.jpeg',
@@ -273,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-17',
       name: '신보라 대표',
       company: '㈜에코스마트 솔루션',
-      resolution: '스마트 에너지 최적화에 AI 알고리즘을 도입하여 넷제로 혁신을 이끌겠습니다.',
       presetKey: 'cinematic_gold',
       promptText: PRESETS.cinematic_gold.prompt,
       beforeImg: 'images/CEO01.png',
@@ -285,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'cert-demo-18',
       name: '안혜진 대표',
       company: '㈜퓨처미디어 홀딩스',
-      resolution: '글로벌 콘텐츠 시장에서 AI 생성 미디어의 압도적인 경쟁력을 보여주겠습니다!',
       presetKey: 'tech_innovator',
       promptText: PRESETS.tech_innovator.prompt,
       beforeImg: 'images/CEO02.png',
@@ -340,8 +322,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const certAiScanOverlay = document.getElementById('certAiScanOverlay');
 
   const certInputName = document.getElementById('certInputName');
-  const certInputResolution = document.getElementById('certInputResolution');
-  const certResolutionCharCount = document.getElementById('certResolutionCharCount');
   const certPromptPreviewText = document.getElementById('certPromptPreviewText');
   const certSubmitBtn = document.getElementById('certSubmitBtn');
   const certBtnSpinner = document.getElementById('certBtnSpinner');
@@ -706,7 +686,6 @@ document.addEventListener('DOMContentLoaded', () => {
                   <span>${escapeHtml(item.name)}</span>
                 </div>
                 <span class="popover-role">${escapeHtml(item.company || '여성기업인 디지털 혁신 1기')}</span>
-                <p class="popover-quote">“${escapeHtml(item.resolution)}”</p>
                 <div class="popover-actions">
                   <button type="button" class="popover-btn cert-toggle-view-pill" data-card-id="${item.id}">
                     ${viewLabel} ⇄
@@ -1059,12 +1038,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  if (certInputResolution && certResolutionCharCount) {
-    certInputResolution.addEventListener('input', () => {
-      certResolutionCharCount.textContent = certInputResolution.value.length;
-    });
-  }
-
   // 9. 폼 제출 및 AI 생성 파이프라인
   if (certUploadForm) {
     certUploadForm.addEventListener('submit', async (e) => {
@@ -1076,9 +1049,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const name = (certInputName ? certInputName.value.trim() : '');
-      const resolution = (certInputResolution && certInputResolution.value.trim()) 
-        ? certInputResolution.value.trim() 
-        : '생성형 AI와 함께 두려움 없이 비즈니스를 혁신하고 새로운 도약을 시작합니다!';
       const selectedRadio = document.querySelector('input[name="certPreset"]:checked');
       const presetKey = selectedRadio ? selectedRadio.value : 'cinematic_gold';
 
@@ -1103,7 +1073,6 @@ document.addEventListener('DOMContentLoaded', () => {
           id: `cert-user-${Date.now()}`,
           name: name,
           company: '여성기업인 디지털 혁신 1기',
-          resolution: resolution,
           presetKey: presetKey,
           promptText: (PRESETS[presetKey] || PRESETS.cinematic_gold).prompt,
           beforeImg: currentUploadedDataUrl,
