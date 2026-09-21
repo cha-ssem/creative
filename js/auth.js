@@ -1120,11 +1120,11 @@ document.addEventListener('DOMContentLoaded', () => {
           if (certAiScanOverlay) certAiScanOverlay.classList.remove('active');
           if (certSubmitBtn) certSubmitBtn.disabled = false;
           if (certBtnSpinner) certBtnSpinner.style.display = 'none';
-          if (certBtnText) certBtnText.textContent = '✨ 참석 인증 및 AI 프로필 등록하기';
+          if (certBtnText) certBtnText.textContent = '✨ 등록 완료하기';
 
           closeCertUploadModal();
           renderCertCards(currentFilter);
-          showToastNotification(`🎉 ${name} 님의 참석 인증 카드가 성공적으로 등록되었습니다!`);
+          showToastNotification(`🎉 ${name} 님의 참석 등록이 완료되었습니다!`);
 
           const newSeatEl = document.getElementById(`seat-${newParticipant.id}`);
           if (newSeatEl) {
@@ -1141,11 +1141,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       } catch (err) {
         console.error('AI Generation error:', err);
-        showToastNotification('❌ AI 이미지 생성 중 오류가 발생했습니다.');
+        showToastNotification('❌ 등록 처리 중 오류가 발생했습니다.');
         if (certAiScanOverlay) certAiScanOverlay.classList.remove('active');
         if (certSubmitBtn) certSubmitBtn.disabled = false;
         if (certBtnSpinner) certBtnSpinner.style.display = 'none';
-        if (certBtnText) certBtnText.textContent = '✨ 참석 인증 및 AI 프로필 등록하기';
+        if (certBtnText) certBtnText.textContent = '✨ 등록 완료하기';
       }
     });
   }

@@ -446,19 +446,19 @@
       
       <div class="cert-modal-body">
         <!-- 좌측: 사진 업로드 및 촬영/미리보기 컬럼 -->
-        <div class="cert-modal-media-col">
+        <div class="cert-modal-media-col" style="padding: 1.4rem;">
           <div class="cert-media-mode-tabs">
-            <button type="button" class="cert-tab-btn active" id="certTabUploadBtn">📁 사진 업로드</button>
+            <button type="button" class="cert-tab-btn active" id="certTabUploadBtn">📁 사진 선택</button>
             <button type="button" class="cert-tab-btn" id="certTabCameraBtn">📷 직접 촬영</button>
           </div>
 
           <!-- 1. 파일 업로드 영역 -->
-          <div class="cert-upload-dropzone" id="certDropzone">
+          <div class="cert-upload-dropzone" id="certDropzone" style="min-height: 200px; padding: 1.5rem 1rem;">
             <input type="file" id="certFileInput" accept="image/*" style="display: none;">
             <div class="dropzone-content" id="certDropzoneContent">
-              <div class="dropzone-icon">📸</div>
-              <p class="dropzone-text"><strong>사진을 클릭하여 선택</strong>하거나<br>여기로 이미지를 끌어다 놓으세요</p>
-              <span class="dropzone-hint">JPG, PNG, WebP 지원 (최대 10MB)</span>
+              <div class="dropzone-icon" style="font-size: 2.2rem; margin-bottom: 0.5rem;">📸</div>
+              <p class="dropzone-text" style="font-size: 0.95rem; margin-bottom: 0.2rem;"><strong>사진 선택하기</strong></p>
+              <span class="dropzone-hint" style="font-size: 0.75rem;">터치하여 사진을 등록하세요</span>
             </div>
           </div>
 
@@ -467,7 +467,7 @@
             <video id="certWebcamVideo" playsinline autoplay muted></video>
             <div class="camera-controls">
               <button type="button" id="certCaptureCameraBtn" class="camera-action-btn">
-                <span>📸</span> 찰칵! 촬영하기
+                <span>📸</span> 찰칵! 촬영
               </button>
               <button type="button" id="certRetakeCameraBtn" class="camera-action-btn secondary" style="display: none;">
                 <span>🔄</span> 다시 찍기
@@ -481,34 +481,30 @@
               <img id="certPreviewImg" src="" alt="참석자 원본 미리보기">
               <div class="ai-scan-overlay" id="certAiScanOverlay">
                 <div class="scan-laser-line"></div>
-                <div class="scan-status-text">✦ AI 변환 엔진 구동 중...</div>
+                <div class="scan-status-text">✦ AI 변환 중...</div>
               </div>
             </div>
             <button type="button" id="certResetImgBtn" class="cert-reset-img-btn">다른 사진 선택</button>
           </div>
         </div>
 
-        <!-- 우측: 정보 입력 컬럼 (성함/기업명만 심플 입력) -->
-        <div class="cert-modal-info-col">
-          <div class="cert-modal-header">
-            <span class="cert-badge">STEP 06 · CERTIFICATION</span>
-            <h3 class="cert-modal-title">변화의 시작 참석자 인증</h3>
-            <p class="cert-modal-desc">
-              사진을 등록(또는 직접 촬영)하시고 성함/기업명을 입력하시면 당당하고 세련된 AI 프로필이 생성되어 응원 현수막 가상 강의실에 즉시 등재됩니다.
+        <!-- 우측: 정보 입력 컬럼 (초간결 핏) -->
+        <div class="cert-modal-info-col" style="padding: 1.4rem; display: flex; flex-direction: column; justify-content: center;">
+          <div class="cert-modal-header" style="margin-bottom: 1.2rem;">
+            <h3 class="cert-modal-title" style="font-size: 1.3rem; margin: 0 0 0.3rem;">참석자 사진 등록</h3>
+            <p class="cert-modal-desc" style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">
+              사진과 성함/기업명을 입력해 주세요.
             </p>
           </div>
 
           <form id="certUploadForm" class="cert-form">
             <!-- 1. 참여자 이름 / 기업명 (필수 입력) -->
-            <div class="form-group" style="margin-bottom: 1.5rem;">
-              <label for="certInputName" class="form-label" style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem;">
+            <div class="form-group" style="margin-bottom: 1.2rem;">
+              <label for="certInputName" class="form-label" style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem;">
                 <span>👤 성함 / 기업명</span>
                 <span class="required-star">*</span>
               </label>
-              <input type="text" id="certInputName" class="form-input" placeholder="예: 김희진 대표 (디지털솔루션)" required maxlength="30" autofocus style="font-size: 1.05rem; padding: 0.85rem 1rem; border-radius: var(--radius-sm);">
-              <span style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 0.4rem;">
-                💡 본인의 성함과 소속 기업명을 입력해 주세요.
-              </span>
+              <input type="text" id="certInputName" class="form-input" placeholder="예: 김희진 대표 (디지털솔루션)" required maxlength="30" autofocus style="font-size: 1rem; padding: 0.75rem 0.9rem;">
             </div>
 
             <!-- 숨김 처리된 기본 설정 필드들 (자동 기본값 적용) -->
@@ -516,10 +512,10 @@
             <input type="radio" name="certPreset" value="cinematic_gold" checked style="display: none;">
 
             <!-- 제출 및 AI 변환 생성 버튼 -->
-            <div class="cert-modal-action-bar" style="margin-top: auto; padding-top: 1rem;">
-              <button type="submit" id="certSubmitBtn" class="cert-submit-btn" style="padding: 0.95rem 1.5rem; font-size: 1.02rem;">
+            <div class="cert-modal-action-bar" style="margin-top: 0.8rem;">
+              <button type="submit" id="certSubmitBtn" class="cert-submit-btn" style="padding: 0.85rem 1.2rem; font-size: 1rem; width: 100%;">
                 <span class="btn-spinner" id="certBtnSpinner" style="display: none;"></span>
-                <span id="certBtnText">✨ 참석 인증 및 AI 프로필 등록하기</span>
+                <span id="certBtnText">✨ 등록 완료하기</span>
               </button>
             </div>
           </form>
