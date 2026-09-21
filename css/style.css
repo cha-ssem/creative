@@ -5451,40 +5451,43 @@ body.is-fullscreen .cert-capture-wrapper {
 
 /* 우측 정보 입력 컬럼 */
 .cert-modal-info-col {
-  padding: 1.6rem 1.6rem;
+  padding: 1.8rem 1.8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.8rem;
+  gap: 0.9rem;
   overflow-y: auto;
 }
 
 .cert-modal-header {
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.4rem;
 }
 
 .cert-badge {
+  display: inline-block;
   font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-weight: 800;
+  letter-spacing: 0.06em;
   color: #fcd34d;
   background: rgba(229, 185, 88, 0.15);
-  border: 1px solid rgba(229, 185, 88, 0.4);
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  border: 1px solid rgba(229, 185, 88, 0.35);
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  margin-bottom: 0.35rem;
 }
 
 .cert-modal-title {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 800;
-  color: var(--text-primary);
-  margin: 0.35rem 0 0.25rem 0;
+  color: #ffffff;
+  margin: 0.2rem 0 0.3rem 0;
+  letter-spacing: -0.02em;
 }
 
 .cert-modal-desc {
-  font-size: 0.82rem;
-  color: var(--text-secondary);
-  line-height: 1.4;
+  font-size: 0.86rem;
+  color: #94a3b8;
+  line-height: 1.45;
   margin: 0;
 }
 
@@ -5492,55 +5495,84 @@ body.is-fullscreen .cert-capture-wrapper {
 .cert-form {
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 1.2rem;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
 .form-label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #f1f5f9;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
 }
 
 .required-star {
   color: #ef4444;
+  font-weight: 800;
 }
 
 .form-input,
 .form-textarea {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 0.65rem 0.9rem;
-  color: var(--text-primary);
-  font-size: 0.92rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 500;
   font-family: inherit;
   transition: var(--transition-fast);
+}
+
+.form-input::placeholder {
+  color: #64748b;
+  font-weight: 400;
 }
 
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
+  background: rgba(15, 23, 42, 0.85);
   border-color: var(--accent-gold);
-  box-shadow: 0 0 10px var(--accent-gold-glow);
+  box-shadow: 0 0 14px rgba(229, 185, 88, 0.3);
 }
 
-.form-textarea {
-  resize: none;
+/* 세련된 안내 팁 박스 카드 */
+.input-helper-card {
+  background: rgba(229, 185, 88, 0.08);
+  border: 1px solid rgba(229, 185, 88, 0.25);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  margin-top: 0.3rem;
 }
 
-.char-counter {
-  text-align: right;
-  font-size: 0.72rem;
-  color: var(--text-muted);
+.helper-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fcd34d;
+  margin-bottom: 0.25rem;
+}
+
+.helper-card-text {
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.helper-card-text strong {
+  color: #fef08a;
+  font-weight: 700;
 }
 
 /* 프롬프트 프리셋 선택 그리드 */

@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=20260921_1558">
+  <link rel="stylesheet" href="css/style.css?v=20260921_1603">
   <!-- Preloaded Base64 Image Assets for 100% Zero-Taint Capture -->
   <script src="js/image-base64-data.js?v=20260921_1535"></script>
   <!-- html2canvas for Commemorative Board Capture -->
@@ -505,8 +505,8 @@
         <!-- 좌측: 사진 업로드 및 촬영/미리보기 컬럼 -->
         <div class="cert-modal-media-col">
           <div class="cert-media-mode-tabs">
-            <button type="button" class="cert-tab-btn active" id="certTabUploadBtn">📁 사진 선택</button>
-            <button type="button" class="cert-tab-btn" id="certTabCameraBtn">📷 직접 촬영</button>
+            <button type="button" class="cert-tab-btn active" id="certTabUploadBtn">📁 사진 업로드</button>
+            <button type="button" class="cert-tab-btn" id="certTabCameraBtn">📷 카메라 촬영</button>
           </div>
 
           <!-- 1. 파일 업로드 영역 -->
@@ -514,8 +514,8 @@
             <input type="file" id="certFileInput" accept="image/*" style="display: none;">
             <div class="dropzone-content" id="certDropzoneContent">
               <div class="dropzone-icon">📸</div>
-              <p class="dropzone-text"><strong>사진 선택하기</strong></p>
-              <span class="dropzone-hint">터치하여 사진을 등록하세요</span>
+              <p class="dropzone-text"><strong>사진 파일 선택</strong></p>
+              <span class="dropzone-hint">클릭하거나 사진을 드래그해 주세요</span>
             </div>
           </div>
 
@@ -548,9 +548,10 @@
         <!-- 우측: 정보 입력 컬럼 (초간결 핏) -->
         <div class="cert-modal-info-col">
           <div class="cert-modal-header">
+            <span class="cert-badge">✦ PARTICIPANT REGISTRATION</span>
             <h3 class="cert-modal-title">참석자 사진 등록</h3>
             <p class="cert-modal-desc">
-              사진과 성함/기업명을 입력해 주세요.
+              가상 강의실 좌석에 등재할 사진과 정보를 등록합니다.
             </p>
           </div>
 
@@ -558,12 +559,18 @@
             <!-- 1. 참여자 이름 / 기업명 (필수 입력) -->
             <div class="form-group">
               <label for="certInputName" class="form-label">
-                <span>👤 성함 / 기업명</span>
+                <span>👤 성함 및 소속 (기업명)</span>
                 <span class="required-star">*</span>
               </label>
               <input type="text" id="certInputName" class="form-input" placeholder="예: 김희진 대표 (디지털솔루션)" required maxlength="30" autofocus>
-              <div class="input-helper-text">
-                <span style="color: #fcd34d; font-weight: 600;">💡 작성예시:</span> 홍길동 대표 (㈜에이아이) 또는 김미경 (솔루션)
+              <div class="input-helper-card">
+                <div class="helper-card-header">
+                  <span class="helper-icon">💡</span>
+                  <span class="helper-title">작성 예시 안내</span>
+                </div>
+                <div class="helper-card-text">
+                  <strong>홍길동 대표 (㈜에이아이)</strong> 또는 <strong>김미경 (솔루션)</strong> 형태로 입력하시면 이름과 소속이 자동으로 보기 좋게 배치됩니다.
+                </div>
               </div>
             </div>
 
@@ -574,7 +581,7 @@
             <div class="cert-modal-action-bar">
               <button type="submit" id="certSubmitBtn" class="cert-submit-btn">
                 <span class="btn-spinner" id="certBtnSpinner" style="display: none;"></span>
-                <span id="certBtnText">✨ 등록 완료하기</span>
+                <span id="certBtnText">✨ 가상 강의실에 등록하기</span>
               </button>
             </div>
           </form>
