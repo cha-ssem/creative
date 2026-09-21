@@ -589,7 +589,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 4. [핵심] 가상 계단식 강의실 좌석 렌더링 (기본 정원 72석 및 동적 정원 maxSeats 지원)
+  // 4. [핵심] 성함 및 소속명 분리 파싱 헬퍼 함수
+  function parseNameAndCompany(item) {
+    let rawName = (item.name || '').trim();
+    let rawCompany = (item.company && item.company !== '여성기업인 디지털 혁신 1기') ? item.company.trim() : '';
+
+    if (!rawCompany) {
+      // 괄호 패턴 (예: "김희진 대표 (디지털솔루션)" 또는 "홍길동(에이아이)")
+      const matchParen = rawName.match(/^(.+?)\s*[\(\[\{](.+?)[\)\]\}]$/);
+      if (matchParen) {
+        rawName = matchParen[1].trim();
+        rawCompany = matchParen[2].trim();
+      } else {
+        // 슬래시/파이프 패턴 (예: "김희진 대표 / 디지털솔루션")
+        const matchSlash = rawName.match(/^(.+?)\s*[\/\|]\s*(.+)$/);
+        if (matchSlash) {
+          rawName = matchSlash[1].trim();
+          rawCompany = matchSlash[2].trim();
+        }
+      }
+    }
+    return {
+      name: rawName || '참석자',
+      company: rawCompany
+    };
+  }
+
+  // 5. [핵심] 가상 계단식 강의실 좌석 렌더링 (기본 정원 72석 및 동적 정원 maxSeats 지원)
   const MAX_SEATS_KEY = 'ai_cert_max_seats_v1';
   let maxSeats = 72;
   try {
@@ -667,7 +693,10 @@ document.addEventListener('DOMContentLoaded', () => {
           const isAfter = item.isCurrentViewAfter !== false;
           const rawImg = isAfter ? item.afterImg : item.beforeImg;
           const currentImg = getSafeImageSrc(rawImg);
-          const viewLabel = isAfter ? '✨ AI' : '📷 원본';
+
+          // 성함 및 소속명 분리 파싱
+          const parsedInfo = parseNameAndCompany(item);
+          const companyHtml = parsedInfo.company ? `<div class="popover-company">${escapeHtml(parsedInfo.company)}</div>` : '';
 
           seatsHtml += `
             <div class="classroom-seat occupied" id="seat-${item.id}">
@@ -676,20 +705,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
               <!-- 참석자 인물 상반신 사진 (사각 액자 없음, 100% 종횡비) -->
               <div class="seat-person-wrap">
-                <img src="${currentImg}" data-src-raw="${escapeHtml(rawImg)}" alt="${escapeHtml(item.name)} 인증 사진" class="seat-person-img" id="img-${item.id}">
+                <img src="${currentImg}" data-src-raw="${escapeHtml(rawImg)}" alt="${escapeHtml(parsedInfo.name)} 인증 사진" class="seat-person-img" id="img-${item.id}">
               </div>
 
-              <!-- 호버 시 나타나는 Zoom 스타일 말풍선 & 명찰 팝업 -->
+              <!-- 호버(롤업) 시 나타나는 명찰 팝업 (1줄: 이름, 2줄: 소속명) -->
               <div class="seat-hover-popover">
-                <div class="popover-name">
-                  <span>🟢</span>
-                  <span>${escapeHtml(item.name)}</span>
-                </div>
-                <span class="popover-role">${escapeHtml(item.company || '여성기업인 디지털 혁신 1기')}</span>
+                <div class="popover-name">${escapeHtml(parsedInfo.name)}</div>
+                ${companyHtml}
                 <div class="popover-actions">
-                  <button type="button" class="popover-btn cert-toggle-view-pill" data-card-id="${item.id}">
-                    ${viewLabel} ⇄
-                  </button>
                   <button type="button" class="popover-btn" data-download-id="${item.id}">
                     📥 저장
                   </button>
@@ -720,16 +743,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     classroomStage.innerHTML = stageHtml;
-
-    // 개별 카드 뷰 토글 이벤트 바인딩
-    const toggleBtns = classroomStage.querySelectorAll('.cert-toggle-view-pill');
-    toggleBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const cardId = btn.getAttribute('data-card-id');
-        toggleCardView(cardId);
-      });
-    });
 
     // 개별 카드 다운로드 이벤트 바인딩
     const downloadBtns = classroomStage.querySelectorAll('[data-download-id]');
@@ -1069,10 +1082,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = new Date();
         const dateStr = `${now.getFullYear()}. ${String(now.getMonth() + 1).padStart(2, '0')}. ${String(now.getDate()).padStart(2, '0')}`;
 
+        const parsedData = parseNameAndCompany({ name: name, company: '' });
+
         const newParticipant = {
           id: `cert-user-${Date.now()}`,
-          name: name,
-          company: '여성기업인 디지털 혁신 1기',
+          name: parsedData.name,
+          company: parsedData.company,
           presetKey: presetKey,
           promptText: (PRESETS[presetKey] || PRESETS.cinematic_gold).prompt,
           beforeImg: currentUploadedDataUrl,
@@ -1474,24 +1489,23 @@ document.addEventListener('DOMContentLoaded', () => {
             cloneArea.style.height = 'auto';
           }
 
-          // 1) 현수막 메인 타이틀: 완벽한 화이트-골드 그라데이션 SVG 벡터로 실시간 치환
+          // 1) 현수막 메인 타이틀: 스테이지 일체형 딥 네이비 벡터 SVG로 실시간 치환
           const mainTitle = clonedDoc.querySelector('.banner-main-title');
           if (mainTitle) {
             const titleText = mainTitle.textContent.trim();
             mainTitle.innerHTML = `
               <svg width="100%" height="48" viewBox="0 0 1100 48" style="overflow:visible; display:block; margin:0 auto;">
                 <defs>
-                  <linearGradient id="goldTitleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#ffffff" />
-                    <stop offset="30%" stop-color="#fef08a" />
-                    <stop offset="70%" stop-color="#f59e0b" />
-                    <stop offset="100%" stop-color="#fbbf24" />
+                  <linearGradient id="navyTitleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#0f172a" />
+                    <stop offset="50%" stop-color="#1e1b4b" />
+                    <stop offset="100%" stop-color="#78350f" />
                   </linearGradient>
-                  <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.85"/>
+                  <filter id="softLightGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#ffffff" flood-opacity="0.8"/>
                   </filter>
                 </defs>
-                <text x="550" y="35" text-anchor="middle" font-family="'Cinzel', 'Noto Sans KR', sans-serif" font-size="31" font-weight="900" letter-spacing="-0.02em" fill="url(#goldTitleGrad)" filter="url(#goldGlow)">
+                <text x="550" y="35" text-anchor="middle" font-family="'Cinzel', 'Noto Sans KR', sans-serif" font-size="31" font-weight="900" letter-spacing="-0.02em" fill="url(#navyTitleGrad)" filter="url(#softLightGlow)">
                   ${titleText}
                 </text>
               </svg>
@@ -1499,7 +1513,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mainTitle.style.background = 'none';
             mainTitle.style.webkitBackgroundClip = 'initial';
             mainTitle.style.webkitTextFillColor = 'initial';
-            mainTitle.style.color = '#ffffff';
+            mainTitle.style.color = '#0f172a';
           }
 
           // 2) 줄간격 및 원근감 균형 조정 (모든 동적 행에 여유로운 줄간격 자동 적용)
@@ -1861,8 +1875,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const simUser = {
         id: `sim-user-${Date.now()}-${i}`,
-        name: `${baseName} 대표 (${comp})`,
-        company: '여성기업인 디지털 혁신 1기',
+        name: `${baseName} 대표`,
+        company: comp,
         presetKey: 'cinematic_gold',
         promptText: PRESETS.cinematic_gold.prompt,
         beforeImg: img,
