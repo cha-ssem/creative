@@ -4556,7 +4556,7 @@ body.is-fullscreen .cert-capture-wrapper {
   border: 1.5px solid #fcd34d;
   border-radius: var(--radius-sm);
   padding: 0.75rem 1rem 0.45rem;
-  margin: 0 auto 0;
+  margin: 0 auto 12px;
   width: 100%;
   max-width: 100%;
   text-align: center;
@@ -4595,7 +4595,7 @@ body.is-fullscreen .cert-capture-wrapper {
   gap: 0;
   position: relative;
   z-index: 3;
-  margin-top: -8px;
+  margin-top: 4px;
   width: 100%;
 }
 
