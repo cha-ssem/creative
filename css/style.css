@@ -5199,22 +5199,27 @@ body.is-fullscreen .cert-capture-wrapper {
   border-color: var(--text-secondary);
 }
 
-/* 6. 모달 공통 & 업로드 모달 (컴팩트 골든 핏) */
+/* 6. 모달 공통 & 업로드 모달 (완벽한 좌우 대칭 5:5 골든 핏 & 중앙 정렬) */
 .cert-modal-card {
-  max-width: 660px !important;
+  display: block !important;
+  max-width: 680px !important;
   width: 92% !important;
+  margin: 0 auto !important;
   padding: 0 !important;
   border-radius: 20px !important;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5) !important;
   border: 1px solid rgba(250, 204, 21, 0.35) !important;
-  overflow: hidden;
+  overflow: hidden !important;
+  background: #0f172a !important;
 }
 
 .cert-modal-body {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  width: 100% !important;
   min-height: auto;
   align-items: stretch;
+  box-sizing: border-box;
 }
 
 @media (max-width: 680px) {
@@ -5223,7 +5228,7 @@ body.is-fullscreen .cert-capture-wrapper {
     overflow-y: auto !important;
   }
   .cert-modal-body {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     min-height: auto;
   }
   .cert-modal-media-col {
