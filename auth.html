@@ -19,6 +19,8 @@
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
   <!-- QRCode.js for Participant Mobile Access -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" defer></script>
+  <!-- MQTT.js for Instant Mobile-to-Screen Realtime Sync -->
+  <script src="https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js"></script>
   <!-- Auth Page Specific Styles -->
   <style>
     html, body {
@@ -382,6 +384,10 @@
             <button type="button" class="filter-chip active" id="certFilterAllBtn" data-cert-filter="all" title="클릭하여 최대 참석자 정원(좌석 수) 변경하기">전체 참석자 (<span id="certCountTotal">0 / 72</span> ⚙️)</button>
             <button type="button" class="filter-chip cert-reset-btn" id="certResetParticipantsBtn" title="등록된 참석자 인증 사진을 초기화합니다">🔄 사진 초기화</button>
             <button type="button" class="filter-chip" data-cert-filter="recent">✨ 최근 등록순</button>
+            <div class="realtime-status-badge" id="realtimeStatusBadge" title="모바일 ↔ 메인 화면 실시간 연동 중">
+              <span class="realtime-pulse-dot" id="realtimePulseDot"></span>
+              <span id="realtimeStatusText">실시간 연동 준비 중</span>
+            </div>
           </div>
 
           <div class="cert-btn-group">

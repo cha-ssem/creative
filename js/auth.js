@@ -357,9 +357,164 @@ document.addEventListener('DOMContentLoaded', () => {
   const authThemeIcon = document.getElementById('authThemeIcon');
   const authThemeText = document.getElementById('authThemeText');
 
+  // 실시간 상태 표시 참조
+  const realtimeStatusBadge = document.getElementById('realtimeStatusBadge');
+  const realtimeStatusText = document.getElementById('realtimeStatusText');
+  const realtimePulseDot = document.getElementById('realtimePulseDot');
+  const certResetParticipantsBtn = document.getElementById('certResetParticipantsBtn');
+
   let currentUploadedDataUrl = null;
   let webcamStream = null;
   let currentFilter = 'all';
+
+  // ==========================================================================
+  // [실시간 모바일 ↔ PC 화면 동기화 모듈 (MQTT over WSS)]
+  // ==========================================================================
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentRoomId = urlParams.get('room') || 'ceo_live_main';
+  const SYNC_TOPIC = `womanceo/auth_sync/${currentRoomId}`;
+  let realtimeClient = null;
+
+  function updateRealtimeStatus(status, text) {
+    if (realtimeStatusText) realtimeStatusText.textContent = text;
+    if (realtimePulseDot) {
+      realtimePulseDot.className = 'realtime-pulse-dot ' + status;
+    }
+    if (realtimeStatusBadge) {
+      realtimeStatusBadge.title = `실시간 연동 상태: ${text} (채널: ${currentRoomId})`;
+    }
+  }
+
+  function initRealtimeSync() {
+    if (typeof mqtt === 'undefined') {
+      console.warn('MQTT library not loaded.');
+      updateRealtimeStatus('offline', '오프라인 (로컬 모드)');
+      return;
+    }
+
+    try {
+      updateRealtimeStatus('connecting', '실시간 서버 연결 중...');
+      const clientId = 'womanceo_' + Math.random().toString(36).substring(2, 10);
+
+      realtimeClient = mqtt.connect('wss://broker.emqx.io:8084/mqtt', {
+        clientId: clientId,
+        clean: true,
+        connectTimeout: 6000,
+        reconnectPeriod: 3000
+      });
+
+      realtimeClient.on('connect', () => {
+        console.log('✦ [Realtime] Connected to live broker. Channel:', currentRoomId);
+        updateRealtimeStatus('online', '실시간 연동 완료');
+        realtimeClient.subscribe(SYNC_TOPIC, { qos: 1 }, (err) => {
+          if (err) console.error('Subscribe error:', err);
+        });
+      });
+
+      realtimeClient.on('reconnect', () => {
+        updateRealtimeStatus('connecting', '재연결 시도 중...');
+      });
+
+      realtimeClient.on('offline', () => {
+        updateRealtimeStatus('offline', '연결 대기 중');
+      });
+
+      realtimeClient.on('error', (err) => {
+        console.warn('Realtime MQTT error:', err);
+        updateRealtimeStatus('offline', '연결 대기 중');
+      });
+
+      realtimeClient.on('message', (topic, message) => {
+        if (topic === SYNC_TOPIC) {
+          try {
+            const data = JSON.parse(message.toString());
+            if (data.type === 'NEW_PARTICIPANT' && data.participant) {
+              handleRemoteParticipant(data.participant);
+            } else if (data.type === 'RESET_PARTICIPANTS') {
+              handleRemoteReset();
+            }
+          } catch (parseErr) {
+            console.error('Realtime msg parse error:', parseErr);
+          }
+        }
+      });
+    } catch (e) {
+      console.warn('Realtime sync init exception:', e);
+      updateRealtimeStatus('offline', '로컬 단독 모드');
+    }
+  }
+
+  // 원격(스마트폰)에서 새로 등록된 참석자 수신 처리
+  function handleRemoteParticipant(newP) {
+    if (!newP || !newP.id) return;
+    const exists = participants.some(p => p.id === newP.id);
+    if (exists) return;
+
+    participants.unshift(newP);
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
+    } catch (err) {
+      console.warn('LocalStorage save error:', err);
+    }
+
+    renderCertCards(currentFilter);
+    showToastNotification(`📱 [${newP.name}] 님이 스마트폰에서 실시간 참석 인증을 완료했습니다! 🎉`);
+
+    // 신규 등록된 좌석으로 부드러운 포커스 및 팝업 애니메이션
+    setTimeout(() => {
+      const newSeatEl = document.getElementById(`seat-${newP.id}`);
+      if (newSeatEl) {
+        newSeatEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        newSeatEl.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease';
+        newSeatEl.style.transform = 'scale(1.22)';
+        newSeatEl.style.zIndex = '9999';
+        setTimeout(() => {
+          newSeatEl.style.transform = '';
+          newSeatEl.style.zIndex = '';
+        }, 2200);
+      }
+    }, 300);
+  }
+
+  function handleRemoteReset() {
+    participants = [...DEFAULT_PARTICIPANTS];
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
+    } catch (e) {}
+    renderCertCards(currentFilter);
+    showToastNotification('🔄 원격에서 참석자 사진이 초기화되었습니다.');
+  }
+
+  function broadcastNewParticipant(newP) {
+    if (realtimeClient && realtimeClient.connected) {
+      try {
+        const payload = JSON.stringify({
+          type: 'NEW_PARTICIPANT',
+          participant: newP,
+          timestamp: Date.now()
+        });
+        realtimeClient.publish(SYNC_TOPIC, payload, { qos: 1 });
+        console.log('✦ [Realtime] Broadcasted new participant:', newP.name);
+      } catch (err) {
+        console.warn('Broadcast error:', err);
+      }
+    }
+  }
+
+  function broadcastResetParticipants() {
+    if (realtimeClient && realtimeClient.connected) {
+      try {
+        const payload = JSON.stringify({
+          type: 'RESET_PARTICIPANTS',
+          timestamp: Date.now()
+        });
+        realtimeClient.publish(SYNC_TOPIC, payload, { qos: 1 });
+      } catch (err) {}
+    }
+  }
+
+  // 실시간 동기화 시작
+  initRealtimeSync();
 
   // 3. 테마 제어
   function applyTheme(isLight) {
@@ -901,6 +1056,9 @@ document.addEventListener('DOMContentLoaded', () => {
           console.warn('Storage limit reached, keeping in-memory:', storageErr);
         }
 
+        // [실시간 브로드캐스트] 연결된 모든 PC/모바일 화면으로 즉시 전파
+        broadcastNewParticipant(newParticipant);
+
         setTimeout(() => {
           if (certAiScanOverlay) certAiScanOverlay.classList.remove('active');
           if (certSubmitBtn) certSubmitBtn.disabled = false;
@@ -980,7 +1138,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (certQrContainer && typeof QRCode !== 'undefined') {
       certQrContainer.innerHTML = '';
-      const currentUrl = new URL('auth.html#upload', window.location.href).href;
+      const currentUrl = new URL(`auth.html?room=${encodeURIComponent(currentRoomId)}#upload`, window.location.href).href;
       new QRCode(certQrContainer, {
         text: currentUrl,
         width: 180,
@@ -1115,7 +1273,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 12. [핵심] 업로드한 참석자 인증 사진 초기화 로직
-  const certResetParticipantsBtn = document.getElementById('certResetParticipantsBtn');
   if (certResetParticipantsBtn) {
     certResetParticipantsBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1133,6 +1290,7 @@ document.addEventListener('DOMContentLoaded', () => {
           filterChips.forEach(c => c.classList.remove('active'));
           certFilterAllBtn.classList.add('active');
         }
+        broadcastResetParticipants();
         showToastNotification('🔄 참석자 인증 사진이 기본 상태로 초기화되었습니다.');
       }
     });

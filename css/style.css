@@ -5798,3 +5798,55 @@ body.is-fullscreen .cert-capture-wrapper {
   display: none !important;
 }
 
+/* 8. 실시간 연동 상태 배지 스타일 */
+.realtime-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: var(--transition-fast);
+}
+
+.realtime-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #eab308;
+  box-shadow: 0 0 6px rgba(234, 179, 8, 0.6);
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+
+.realtime-pulse-dot.online {
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse-green 2s infinite;
+}
+
+.realtime-pulse-dot.connecting {
+  background: #eab308;
+  animation: pulse-yellow 1s infinite;
+}
+
+.realtime-pulse-dot.offline {
+  background: #64748b;
+  box-shadow: none;
+}
+
+@keyframes pulse-green {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.65; }
+}
+
+@keyframes pulse-yellow {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.6; }
+}
+
+
