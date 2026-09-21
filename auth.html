@@ -12,9 +12,9 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=20260921_1105">
+  <link rel="stylesheet" href="css/style.css?v=20260921_1535">
   <!-- Preloaded Base64 Image Assets for 100% Zero-Taint Capture -->
-  <script src="js/image-base64-data.js?v=20260921_1105"></script>
+  <script src="js/image-base64-data.js?v=20260921_1535"></script>
   <!-- html2canvas for Commemorative Board Capture -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
   <!-- QRCode.js for Participant Mobile Access -->
@@ -440,6 +440,7 @@
           <div class="filter-bar" id="certFilterBar" style="margin-bottom: 0;">
             <button type="button" class="filter-chip active" id="certFilterAllBtn" data-cert-filter="all" title="클릭하여 최대 참석자 정원(좌석 수) 변경하기">전체 참석자 (<span id="certCountTotal">0 / 72</span> ⚙️)</button>
             <button type="button" class="filter-chip cert-reset-btn" id="certResetParticipantsBtn" title="모든 사진을 비우고 0명 빈 좌석 상태로 초기화합니다">🔄 전체 비우기(0명)</button>
+            <button type="button" class="filter-chip" id="certSimulate70Btn" title="70명이 실시간으로 사진을 등록하는 상황을 자동 시뮬레이션 테스트합니다" style="border-color: #38bdf8; color: #38bdf8; font-weight: 700;">🧪 70명 테스트</button>
             <button type="button" class="filter-chip" data-cert-filter="recent">✨ 최근 등록순</button>
             <div class="realtime-status-badge" id="realtimeStatusBadge" title="모바일 ↔ 메인 화면 실시간 연동 중">
               <span class="realtime-pulse-dot" id="realtimePulseDot"></span>
@@ -681,7 +682,7 @@
   <div id="toastNotification" class="toast-notification"></div>
 
   <!-- 전용 인증 스크립트 -->
-  <script src="js/auth.js?v=20260921_1105" defer></script>
+  <script src="js/auth.js?v=20260921_1535" defer></script>
 </body>
 
 </html>

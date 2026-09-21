@@ -1359,12 +1359,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // B. 70명 실시간 업로드 시뮬레이션 테스트 버튼
+  const certSimulate70Btn = document.getElementById('certSimulate70Btn');
+  if (certSimulate70Btn) {
+    certSimulate70Btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof window.run70SimulationTest === 'function') {
+        window.run70SimulationTest(300);
+      }
+    });
+  }
+
   // 13. 필터 칩 전환 (최근 등록순 등)
   if (certFilterBar) {
     const filterChips = certFilterBar.querySelectorAll('.filter-chip');
     filterChips.forEach(chip => {
       chip.addEventListener('click', (e) => {
-        if (chip.id === 'certFilterAllBtn' || chip.id === 'certResetParticipantsBtn') return;
+        if (chip.id === 'certFilterAllBtn' || chip.id === 'certResetParticipantsBtn' || chip.id === 'certSimulate70Btn') return;
         filterChips.forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
         const filterType = chip.getAttribute('data-cert-filter');
@@ -1798,6 +1809,69 @@ document.addEventListener('DOMContentLoaded', () => {
       // 레거시 브라우저 예외 방지
     }
   }
+
+  // ==========================================================================
+  // [테스트 시뮬레이터] 70명 실시간 동시/순차 업로드 부하 테스트 함수
+  // ==========================================================================
+  window.run70SimulationTest = async function(intervalMs = 350) {
+    showToastNotification(`🚀 70명 실시간 업로드 테스트를 시작합니다! (${intervalMs}ms 간격)`);
+    console.log('🚀 [Simulation Test] Starting 70 participants real-time test...');
+
+    const sampleNames = [
+      '김서연', '이지은', '정유진', '한민경', '박수현', '최나영', '강다은', '윤채원', '조은별', '서미래',
+      '임하늘', '백소영', '고아름', '문지영', '송예린', '권하나', '신보라', '안혜진', '유다희', '황유림',
+      '전소민', '배수지', '노채은', '오세린', '손유나', '곽지수', '홍다인', '문채원', '류서현', '송지우',
+      '주예원', '양서윤', '하은지', '표수빈', '엄지혜', '변가영', '남궁민선', '선우채연', '진소라', '도하늘',
+      '구본아', '탁서연', '라유미', '마혜선', '제갈예은', '함수정', '성유주', '차민서', '길소연', '반지은',
+      '옥현경', '천유정', '팽서희', '사공미소', '모지현', '복다솜', '석윤아', '어지영', '추예린', '편수진',
+      '소유진', '위다혜', '설소영', '빈나리', '피아름', '방다온', '간수현', '갈소은', '감채민', '견혜원'
+    ];
+
+    const sampleCompanies = [
+      '㈜넥스트웨이브', '㈜모던라이프', '㈜스마트랩', '㈜비전이노', '㈜글로벌에듀', '㈜블루밍케어',
+      '㈜오로라디자인', '㈜케이프런티어', '㈜그린바이오', '㈜인사이트웍스', '㈜푸드테크', '㈜모션랩'
+    ];
+
+    const sampleImages = [
+      'images/CEO01.png', 'images/CEO02.png', 'images/Young_Employee.jpeg',
+      'images/Trainees.jpeg', 'images/Employees.jpeg', 'images/Large Screen.jpeg'
+    ];
+
+    for (let i = 1; i <= 70; i++) {
+      const baseName = sampleNames[(i - 1) % sampleNames.length];
+      const comp = sampleCompanies[(i - 1) % sampleCompanies.length];
+      const img = sampleImages[(i - 1) % sampleImages.length];
+
+      const simUser = {
+        id: `sim-user-${Date.now()}-${i}`,
+        name: `${baseName} 대표 (${comp})`,
+        company: '여성기업인 디지털 혁신 1기',
+        presetKey: 'cinematic_gold',
+        promptText: PRESETS.cinematic_gold.prompt,
+        beforeImg: img,
+        afterImg: img,
+        date: '2026. 11. 10',
+        timestamp: Date.now(),
+        isCurrentViewAfter: true
+      };
+
+      participants.unshift(simUser);
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
+      } catch (e) {}
+
+      broadcastNewParticipant(simUser);
+      renderCertCards(currentFilter);
+
+      console.log(`[${i}/70] ${simUser.name} 참석자 실시간 등재 완료`);
+
+      if (intervalMs > 0) {
+        await new Promise(r => setTimeout(r, intervalMs));
+      }
+    }
+
+    showToastNotification('🎉 70명 실시간 업로드 테스트가 성공적으로 완료되었습니다!');
+  };
 
   // 초기 렌더링
   renderCertCards('all');
