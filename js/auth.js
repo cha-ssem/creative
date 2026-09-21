@@ -368,11 +368,32 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentFilter = 'all';
 
   // ==========================================================================
-  // [실시간 모바일 ↔ PC 화면 동기화 모듈 (MQTT over WSS)]
+  // [보안 강화: 암호학적 난수 비밀 룸(Secret Room ID) 생성 및 실시간 동기화]
   // ==========================================================================
+  function generateSecureRoomId() {
+    try {
+      const array = new Uint8Array(16);
+      window.crypto.getRandomValues(array);
+      const hex = Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
+      return `sec_${hex}`;
+    } catch (e) {
+      return `sec_${Math.random().toString(36).substring(2, 12)}_${Date.now()}`;
+    }
+  }
+
   const urlParams = new URLSearchParams(window.location.search);
-  const currentRoomId = urlParams.get('room') || 'ceo_live_main';
-  const SYNC_TOPIC = `womanceo/auth_sync/${currentRoomId}`;
+  let currentRoomId = urlParams.get('room');
+  if (!currentRoomId) {
+    currentRoomId = localStorage.getItem('CEO_STORYBOARD_SECURE_ROOM_ID');
+    if (!currentRoomId) {
+      currentRoomId = generateSecureRoomId();
+      try {
+        localStorage.setItem('CEO_STORYBOARD_SECURE_ROOM_ID', currentRoomId);
+      } catch (e) {}
+    }
+  }
+
+  const SYNC_TOPIC = `womanceo/secure_sync/${currentRoomId}`;
   let realtimeClient = null;
 
   function updateRealtimeStatus(status, text) {
@@ -381,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
       realtimePulseDot.className = 'realtime-pulse-dot ' + status;
     }
     if (realtimeStatusBadge) {
-      realtimeStatusBadge.title = `실시간 연동 상태: ${text} (채널: ${currentRoomId})`;
+      realtimeStatusBadge.title = `🔒 보안 암호화 룸: ${currentRoomId} (${text})`;
     }
   }
 
