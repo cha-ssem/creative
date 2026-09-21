@@ -5710,7 +5710,10 @@ body.is-fullscreen .cert-capture-wrapper {
   box-sizing: border-box;
 }
 
-.qr-box canvas,
+.qr-box canvas {
+  display: none !important;
+}
+
 .qr-box img {
   display: block !important;
   margin: 0 auto !important;
