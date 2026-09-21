@@ -407,7 +407,17 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('✦ [Realtime] Connected to live broker. Channel:', currentRoomId);
         updateRealtimeStatus('online', '실시간 연동 완료');
         realtimeClient.subscribe(SYNC_TOPIC, { qos: 1 }, (err) => {
-          if (err) console.error('Subscribe error:', err);
+          if (!err) {
+            // 접속 시 방 내의 최신 상태(빈 좌석인지, 참가자 목록 등)를 요청
+            setTimeout(() => {
+              if (realtimeClient && realtimeClient.connected) {
+                realtimeClient.publish(SYNC_TOPIC, JSON.stringify({
+                  type: 'STATE_REQUEST',
+                  sender: clientId
+                }), { qos: 1 });
+              }
+            }, 300);
+          }
         });
       });
 
@@ -432,6 +442,26 @@ document.addEventListener('DOMContentLoaded', () => {
               handleRemoteParticipant(data.participant);
             } else if (data.type === 'RESET_PARTICIPANTS') {
               handleRemoteReset(data.mode);
+            } else if (data.type === 'STATE_REQUEST' && data.sender !== clientId) {
+              // 다른 기기가 접속하여 상태를 요청한 경우 현재 상태 전송
+              if (realtimeClient && realtimeClient.connected) {
+                realtimeClient.publish(SYNC_TOPIC, JSON.stringify({
+                  type: 'STATE_RESPONSE',
+                  target: data.sender,
+                  participants: participants,
+                  maxSeats: maxSeats
+                }), { qos: 1 });
+              }
+            } else if (data.type === 'STATE_RESPONSE' && data.target === clientId && Array.isArray(data.participants)) {
+              // 내 요청에 대한 최신 상태 수신
+              participants = data.participants;
+              if (data.maxSeats) maxSeats = data.maxSeats;
+              try {
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
+                localStorage.setItem(MAX_SEATS_KEY, String(maxSeats));
+              } catch (e) {}
+              renderCertCards(currentFilter);
+              console.log('✦ [Realtime] Initial room state synced:', participants.length, 'participants');
             }
           } catch (parseErr) {
             console.error('Realtime msg parse error:', parseErr);
