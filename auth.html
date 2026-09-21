@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>변화의 시작 인증 (참석자 인증) | AI STUDIO</title>
   <!-- Resource Preconnect for Performance -->
@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=20260921_1606">
+  <link rel="stylesheet" href="css/style.css?v=20260921_1610">
   <!-- Preloaded Base64 Image Assets for 100% Zero-Taint Capture -->
   <script src="js/image-base64-data.js?v=20260921_1535"></script>
   <!-- html2canvas for Commemorative Board Capture -->
@@ -331,17 +331,29 @@
       }
     }
 
-    /* [QR 모바일 접속 전용] 독립형 직관적 업로드 모드 */
+    /* [QR 모바일 접속 전용] 독립형 직관적 업로드 모드 - 가로 스크롤 원천 차단 */
+    html.mobile-upload-html,
     body.mobile-upload-mode {
       background: #0b0f19 !important;
       min-height: 100vh !important;
-      height: 100% !important;
+      height: auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
       display: flex !important;
+      flex-direction: column !important;
       align-items: center !important;
       justify-content: center !important;
-      padding: 0.8rem !important;
+      padding: 1rem 0.75rem !important;
       margin: 0 !important;
+      overflow-x: hidden !important;
       overflow-y: auto !important;
+      box-sizing: border-box !important;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+    }
+
+    body.mobile-upload-mode * {
+      box-sizing: border-box !important;
     }
 
     body.mobile-upload-mode .auth-top-nav,
@@ -361,17 +373,19 @@
       background: transparent !important;
       backdrop-filter: none !important;
       width: 100% !important;
-      max-width: 460px !important;
+      max-width: 480px !important;
       margin: 0 auto !important;
       padding: 0 !important;
       opacity: 1 !important;
       visibility: visible !important;
       pointer-events: auto !important;
+      overflow-x: hidden !important;
     }
 
     body.mobile-upload-mode .cert-modal-card {
       width: 100% !important;
-      max-width: 460px !important;
+      max-width: 100% !important;
+      margin: 0 auto !important;
       background: #111827 !important;
       border-radius: 20px !important;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
@@ -382,6 +396,8 @@
     body.mobile-upload-mode .cert-modal-body {
       display: flex !important;
       flex-direction: column !important;
+      width: 100% !important;
+      max-width: 100% !important;
       min-height: auto !important;
     }
 
@@ -389,11 +405,15 @@
       background: rgba(17, 24, 39, 0.8) !important;
       border-right: none !important;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-      padding: 1.2rem !important;
+      padding: 1.25rem 1rem !important;
+      width: 100% !important;
+      max-width: 100% !important;
     }
 
     body.mobile-upload-mode .cert-modal-info-col {
-      padding: 1.2rem !important;
+      padding: 1.25rem 1rem !important;
+      width: 100% !important;
+      max-width: 100% !important;
     }
   </style>
 </head>
