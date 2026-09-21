@@ -5211,8 +5211,18 @@ body.is-fullscreen .cert-capture-wrapper {
 }
 
 @media (max-width: 860px) {
+  .cert-modal-card {
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+  }
   .cert-modal-body {
     grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .cert-modal-media-col {
+    padding: 1.2rem;
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
   }
 }
 

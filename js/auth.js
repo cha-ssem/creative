@@ -857,18 +857,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const name = (certInputName ? certInputName.value.trim() : '');
-      const resolution = (certInputResolution ? certInputResolution.value.trim() : '');
+      const resolution = (certInputResolution && certInputResolution.value.trim()) 
+        ? certInputResolution.value.trim() 
+        : '생성형 AI와 함께 두려움 없이 비즈니스를 혁신하고 새로운 도약을 시작합니다!';
       const selectedRadio = document.querySelector('input[name="certPreset"]:checked');
       const presetKey = selectedRadio ? selectedRadio.value : 'cinematic_gold';
 
-      if (!name || !resolution) {
-        showToastNotification('⚠️ 성함과 새로운 시작 다짐을 모두 입력해 주세요.');
+      if (!name) {
+        showToastNotification('⚠️ 성함과 소속 기업명을 입력해 주세요.');
+        if (certInputName) certInputName.focus();
         return;
       }
 
       if (certSubmitBtn) certSubmitBtn.disabled = true;
       if (certBtnSpinner) certBtnSpinner.style.display = 'inline-block';
-      if (certBtnText) certBtnText.textContent = 'AI 프롬프트 스타일 변환 중...';
+      if (certBtnText) certBtnText.textContent = 'AI 프로필 생성 및 등록 중...';
       if (certAiScanOverlay) certAiScanOverlay.classList.add('active');
 
       try {
@@ -902,11 +905,11 @@ document.addEventListener('DOMContentLoaded', () => {
           if (certAiScanOverlay) certAiScanOverlay.classList.remove('active');
           if (certSubmitBtn) certSubmitBtn.disabled = false;
           if (certBtnSpinner) certBtnSpinner.style.display = 'none';
-          if (certBtnText) certBtnText.textContent = '✨ AI 프로필 생성 및 보드 인증하기';
+          if (certBtnText) certBtnText.textContent = '✨ 참석 인증 및 AI 프로필 등록하기';
 
           closeCertUploadModal();
           renderCertCards(currentFilter);
-          showToastNotification(`🎉 ${name} 님의 AI 인증 카드가 성공적으로 등록되었습니다!`);
+          showToastNotification(`🎉 ${name} 님의 참석 인증 카드가 성공적으로 등록되었습니다!`);
 
           const newSeatEl = document.getElementById(`seat-${newParticipant.id}`);
           if (newSeatEl) {
@@ -927,7 +930,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (certAiScanOverlay) certAiScanOverlay.classList.remove('active');
         if (certSubmitBtn) certSubmitBtn.disabled = false;
         if (certBtnSpinner) certBtnSpinner.style.display = 'none';
-        if (certBtnText) certBtnText.textContent = '✨ AI 프로필 생성 및 보드 인증하기';
+        if (certBtnText) certBtnText.textContent = '✨ 참석 인증 및 AI 프로필 등록하기';
       }
     });
   }
@@ -937,6 +940,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (certUploadModal) {
       certUploadModal.classList.add('open');
       certUploadModal.scrollTop = 0;
+      setTimeout(() => {
+        if (certInputName) certInputName.focus();
+      }, 150);
     }
   }
 
@@ -974,7 +980,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (certQrContainer && typeof QRCode !== 'undefined') {
       certQrContainer.innerHTML = '';
-      const currentUrl = window.location.origin + window.location.pathname + '#upload';
+      const currentUrl = new URL('auth.html#upload', window.location.href).href;
       new QRCode(certQrContainer, {
         text: currentUrl,
         width: 180,
