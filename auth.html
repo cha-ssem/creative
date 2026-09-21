@@ -382,7 +382,8 @@
         <div class="view-control-bar cert-action-toolbar">
           <div class="filter-bar" id="certFilterBar" style="margin-bottom: 0;">
             <button type="button" class="filter-chip active" id="certFilterAllBtn" data-cert-filter="all" title="클릭하여 최대 참석자 정원(좌석 수) 변경하기">전체 참석자 (<span id="certCountTotal">0 / 72</span> ⚙️)</button>
-            <button type="button" class="filter-chip cert-reset-btn" id="certResetParticipantsBtn" title="등록된 참석자 인증 사진을 초기화합니다">🔄 사진 초기화</button>
+            <button type="button" class="filter-chip cert-reset-btn" id="certResetParticipantsBtn" title="모든 사진을 비우고 0명 빈 좌석 상태로 초기화합니다">🔄 전체 비우기(0명)</button>
+            <button type="button" class="filter-chip" id="certLoadDemoBtn" title="기본 예시 참석자 데이터를 다시 불러옵니다">✨ 예시 복원</button>
             <button type="button" class="filter-chip" data-cert-filter="recent">✨ 최근 등록순</button>
             <div class="realtime-status-badge" id="realtimeStatusBadge" title="모바일 ↔ 메인 화면 실시간 연동 중">
               <span class="realtime-pulse-dot" id="realtimePulseDot"></span>

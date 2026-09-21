@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.type === 'NEW_PARTICIPANT' && data.participant) {
               handleRemoteParticipant(data.participant);
             } else if (data.type === 'RESET_PARTICIPANTS') {
-              handleRemoteReset();
+              handleRemoteReset(data.mode);
             }
           } catch (parseErr) {
             console.error('Realtime msg parse error:', parseErr);
@@ -476,13 +476,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   }
 
-  function handleRemoteReset() {
-    participants = [...DEFAULT_PARTICIPANTS];
+  function handleRemoteReset(mode = 'EMPTY') {
+    if (mode === 'DEMO') {
+      participants = [...DEFAULT_PARTICIPANTS];
+      showToastNotification('✨ 원격에서 기본 예시 참석자 데이터가 복원되었습니다.');
+    } else {
+      participants = [];
+      showToastNotification('🔄 원격에서 모든 참석자 사진이 비워졌습니다. (빈 좌석 대기)');
+    }
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
     } catch (e) {}
     renderCertCards(currentFilter);
-    showToastNotification('🔄 원격에서 참석자 사진이 초기화되었습니다.');
   }
 
   function broadcastNewParticipant(newP) {
@@ -501,11 +506,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function broadcastResetParticipants() {
+  function broadcastResetParticipants(mode = 'EMPTY') {
     if (realtimeClient && realtimeClient.connected) {
       try {
         const payload = JSON.stringify({
           type: 'RESET_PARTICIPANTS',
+          mode: mode,
           timestamp: Date.now()
         });
         realtimeClient.publish(SYNC_TOPIC, payload, { qos: 1 });
@@ -1272,27 +1278,48 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 12. [핵심] 업로드한 참석자 인증 사진 초기화 로직
+  // 12. [핵심] 참석자 인증 사진 전체 비우기(0명) 및 예시 복원 로직
+  const certLoadDemoBtn = document.getElementById('certLoadDemoBtn');
+
+  // A. 전체 비우기 (0명 빈 좌석 상태로 리셋)
   if (certResetParticipantsBtn) {
     certResetParticipantsBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const confirmMsg = '🔄 등록된 참석자 인증 사진을 초기화하시겠습니까?\n\n(확인을 누르시면 기본 예시 참석자 목록으로 안전하게 초기화됩니다.)';
-      if (confirm(confirmMsg)) {
-        participants = [...DEFAULT_PARTICIPANTS];
-        try {
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
-        } catch (err) {
-          console.warn('LocalStorage reset error:', err);
-        }
-        renderCertCards('all');
-        if (certFilterAllBtn) {
-          const filterChips = certFilterBar ? certFilterBar.querySelectorAll('.filter-chip') : [];
-          filterChips.forEach(c => c.classList.remove('active'));
-          certFilterAllBtn.classList.add('active');
-        }
-        broadcastResetParticipants();
-        showToastNotification('🔄 참석자 인증 사진이 기본 상태로 초기화되었습니다.');
+      participants = [];
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([]));
+      } catch (err) {
+        console.warn('LocalStorage clear error:', err);
       }
+      renderCertCards('all');
+      if (certFilterAllBtn) {
+        const filterChips = certFilterBar ? certFilterBar.querySelectorAll('.filter-chip') : [];
+        filterChips.forEach(c => c.classList.remove('active'));
+        certFilterAllBtn.classList.add('active');
+      }
+      broadcastResetParticipants('EMPTY');
+      showToastNotification(`🔄 모든 참석자 사진이 비워졌습니다. (0 / ${maxSeats}석 현장 등록 대기)`);
+    });
+  }
+
+  // B. 예시 데모 참석자 데이터 복원
+  if (certLoadDemoBtn) {
+    certLoadDemoBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      participants = [...DEFAULT_PARTICIPANTS];
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
+      } catch (err) {
+        console.warn('LocalStorage restore error:', err);
+      }
+      renderCertCards('all');
+      if (certFilterAllBtn) {
+        const filterChips = certFilterBar ? certFilterBar.querySelectorAll('.filter-chip') : [];
+        filterChips.forEach(c => c.classList.remove('active'));
+        certFilterAllBtn.classList.add('active');
+      }
+      broadcastResetParticipants('DEMO');
+      showToastNotification('✨ 기본 예시 참석자 60명이 성공적으로 복원되었습니다.');
     });
   }
 
@@ -1301,7 +1328,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterChips = certFilterBar.querySelectorAll('.filter-chip');
     filterChips.forEach(chip => {
       chip.addEventListener('click', (e) => {
-        if (chip.id === 'certFilterAllBtn' || chip.id === 'certResetParticipantsBtn') return;
+        if (chip.id === 'certFilterAllBtn' || chip.id === 'certResetParticipantsBtn' || chip.id === 'certLoadDemoBtn') return;
         filterChips.forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
         const filterType = chip.getAttribute('data-cert-filter');
