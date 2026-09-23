@@ -1823,14 +1823,48 @@ function initIntroOverlay() {
   const overlay = document.getElementById('introOverlay');
   const skipBtn = document.getElementById('introSkipBtn');
   const soundBtn = document.getElementById('introSoundBtn');
+  const fsBtn = document.getElementById('introFullscreenBtn');
 
   if (!overlay) return;
 
-  // 인트로 닫기 (부드러운 페이드아웃 및 유튜브 영상 정지)
+  // 전체화면 진입 헬퍼
+  const enterFullScreen = () => {
+    const docEl = document.documentElement;
+    try {
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen().catch(err => console.log('Fullscreen notice:', err));
+      } else if (docEl.webkitRequestFullscreen) {
+        docEl.webkitRequestFullscreen();
+      } else if (docEl.msRequestFullscreen) {
+        docEl.msRequestFullscreen();
+      }
+    } catch (e) {
+      console.log('Fullscreen error:', e);
+    }
+  };
+
+  // 전체화면 해제 헬퍼
+  const exitFullScreen = () => {
+    try {
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(err => console.log('Exit fullscreen notice:', err));
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
+    } catch (e) {
+      console.log('Exit fullscreen error:', e);
+    }
+  };
+
+  // 인트로 닫기 (부드러운 페이드아웃 및 유튜브 영상 정지 & 전체화면 복귀)
   const closeIntro = () => {
     if (isIntroClosed) return;
     isIntroClosed = true;
     overlay.classList.add('hide');
+
+    exitFullScreen();
 
     if (ytIntroPlayer && typeof ytIntroPlayer.stopVideo === 'function') {
       try {
@@ -1845,7 +1879,21 @@ function initIntroOverlay() {
     }, 850);
   };
 
-  // 1. 건너뛰기(Skip) 버튼 이벤트
+  // 1. 전체화면 토글 버튼
+  if (fsBtn) {
+    fsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!document.fullscreenElement) {
+        enterFullScreen();
+        fsBtn.textContent = '⛶ 창모드';
+      } else {
+        exitFullScreen();
+        fsBtn.textContent = '⛶ 전체화면';
+      }
+    });
+  }
+
+  // 2. 건너뛰기(Skip) 버튼 이벤트
   if (skipBtn) {
     skipBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1853,7 +1901,7 @@ function initIntroOverlay() {
     });
   }
 
-  // 2. 음소거 / 소리 켜기 토글 이벤트
+  // 3. 음소거 / 소리 켜기 토글 이벤트
   if (soundBtn) {
     soundBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1876,14 +1924,14 @@ function initIntroOverlay() {
     });
   }
 
-  // 3. 키보드 ESC 키로 건너뛰기
+  // 4. 키보드 ESC 키로 건너뛰기
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeIntro();
     }
   });
 
-  // 4. YouTube IFrame Player 인스턴스 생성 헬퍼 (기본 소리 켜기 상태)
+  // 5. YouTube IFrame Player 인스턴스 생성 헬퍼 (기본 소리 켜기 & 풀스크린 세팅)
   const createYoutubePlayer = () => {
     if (ytIntroPlayer || isIntroClosed) return;
     const playerTarget = document.getElementById('introYoutubePlayer');
@@ -1927,8 +1975,9 @@ function initIntroOverlay() {
     }
   };
 
-  // 5. 브라우저 첫 터치/클릭 시 소리 확실히 켜기 보조
-  const enableSoundOnFirstInteraction = () => {
+  // 6. 브라우저 첫 터치/클릭 시 전체화면 & 소리 확실히 켜기 보조
+  const enableFeaturesOnFirstInteraction = () => {
+    enterFullScreen();
     if (ytIntroPlayer && typeof ytIntroPlayer.unMute === 'function') {
       try {
         ytIntroPlayer.unMute();
@@ -1938,12 +1987,12 @@ function initIntroOverlay() {
           soundBtn.style.color = '#fcd34d';
         }
       } catch (err) {
-        console.log('First interaction sound error:', err);
+        console.log('First interaction error:', err);
       }
     }
   };
-  document.addEventListener('click', enableSoundOnFirstInteraction, { once: true });
-  document.addEventListener('touchstart', enableSoundOnFirstInteraction, { once: true });
+  document.addEventListener('click', enableFeaturesOnFirstInteraction, { once: true });
+  document.addEventListener('touchstart', enableFeaturesOnFirstInteraction, { once: true });
 
   // YouTube API 준비 완료 시 실행
   if (window.YT && window.YT.Player) {
