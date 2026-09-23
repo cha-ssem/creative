@@ -4145,11 +4145,14 @@ body.light-theme .code-snippet-wrap {
   background: #000;
 }
 
-.intro-video-container video {
+.intro-video-container video,
+.intro-video-container iframe,
+.intro-youtube-player {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  border: none;
 }
 
 /* 상단 컨트롤 영역 */

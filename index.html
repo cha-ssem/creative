@@ -20,14 +20,11 @@
 <body class="light-theme">
 
   <!-- ==========================================================================
-       [INTRO VIDEO] 풀스크린 인트로 비디오 오버레이 (원복 시 이 블록 삭제/주석 처리)
+       [INTRO VIDEO] 풀스크린 유튜브 인트로 비디오 오버레이
        ========================================================================== -->
   <div id="introOverlay" class="intro-overlay">
     <div class="intro-video-container">
-      <video id="introVideo" playsinline muted autoplay preload="auto">
-        <source src="CEO_clip04.mp4" type="video/mp4">
-        브라우저가 비디오 태그를 지원하지 않습니다.
-      </video>
+      <div id="introYoutubePlayer" class="intro-youtube-player"></div>
       
       <!-- 상단 컨트롤 버튼 (음소거 토글, 건너뛰기) -->
       <div class="intro-controls">
@@ -37,8 +34,8 @@
 
       <!-- 하단 인트로 캡션 바 -->
       <div class="intro-caption-bar">
-        <div class="intro-tag">INTRO CLIP</div>
-        <div class="intro-title">생성형 AI로 달라진 CEO의 하루 · 시네마틱 프리뷰</div>
+        <div class="intro-tag">🏆 FINAL MASTER FILM</div>
+        <div class="intro-title">생성형 AI로 달라진 CEO의 하루 · 최종 완성본 시네마틱 무비</div>
       </div>
     </div>
   </div>
@@ -756,7 +753,8 @@
   <!-- 전역 토스트 알림 메시지 바 -->
   <div id="toastNotification" class="toast-notification"></div>
 
-  <!-- 프로젝트 데이터 & 메인 스크립트 -->
+  <!-- YouTube IFrame API & 메인 스크립트 -->
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script src="js/project-data.js" defer></script>
   <script src="js/clip-prompts-data.js" defer></script>
   <script src="js/app.js" defer></script>

@@ -1814,30 +1814,38 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
 });
 
 /* ==========================================================================
-   [INTRO VIDEO] 풀스크린 인트로 비디오 제어 스크립트 (원복 시 이 블록 삭제/주석 처리)
+   [INTRO VIDEO] 풀스크린 유튜브 인트로 비디오 제어 스크립트 (최종 마스터 영상 연동)
    ========================================================================== */
+let ytIntroPlayer = null;
+let isIntroClosed = false;
+
 function initIntroOverlay() {
   const overlay = document.getElementById('introOverlay');
-  const video = document.getElementById('introVideo');
   const skipBtn = document.getElementById('introSkipBtn');
   const soundBtn = document.getElementById('introSoundBtn');
 
-  if (!overlay || !video) return;
+  if (!overlay) return;
 
-  // 인트로 닫기 (부드러운 페이드아웃)
+  // 인트로 닫기 (부드러운 페이드아웃 및 유튜브 영상 정지)
   const closeIntro = () => {
-    if (overlay.classList.contains('hide')) return;
+    if (isIntroClosed) return;
+    isIntroClosed = true;
     overlay.classList.add('hide');
-    video.pause();
+
+    if (ytIntroPlayer && typeof ytIntroPlayer.stopVideo === 'function') {
+      try {
+        ytIntroPlayer.stopVideo();
+      } catch (err) {
+        console.log('YouTube stop error:', err);
+      }
+    }
+
     setTimeout(() => {
       overlay.style.display = 'none';
     }, 850);
   };
 
-  // 1. 영상 재생 완료 시 자동 닫기
-  video.addEventListener('ended', closeIntro);
-
-  // 2. 건너뛰기 버튼 클릭 시
+  // 1. 건너뛰기(Skip) 버튼 이벤트
   if (skipBtn) {
     skipBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1845,34 +1853,84 @@ function initIntroOverlay() {
     });
   }
 
-  // 3. 음소거 / 소리 켜기 토글
+  // 2. 음소거 / 소리 켜기 토글 이벤트
   if (soundBtn) {
     soundBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      video.muted = !video.muted;
-      if (video.muted) {
-        soundBtn.textContent = '🔊 소리 켜기';
-        soundBtn.style.color = '#f8fafc';
-      } else {
-        soundBtn.textContent = '🔇 음소거';
-        soundBtn.style.color = '#fcd34d';
+      if (!ytIntroPlayer || typeof ytIntroPlayer.isMuted !== 'function') return;
+
+      try {
+        if (ytIntroPlayer.isMuted()) {
+          ytIntroPlayer.unMute();
+          ytIntroPlayer.setVolume(100);
+          soundBtn.textContent = '🔇 음소거';
+          soundBtn.style.color = '#fcd34d';
+        } else {
+          ytIntroPlayer.mute();
+          soundBtn.textContent = '🔊 소리 켜기';
+          soundBtn.style.color = '#f8fafc';
+        }
+      } catch (err) {
+        console.log('YouTube volume toggle error:', err);
       }
     });
   }
 
-  // 4. 키보드 ESC 키로 건너뛰기
+  // 3. 키보드 ESC 키로 건너뛰기
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeIntro();
     }
   });
 
-  // 5. 브라우저 비디오 자동 재생 보조
-  const playPromise = video.play();
-  if (playPromise !== undefined) {
-    playPromise.catch((err) => {
-      console.log('Intro video autoplay requires user interaction:', err);
-    });
+  // 4. YouTube IFrame Player 인스턴스 생성 헬퍼
+  const createYoutubePlayer = () => {
+    if (ytIntroPlayer || isIntroClosed) return;
+    const playerTarget = document.getElementById('introYoutubePlayer');
+    if (!playerTarget) return;
+
+    try {
+      ytIntroPlayer = new window.YT.Player('introYoutubePlayer', {
+        videoId: 't7SxVzb54bc', // 최종 마스터 영상 (영상 + 자막 + 내레이션)
+        playerVars: {
+          autoplay: 1,
+          mute: 1, // 브라우저 자동재생 정책 준수 (시작 시 음소거)
+          controls: 0,
+          showinfo: 0,
+          rel: 0,
+          modestbranding: 1,
+          playsinline: 1,
+          loop: 0,
+          iv_load_policy: 3,
+          enablejsapi: 1
+        },
+        events: {
+          onReady: (event) => {
+            event.target.playVideo();
+          },
+          onStateChange: (event) => {
+            // YT.PlayerState.ENDED === 0 (영상 재생 완료 시 자동 닫기)
+            if (event.data === 0) {
+              closeIntro();
+            }
+          }
+        }
+      });
+    } catch (err) {
+      console.log('Error creating YouTube intro player:', err);
+    }
+  };
+
+  // YouTube API 준비 완료 시 실행
+  if (window.YT && window.YT.Player) {
+    createYoutubePlayer();
+  } else {
+    // API 콜백 대기
+    const prevCallback = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      if (typeof prevCallback === 'function') prevCallback();
+      createYoutubePlayer();
+    };
   }
 }
 
