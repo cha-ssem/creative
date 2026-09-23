@@ -1883,7 +1883,7 @@ function initIntroOverlay() {
     }
   });
 
-  // 4. YouTube IFrame Player 인스턴스 생성 헬퍼
+  // 4. YouTube IFrame Player 인스턴스 생성 헬퍼 (기본 소리 켜기 상태)
   const createYoutubePlayer = () => {
     if (ytIntroPlayer || isIntroClosed) return;
     const playerTarget = document.getElementById('introYoutubePlayer');
@@ -1894,7 +1894,7 @@ function initIntroOverlay() {
         videoId: 't7SxVzb54bc', // 최종 마스터 영상 (영상 + 자막 + 내레이션)
         playerVars: {
           autoplay: 1,
-          mute: 1, // 브라우저 자동재생 정책 준수 (시작 시 음소거)
+          mute: 0, // 기본 소리 켜기 상태로 시작 시도
           controls: 0,
           showinfo: 0,
           rel: 0,
@@ -1906,7 +1906,13 @@ function initIntroOverlay() {
         },
         events: {
           onReady: (event) => {
-            event.target.playVideo();
+            try {
+              event.target.unMute();
+              event.target.setVolume(100);
+              event.target.playVideo();
+            } catch (e) {
+              console.log('Play onReady error:', e);
+            }
           },
           onStateChange: (event) => {
             // YT.PlayerState.ENDED === 0 (영상 재생 완료 시 자동 닫기)
@@ -1920,6 +1926,24 @@ function initIntroOverlay() {
       console.log('Error creating YouTube intro player:', err);
     }
   };
+
+  // 5. 브라우저 첫 터치/클릭 시 소리 확실히 켜기 보조
+  const enableSoundOnFirstInteraction = () => {
+    if (ytIntroPlayer && typeof ytIntroPlayer.unMute === 'function') {
+      try {
+        ytIntroPlayer.unMute();
+        ytIntroPlayer.setVolume(100);
+        if (soundBtn) {
+          soundBtn.textContent = '🔇 음소거';
+          soundBtn.style.color = '#fcd34d';
+        }
+      } catch (err) {
+        console.log('First interaction sound error:', err);
+      }
+    }
+  };
+  document.addEventListener('click', enableSoundOnFirstInteraction, { once: true });
+  document.addEventListener('touchstart', enableSoundOnFirstInteraction, { once: true });
 
   // YouTube API 준비 완료 시 실행
   if (window.YT && window.YT.Player) {
