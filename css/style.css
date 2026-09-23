@@ -1345,20 +1345,49 @@ button {
   margin-top: 0.25rem;
 }
 
+/* 6개 항목 3열 2줄 레이아웃 (3 Columns × 2 Rows) */
+.concept-spec-grid.grid-3col {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+}
+
+@media (max-width: 992px) {
+  .concept-spec-grid.grid-3col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .concept-spec-grid.grid-3col {
+    grid-template-columns: 1fr;
+  }
+}
+
 .concept-item {
   background: var(--bg-secondary);
-  padding: 0.4rem 0.65rem;
+  padding: 0.5rem 0.75rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-subtle);
   font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .concept-item strong {
   color: var(--accent-gold);
   display: block;
-  font-size: 0.72rem;
+  font-size: 0.74rem;
+  font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.02em;
+}
+
+.concept-item span {
+  color: var(--text-secondary);
+  line-height: 1.5;
+  font-size: 0.8rem;
 }
 
 /* 필터 바 */
@@ -5944,6 +5973,245 @@ body.is-fullscreen .cert-capture-wrapper {
 @keyframes pulse-yellow {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.25); opacity: 0.6; }
+}
+
+/* ==========================================================================
+   [PAGE 06] 최종 클립연결 영상 (Final Combined Video) 쇼케이스 스타일
+   ========================================================================== */
+.final-video-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .final-video-showcase-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+.final-video-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.final-video-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.final-video-card.featured-card {
+  border-color: rgba(245, 158, 11, 0.5);
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.04) 0%, var(--bg-card) 40%);
+}
+
+.final-video-card-header {
+  padding: 1.35rem 1.5rem 1rem;
+}
+
+.final-card-badge-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.final-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.final-badge.master-badge {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.final-badge.clean-badge {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.final-tag {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.final-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.45rem;
+  line-height: 1.4;
+}
+
+.final-card-desc {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 0;
+}
+
+.final-video-player-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  background: #000;
+}
+
+.final-video-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.final-video-footer {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.15);
+  border-top: 1px solid var(--border-subtle);
+  margin-top: auto;
+}
+
+.final-specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.youtube-direct-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-md);
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.youtube-direct-link:hover {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+}
+
+/* ==========================================================================
+   [PAGE 06] 6단계 시네마틱 스토리 아크 (Story Arc) 타임라인 그리드 스타일
+   ========================================================================== */
+.final-story-arc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .final-story-arc-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.arc-step-item {
+  background: rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.arc-step-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: var(--shadow-sm);
+}
+
+.arc-step-item.highlight-step {
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.08) 0%, rgba(0, 0, 0, 0.14) 100%);
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.arc-step-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--accent-gold);
+  margin-bottom: 0.45rem;
+  text-transform: uppercase;
+}
+
+.arc-step-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.arc-step-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 0.85rem;
+  flex-grow: 1;
+}
+
+.arc-step-footer {
+  margin-top: auto;
+  padding-top: 0.65rem;
+  border-top: 1px dashed var(--border-subtle);
+}
+
+.arc-mood-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+}
+
+.arc-mood-pill.gold-pill {
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
 }
 
 

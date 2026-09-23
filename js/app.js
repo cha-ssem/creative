@@ -1701,6 +1701,8 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
     switchPage('page-prompts');
   } else if (currentHash === 'results') {
     switchPage('page-results');
+  } else if (currentHash === 'final-video' || currentHash === 'final') {
+    switchPage('page-final-video');
   } else if (currentHash === 'cert' || currentHash === 'upload') {
     window.location.href = `auth.html#${currentHash}`;
   } else {
@@ -1887,7 +1889,7 @@ if (document.readyState === 'loading') {
 
 /**
  * ==========================================================================
- * [STEP 06] 변화의 시작 인증 (참석자 인증 및 새로운 시작 다짐) 컨트롤러 로직
+ * [STEP 07] 변화의 시작 인증 (참석자 인증 및 새로운 시작 다짐) 컨트롤러 로직
  * ==========================================================================
  */
 function initCertificationPage() {
