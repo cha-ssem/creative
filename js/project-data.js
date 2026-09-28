@@ -127,7 +127,7 @@ window.PROJECT_DATA = {
       "physicalCharacteristics": "Towering stacks of 80gsm bright white A4 bond paper featuring dense black laser-printed text, colorful pie charts, and bold corporate headers. Many pages exhibit slight curling at the corners, silver galvanized steel paperclips, and neon yellow translucent highlighter streaks across key paragraphs.",
       "clothingAccessories": "",
       "backstory": "",
-      "image": "images/thumbnails/frame_03s.jpg"
+      "image": "images/Documents.jpeg"
     },
     {
       "id": "58148da2-ffea-492a-bbf7-ce05c37859f9",
@@ -136,7 +136,7 @@ window.PROJECT_DATA = {
       "physicalCharacteristics": "A sleek 14-inch workstation crafted from a single block of space-gray magnesium alloy with a sandblasted matte texture. The keyboard features low-profile chiclet keys with integrated white LED backlighting and a large, seamless glass-surface haptic trackpad.",
       "clothingAccessories": "",
       "backstory": "",
-      "image": "images/thumbnails/frame_10s.jpg"
+      "image": "images/Laptop.jpeg"
     },
     {
       "id": "c4c6c283-089f-4662-a53b-a210fcb2005e",
@@ -145,7 +145,7 @@ window.PROJECT_DATA = {
       "physicalCharacteristics": "A high-resolution software interface displayed on-screen featuring a clean minimalist layout with a soft white and charcoal gray color palette. The typography is a crisp sans-serif font, and a distinct vibrant purple and gold animated progress bar sits above a centered translucent modal window reading Task Complete.",
       "clothingAccessories": "",
       "backstory": "",
-      "image": "images/thumbnails/frame_35s.jpg"
+      "image": "images/Claude_Desktop.jpeg"
     },
     {
       "id": "06d23f66-c405-49cd-8e91-2ae7c4b5aff9",
@@ -154,13 +154,13 @@ window.PROJECT_DATA = {
       "physicalCharacteristics": "A sophisticated, premium coffee mug suitable for a successful Korean female CEO in her 60s. The mug has a refined minimalist design with an elegant cylindrical silhouette, smooth curved edges, and a comfortable, gracefully shaped handle. It is made of high-quality ceramic or fine porcelain in a bright, elegant color such as soft ivory, warm cream, light beige, pale blush, or muted pastel blue, giving it a polished and uplifting feel. A subtle thin gold rim adds an understated luxurious touch. The surface is clean and free of logos, text, illustrations, or decorative patterns. Its proportions feel substantial yet elegant, conveying professionalism, confidence, and timeless executive taste. The overall design is modern, restrained, and high-end, suitable for use in an executive office or corporate boardroom. Photorealistic materials, realistic ceramic texture, subtle reflections, premium craftsmanship, sophisticated corporate aesthetic.",
       "clothingAccessories": "",
       "backstory": "",
-      "image": "images/thumbnails/frame_20s.jpg"
+      "image": "images/Coffee_Cup.jpeg"
     },
     {
       "id": "8c72f6a7-58ba-441c-86ea-ebfe29fddd55",
       "type": "location",
       "name": "Cityscape",
-      "physicalCharacteristics": "A sprawling metropolitan horizon featuring a dense cluster of modern glass and steel skyscrapers ranging from thirty to sixty stories in height. The architectural style is contemporary corporate, characterized by sleek reflective surfaces, sharp geometric silhouettes, and visible rooftop mechanical units. Below the high-rise level, a network of paved streets is visible, lined with smaller commercial buildings and occasional patches of urban greenery.",
+      "physicalCharacteristics": "A sprawling metropolitan horizon featuring a dense cluster of modern glass and steel skyscrapers ranging from thirty to sixty stories in height. The architectural style is contemporary corporate, characterized by sleek reflective surfaces, sharp geometric silhouettes, and visible rooftop mechanical units. Below high-rise level, a network of paved streets is visible, lined with smaller commercial buildings and occasional patches of urban greenery.",
       "clothingAccessories": "",
       "backstory": "",
       "image": "images/Cityscape.jpeg"
@@ -181,7 +181,7 @@ window.PROJECT_DATA = {
       "physicalCharacteristics": "The notepad features a stiff charcoal-gray Saffiano leather cover with a matte, cross-hatch texture and precise tonal stitching along the edges. Inside, thick ivory-tinted vellum pages are bound by a heavy-duty, brushed titanium double-coil spiral that glints under office lighting.",
       "clothingAccessories": "",
       "backstory": "",
-      "image": "images/thumbnails/clip08_shot13.jpg"
+      "image": "images/Notepad.jpeg"
     },
     {
       "id": "d8e4f1a2-3b5c-4e7d-91a0-62e84d12f35b",

@@ -29,10 +29,10 @@ const assetImageMapping = {
   'Meeting Room': 'images/Meeting_room.jpeg',
   'Cityscape (Night)': 'images/thumbnails/frame_00s.jpg',
   'Cityscape (Day)': 'images/thumbnails/frame_39s.jpg',
-  'Documents Pile': 'images/thumbnails/frame_03s.jpg',
-  'Documents': 'images/thumbnails/frame_03s.jpg',
-  'Laptop': 'images/thumbnails/frame_10s.jpg',
-  'Coffee Cup': 'images/thumbnails/frame_20s.jpg',
+  'Documents Pile': 'images/Documents.jpeg',
+  'Documents': 'images/Documents.jpeg',
+  'Laptop': 'images/Laptop.jpeg',
+  'Coffee Cup': 'images/Coffee_Cup.jpeg',
   'Smartphone': 'images/thumbnails/clip07_shot11.jpg',
   'Trainees': 'images/Trainees.jpeg',
   'Employees': 'images/Employees.jpeg',
@@ -42,9 +42,9 @@ const assetImageMapping = {
   'Instructor': 'images/Instructor.jpeg',
   'CEO Office': 'images/CEO_Office.jpeg',
   'Training Center': 'images/Training_Center.jpeg',
-  'Claude Desktop': 'images/thumbnails/frame_35s.jpg',
+  'Claude Desktop': 'images/Claude_Desktop.jpeg',
   'Cityscape': 'images/Cityscape.jpeg',
-  'Notepad': 'images/thumbnails/clip08_shot13.jpg'
+  'Notepad': 'images/Notepad.jpeg'
 };
 
 if (data.assets) {
