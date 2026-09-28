@@ -57,27 +57,27 @@ if (data.assets) {
   });
 }
 
-// 19개 콘티 샷 프레임별 전용 썸네일 매핑
+// 19개 콘티 샷 프레임별 전용 썸네일 매핑 (images/storyboard/)
 const frameThumbnails = [
-  'images/thumbnails/clip01_shot01.jpg', // Shot 1
-  'images/thumbnails/clip02_shot02.jpg', // Shot 2
-  'images/thumbnails/frame_03s.jpg',     // Shot 3
-  'images/thumbnails/frame_06s.jpg',     // Shot 4
-  'images/thumbnails/clip03_shot04.jpg', // Shot 5
-  'images/thumbnails/frame_10s.jpg',     // Shot 6
-  'images/thumbnails/clip04_shot06.jpg', // Shot 7
-  'images/thumbnails/frame_15s.jpg',     // Shot 8
-  'images/thumbnails/clip05_shot08.jpg', // Shot 9
-  'images/thumbnails/clip06_shot09.jpeg',// Shot 10
-  'images/thumbnails/frame_20s.jpg',     // Shot 11
-  'images/thumbnails/clip07_shot11.jpg', // Shot 12
-  'images/thumbnails/clip08_shot13.jpg', // Shot 13
-  'images/thumbnails/frame_25s.jpg',     // Shot 14
-  'images/thumbnails/clip09_shot14.jpg', // Shot 15
-  'images/thumbnails/clip10_shot15.jpg', // Shot 16
-  'images/thumbnails/frame_30s.jpg',     // Shot 17
-  'images/thumbnails/frame_35s.jpg',     // Shot 18
-  'images/thumbnails/clip11_shot17.jpg'  // Shot 19
+  'images/storyboard/1-1_The_Lonely_Skyscraper_20260910115831.jpeg',       // Shot 1
+  'images/storyboard/1-2_The_Fatigued_CEO_20260910115840.jpeg',            // Shot 2
+  'images/storyboard/1-3_Buried_in_Paperwork_20260910115847.jpeg',         // Shot 3
+  'images/storyboard/2-1_The_Training_Screen_20260910115858.jpeg',         // Shot 4
+  'images/storyboard/2-2_The_Training_Session_20260910115903.jpeg',        // Shot 5
+  'images/storyboard/2-3_Hands-On_Experience_20260910115908.jpeg',         // Shot 6
+  'images/storyboard/2-4_A_Moment_of_Discovery_20260910115919.jpeg',       // Shot 7
+  'images/storyboard/3-1_Morning_Office_Arrival_20260910120535.jpeg',      // Shot 8
+  'images/storyboard/3-2_Prompting_the_AI_20260910120328.jpeg',            // Shot 9
+  'images/storyboard/3-3_Organized_Schedule_Approval_20260910120333.jpeg', // Shot 10
+  'images/storyboard/4-1_Instant_Report_Synthesis_20260910120341.jpeg',    // Shot 11
+  'images/storyboard/4-2_Professional_Email_Polishing_20260910120346.jpeg',// Shot 12
+  'images/storyboard/4-3_Creative_Idea_Expansion_20260910120351.jpeg',     // Shot 13
+  'images/storyboard/5-1_A_Transformed_Space_20260910120358.jpeg',         // Shot 14
+  'images/storyboard/5-2_Mission_Accomplished_20260910120401.jpeg',        // Shot 15
+  'images/storyboard/5-3_Quiet_Confidence_20260910120413.jpeg',            // Shot 16
+  'images/storyboard/6-1_The_Lonely_CEO_20260910120420.jpeg',              // Shot 17
+  'images/storyboard/6-2_Cityscape_Pullback_20260910120435.jpeg',          // Shot 18
+  'images/storyboard/6-3_The_Final_Message_20260910120444.jpeg'            // Shot 19
 ];
 
 if (data.frames) {

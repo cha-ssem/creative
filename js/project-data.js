@@ -5,7 +5,7 @@
  */
 
 window.PROJECT_DATA = {
-  "version": "1.3",
+  "version": "1.2",
   "projectTitle": "생성형 AI로 달라진 CEO의 하루",
   "globalStyle": "Realistic",
   "fullMarkdown": "# 생성형 AI로 달라진 CEO의 하루\n\n**전체 콘셉트**\n\n장르: 기업 브랜디드 스토리 / 시네마틱 광고러닝타임: 약 80~100초주인공: 50대 한국인 여성 CEO스타일: 현실적이고 세련된 시네마틱 영상, 프리미엄 기업 광고 분위기스토리 흐름:야근과 반복 업무 → 생성형 AI 교육 → 시행착오와 활용 → 업무 방식 변화 → 여유 주인공 일관성 설정 50대 중반의 한국인 여성 CEO.단정한 어깨 길이의 검은 머리에 자연스러운 새치가 약간 섞여 있으며, 지적이고 차분하면서도 리더십이 느껴지는 인상.네이비 또는 차콜 계열의 세련된 비즈니스 정장을 착용한다.초반에는 피곤하고 무거운 표정이지만, 이야기가 진행되면서 점차 표정이 밝아지고 자신감과 여유가 생긴다.\n\n* * *\n\n<!-- scene-id: scene-423ac0d9-5596-42af-a857-5b4209905fee -->\n### SCENE 1. 늦은 밤의 도시, 혼자 남은 CEO\n\n**시간:** 6~8초\n\n늦은 밤의 대도시.\n\n수많은 고층 빌딩이 어둠 속에 잠겨 있다.\n대부분의 사무실은 불이 꺼져 있다.\n\n카메라는 천천히 도시의 빌딩 사이를 이동한다.\n\n한 높은 빌딩의 상층부.\n\n거의 모든 창문이 어두운 가운데, 단 하나의 사무실에서 희미한 불빛이 새어나온다.\n\n카메라가 그 창문을 향해 천천히 다가간다.\n\n##### **카메라:**\nWide aerial shot → slow cinematic push-in\n\n##### **분위기:**\n차갑고 조용한 밤.\n블루와 그레이 톤.\n외로운 분위기.\n\n* * *\n\n**시간:** 8~10초\n\n넓고 현대적인 CEO 사무실.\n\n50대 여성 CEO가 혼자 책상 앞에 앉아 있다.\n\n그녀는 모니터를 응시하고 있다.\n\n모니터의 차가운 푸른 빛이 지친 얼굴을 비춘다.\n\n눈가에는 피로가 묻어 있고 표정은 어둡고 무겁다.\n\nCEO가 천천히 모니터에서 눈을 떼고 사무실 주변을 바라본다.\n\n카메라가 그녀의 시선을 따라 움직인다.\n\n책상 위.\n\n옆 테이블.\n\n캐비닛 주변.\n\n검토해야 할 보고서와 제안서, 출력된 문서가 높이 쌓여 있다.\n\nCEO는 서류 더미를 한동안 바라본다.\n\n그리고 의자에 몸을 기대며 깊은 한숨을 내쉰다.\n\n##### **카메라:**\nMedium shot → close-up → slow pan across piles of documents\n\n##### **사운드:**\n조용한 사무실의 공조기 소리.\n키보드 소리.\nCEO의 깊은 한숨.\n\n* * *\n\n<!-- scene-id: scene-9d80f90b-4d5a-4294-877b-5c3f317f7ace -->\n### SCENE 2. 생성형 AI 교육\n\n**시간:** 10~12초\n\n장면 전환.\n\n밝은 낮.\n\n현대적이고 깨끗한 기업 교육장.\n\n큰 창문으로 자연광이 들어온다.\n\n여성 CEO가 여러 교육생들과 함께 자리에 앉아 있다.\n\n전면 대형 화면에는\n\n**“생성형 AI 활용 교육”**\n\n이라는 제목이 보인다.\n\n강사가 생성형 AI 활용 방법을 설명하고 있다.\n\nCEO는 처음에는 조금 낯선 표정으로 화면을 바라본다.\n\n노트북을 열고 강사의 설명을 따라 직접 생성형 AI를 사용한다.\n\n강사가 화면에서 업무 문서를 작성하고,\n긴 정보를 요약하고,\n아이디어를 발전시키고,\n보고서 구조를 만드는 과정을 시연한다.\n\nCEO가 노트북에 직접 프롬프트를 입력한다.\n\n잠시 후 화면에 빠르게 결과가 생성된다.\n\nCEO의 눈빛이 달라진다.\n\n조금 놀란 듯 화면을 바라보다 작은 미소를 짓는다.\n\n##### **카메라:**\nBright wide shot → over-the-shoulder laptop shot → close-up reaction\n\n##### **분위기:**\n밝고 긍정적인 분위기.\n따뜻한 자연광.\n\n* * *\n\n<!-- scene-id: scene-6990796d-479a-448d-af77-236ff0accfd9 -->\n### SCENE 3. AI와 시작하는 아침\n\n**시간:** 5~6초\n\n빠른 몽타주 시작.\n\n아침.\n\nCEO가 밝은 사무실에 출근한다.\n\n커피를 책상에 놓고 노트북을 연다.\n\n생성형 AI 채팅창에 입력한다.\n\n**CEO 입력**\n\n“오늘 일정과 주요 업무를 우선순위별로 정리해줘.”\n\n잠시 후 화면에 정리된 일정이 나타난다.\n\nCEO가 만족스럽게 고개를 끄덕인다.\n\n* * *\n\n<!-- scene-id: scene-dee7b9ad-d9b0-43c7-9d7e-58cfaa4cf852 -->\n### SCENE 4. 긴 회의자료 요약, 이메일 작성, 새로운 사업 아이디어\n\n**시간:** 5~6초\n\n회의 직전.\n\nCEO가 긴 보고서를 화면에 띄운다.\n\n수십 페이지에 달하는 자료.\n\n그녀가 생성형 AI에게 자료를 요약하도록 요청한다.\n\n화면에 핵심 내용과 주요 포인트가 빠르게 정리된다.\n\nCEO가 핵심 내용을 확인하며 회의실로 이동한다.\n\n##### **카메라:**\nScreen close-up → CEO reaction → tracking shot\n\n* * *\n\n**시간:** 5~6초\n\nCEO가 이메일을 작성하고 있다.\n\n문장을 잠시 바라보다 생성형 AI에게 요청한다.\n\n**CEO 입력**\n\n“이 내용을 더 자연스럽고 전문적인 비즈니스 이메일로 다듬어줘.”\n\nAI가 문장을 수정한다.\n\nCEO가 결과를 읽고 미소를 지은 뒤 이메일을 전송한다.\n\n* * *\n\n**시간:** 6~7초\n\n회의가 끝난 오후.\n\nCEO가 화이트보드 앞에서 혼자 새로운 사업 아이디어를 고민한다.\n\n잠시 생각하다 노트북 앞에 앉는다.\n\n생성형 AI와 대화를 주고받는다.\n\n아이디어가 화면에 하나씩 확장된다.\n\nCEO가 메모지에 새로운 아이디어를 빠르게 적는다.\n\n표정이 점점 흥미롭게 변한다.\n\n* * *\n\n* * *\n\n<!-- scene-id: scene-af565724-af63-4567-9d02-dd3681b453d0 -->\n### SCENE 5. 다시 CEO 사무실\n\n**시간:** 7~8초\n\n며칠 후.\n\n카메라가 익숙한 CEO 사무실 복도를 따라 이동한다.\n\nCEO 사무실 문 앞에 도착한다.\n\n문이 천천히 열린다.\n\n하지만 이전과 분위기가 완전히 다르다.\n\n사무실은 밝고 정돈되어 있다.\n\n햇빛이 창문을 통해 들어온다.\n\n과거 책상과 테이블을 가득 채우고 있던 서류 더미는 사라졌다.\n\n책상 위에는 노트북과 작은 노트, 커피잔만 깔끔하게 놓여 있다.\n\nCEO가 여유로운 표정으로 모니터를 바라보고 있다.\n\n* * *\n\n**시간:** 6~7초\n\n카메라가 CEO의 어깨 뒤에서 천천히 모니터를 향해 이동한다.\n\n모니터에는 **Claude Desktop**이 실행되어 있다.\n\n화면에는 완성된 제안서 프레젠테이션이 보인다.\n\n깔끔하게 디자인된 슬라이드.\n\n잠시 후 작은 메시지 창이 나타난다.\n\n**“작업 완료”**\n\nCEO가 화면을 바라본다.\n\n그리고 만족스럽게 미소 짓는다.\n\n의자에 편안하게 몸을 기대며 잠시 숨을 고른다.\n\n* * *\n\n* * *\n\n<!-- scene-id: scene-02301e0d-c49e-4ff7-ae47-fb8a732c455f -->\n### FINAL SHOT\n\n##### 카메라는 사무실 밖으로 천천히 멀어진다.\n\n##### 창밖으로 밝은 도시가 펼쳐진다.\n\n##### 늦은 밤 홀로 일하던 CEO의 모습은 더 이상 없다.\n\n##### 화면이 천천히 페이드아웃된다.\n\n##### 엔딩 카피\n\n##### **“생성형 AI가 바꾸는 것은\n단순히 업무의 속도가 아닙니다.”**\n\n##### 잠시 후.\n\n##### **“일하는 방식이 바뀌면,\n우리의 시간도 달라집니다.”**\n\n##### 마지막 화면.\n\n##### **생성형 AI와 함께 만드는 새로운 업무의 여유**\n\n##### Fade out.",
@@ -79,27 +79,27 @@ window.PROJECT_DATA = {
       "id": "a608c1e6-28e1-4ac6-b8ca-9c48ec75b311",
       "type": "character",
       "name": "Young Employee",
-      "physicalCharacteristics": "A bright, energetic Korean young female employee in her mid-20s. Natural dark brown hair tied into a clean high ponytail with subtle loose strands framing her face, fair clear skin, expressive round dark eyes, and a fresh, intelligent, and focused gaze. Slender modern frame with an eager and approachable presence. Photorealistic, youthful, vibrant corporate rookie.",
-      "clothingAccessories": "She wears an oversized cozy beige chunky ribbed knit crewneck sweater layered over a crisp collared white button-up shirt, paired with tailored black high-waisted pleat trousers. A distinctive colorful beaded neck strap with an acrylic employee ID badge hangs gracefully over her sweater. Modern smart office casual styling.",
-      "backstory": "A tech-savvy young professional in the company who rapidly adapts to AI tools and represents the forward-looking generation driving workplace agility and creative productivity.",
+      "physicalCharacteristics": "She is a Korean woman in her mid-20s with a youthful, rounded face and a petite, energetic frame. Her long dark brown hair is tied back into a sleek, high ponytail with no stray strands. She has large, bright eyes and a small, upturned nose.",
+      "clothingAccessories": "She wears an oversized beige knitted sweater over a white collared shirt and black pleated trousers. She sports a colorful beaded lanyard for her employee ID and a digital smartwatch with a bright orange silicone band.",
+      "backstory": "A tech-savvy digital native who joined the company recently, she is naturally proficient with emerging software. She acts as an informal mentor to her superiors regarding new workplace technologies.",
       "image": "images/Young_Employee.jpeg"
     },
     {
       "id": "4f825a82-4ec2-4700-a9ab-8437c8d8c6ad",
       "type": "character",
       "name": "Employees",
-      "physicalCharacteristics": "A handsome, professional Korean male employee in his early to mid-30s with a clean-cut executive appearance. Short neat black hair styled with a side-part, warm intelligent dark brown eyes, refined approachable facial features, fair clear skin with a composed and friendly expression. Tall, lean, athletic corporate build conveying competence and modern corporate vitality. Photorealistic, clean, professional.",
-      "clothingAccessories": "He wears a sharp dark navy tailored single-breasted blazer over a crisp open-collar white dress shirt, charcoal gray tailored trousers, and brown leather dress shoes. A blue company lanyard with an employee ID badge hangs around his neck. In one hand, he holds a navy ceramic coffee mug. Minimalist, modern smart-casual corporate attire.",
-      "backstory": "A dedicated and competent corporate team member who collaborates closely with senior leadership and actively embraces digital transformation and AI workflow innovations.",
+      "physicalCharacteristics": "He is a Korean man in his 30s with a neat, approachable, and professional appearance. He has an average build and a healthy, well-groomed look. His face has a balanced oval-to-slightly rectangular shape, clear skin, and a calm, attentive expression. He has dark brown to black hair, neatly styled in a clean short haircut, such as a side part or a softly textured style. His eyes are dark brown and focused, conveying reliability, friendliness, and competence. Overall, he appears polished, capable, and energetic, like a modern Korean office employee in a professional workplace.",
+      "clothingAccessories": "He wears smart business-casual attire, such as tailored slacks or chinos in neutral tones like navy, charcoal, or beige, paired with a crisp button-down shirt or a fine-knit sweater. He may also wear a lightweight blazer or cardigan for a more polished office look. His shoes are clean leather loafers or simple minimalist sneakers suitable for a modern workplace. He wears an employee ID card visibly around his neck on a lanyard, reinforcing the look of a real office worker in a corporate environment. The lanyard is simple and professional, and the ID badge is clearly visible but understated. Additional accessories are minimal and practical, such as a simple wristwatch, a leather belt, and a solid-colored ceramic coffee mug in matte black, navy, or white.",
+      "backstory": "This collective workforce has transitioned from a high-stress environment to a more collaborative culture following the implementation of AI efficiency. They represent the modern professional standard of work-life balance.",
       "image": "images/Employees.jpeg"
     },
     {
-      "id": "b8c35d91-49e0-4c7b-a25e-38d6f51f98bc",
+      "id": "0213d9fe-3088-4124-9731-38c4568aee3d",
       "type": "character",
       "name": "Trainees",
-      "physicalCharacteristics": "A smart, attentive Korean male professional and corporate trainee in his late 30s to early 40s with an intellectual, approachable presence. Neat dark hair styled with a refined side-part, modern dark-rimmed rectangular eyeglasses, clear warm skin tone, intelligent dark brown eyes, and a focused, respectful learning expression. Tall, well-proportioned corporate build conveying diligence and enthusiasm for AI technology.",
-      "clothingAccessories": "He wears a smart-casual dark navy unstructured blazer layered over a heather charcoal gray crewneck sweater and a light blue collared button-up dress shirt, paired with medium gray tailored trousers, a brown leather belt, and classic dark brown leather dress shoes. A silver wristwatch on his left wrist. Clean, modern business-casual seminar styling.",
-      "backstory": "A dedicated corporate team member and fellow trainee participating in the executive generative AI training seminar alongside the female CEO, highly motivated to master prompt engineering and drive digital transformation in team workflows.",
+      "physicalCharacteristics": "He is a Korean man in his 40s with a mature, attentive, and professional appearance. He has an average build and a calm, thoughtful presence. His face is well-balanced with a slightly oval to rectangular shape, clear to lightly textured skin, and refined, age-appropriate features. He may have short dark brown to black hair, neatly styled, with slight natural signs of aging such as faint smile lines or subtle graying at the temples. His eyes are dark brown and focused, with an intelligent and engaged expression that reflects curiosity and professionalism. Overall, he appears like an experienced working professional participating seriously in a generative AI training course.",
+      "clothingAccessories": "He is dressed in smart business-casual attire suitable for a professional training environment, such as a clean button-down shirt, a fine-knit sweater, or a simple blazer in neutral tones like navy, gray, beige, or soft blue. He may wear tailored slacks or dark chinos for a polished yet comfortable look. Accessories are practical and understated, such as rectangular reading glasses, a simple wristwatch, and a wedding band. Overall styling is neat, modern, and professional, appropriate for a Korean male learner in his 40s attending a generative AI class.",
+      "backstory": "These are fellow industry leaders and managers who have gathered to modernize their skill sets. They share the common goal of integrating new technological tools into their established traditional business practices.",
       "image": "images/Trainees.jpeg"
     },
     {
@@ -119,6 +119,15 @@ window.PROJECT_DATA = {
       "clothingAccessories": "",
       "backstory": "",
       "image": "images/Training_Center.jpeg"
+    },
+    {
+      "id": "a940fd58-6e70-4554-bfb1-03cf78a3fda1",
+      "type": "prop",
+      "name": "Monitor",
+      "physicalCharacteristics": "A 32-inch ultra-thin bezel-less display featuring a matte black anodized aluminum frame and a brushed metallic silver base. The screen surface is a high-contrast anti-glare glass that reflects a soft cool-toned luminescence from the internal LED backlighting.",
+      "clothingAccessories": "",
+      "backstory": "",
+      "image": "images/Monitor.jpeg"
     },
     {
       "id": "3745e856-4753-4057-b200-06998282725b",
@@ -160,19 +169,19 @@ window.PROJECT_DATA = {
       "id": "8c72f6a7-58ba-441c-86ea-ebfe29fddd55",
       "type": "location",
       "name": "Cityscape",
-      "physicalCharacteristics": "A sprawling metropolitan horizon featuring a dense cluster of modern glass and steel skyscrapers ranging from thirty to sixty stories in height. The architectural style is contemporary corporate, characterized by sleek reflective surfaces, sharp geometric silhouettes, and visible rooftop mechanical units. Below high-rise level, a network of paved streets is visible, lined with smaller commercial buildings and occasional patches of urban greenery.",
+      "physicalCharacteristics": "A sprawling metropolitan horizon featuring a dense cluster of modern glass and steel skyscrapers ranging from thirty to sixty stories in height. The architectural style is contemporary corporate, characterized by sleek reflective surfaces, sharp geometric silhouettes, and visible rooftop mechanical units. Below the high-rise level, a network of paved streets is visible, lined with smaller commercial buildings and occasional patches of urban greenery.",
       "clothingAccessories": "",
       "backstory": "",
       "image": "images/Cityscape.jpeg"
     },
     {
-      "id": "e93d1810-72a3-4a11-9f20-8012bc0b784a",
-      "type": "location",
-      "name": "Meeting Room",
-      "physicalCharacteristics": "A bright, contemporary corporate conference room featuring a large solid wood meeting table, comfortable ergonomic leather chairs, clear glass partitions, and warm architectural lighting for executive collaboration.",
+      "id": "bf1a49e3-e5e4-42e2-8afb-f02600bbff41",
+      "type": "prop",
+      "name": "Desk",
+      "physicalCharacteristics": "A heavy, minimalist executive desk crafted from polished obsidian-black lacquer over a solid maple core, featuring a seamless, expansive rectangular top with a high-gloss finish that reflects the monitor light. The structure is supported by thick, integrated slab legs with subtle brushed-chrome trim along the base, maintaining a pristine and unblemished surface texture devoid of visible drawers or handles.",
       "clothingAccessories": "",
-      "backstory": "An executive collaboration space where the CEO and team members review strategic proposals and collaborate on AI-driven workflows.",
-      "image": "images/Meeting_room.jpeg"
+      "backstory": "",
+      "image": "images/Desk.jpeg"
     },
     {
       "id": "40b9307d-74a6-4875-943b-241e12c74a49",
@@ -184,13 +193,22 @@ window.PROJECT_DATA = {
       "image": "images/Notepad.jpeg"
     },
     {
-      "id": "d8e4f1a2-3b5c-4e7d-91a0-62e84d12f35b",
+      "id": "9dfb8dda-3054-443f-970f-f97732579b68",
       "type": "prop",
       "name": "Pen",
-      "physicalCharacteristics": "A premium, weighted executive ballpoint pen crafted from solid brushed stainless steel and titanium alloy with a refined matte metallic finish. Features a cross-hatched knurled diamond-pattern grip section for ergonomic control, a polished chrome center band ring, a sleek spring-steel pocket clip, and a smooth tactile top click mechanism. Photorealistic, minimalist, durable, and luxurious corporate writing instrument.",
+      "physicalCharacteristics": "A slim, professional executive ballpoint pen crafted from polished gunmetal-gray titanium with a subtle brushed metallic texture. The clip and midpoint ring are accented with high-gloss chrome, while the knurled grip section features a precision-etched diamond pattern for tactical friction.",
       "clothingAccessories": "",
-      "backstory": "A signature executive pen used by the CEO for strategic planning, brainstorming notes, and signing key business partnerships.",
+      "backstory": "",
       "image": "images/Pen.jpeg"
+    },
+    {
+      "id": "189743ab-d2fe-4abd-8584-966e2e55f2e4",
+      "type": "location",
+      "name": "Meeting Room",
+      "physicalCharacteristics": "A medium-sized rectangular conference room featuring floor-to-ceiling glass walls on one side and light grey acoustic paneling on the others. A long, white minimalist conference table seats ten ergonomic charcoal mesh chairs, while a high-definition 85-inch flat screen is mounted on the front wall. Recessed LED strip lighting in the ceiling provides a bright, flicker-free environment, complemented by subtle silver cable management ports on the tabletop.",
+      "clothingAccessories": "",
+      "backstory": "",
+      "image": "images/Meeting_room.jpeg"
     },
     {
       "id": "fecbbb1d-307b-490e-94ac-82ac3543ce1f",
@@ -215,9 +233,10 @@ window.PROJECT_DATA = {
       "motionDescription": "A slow, cinematic push-in toward the single glowing window of the skyscraper.",
       "audioDescription": "A low, ambient hum of city traffic in the distance, muffled by the height. The sound of a cold wind whistling softly between the buildings.",
       "linkedAssetIds": [
-        "8c72f6a7-58ba-441c-86ea-ebfe29fddd55"
+        "8c72f6a7-58ba-441c-86ea-ebfe29fddd55",
+        "a0e15db9-a9eb-409c-9919-14d72b3f928b"
       ],
-      "image": "images/thumbnails/clip01_shot01.jpg"
+      "image": "images/storyboard/1-1_The_Lonely_Skyscraper_20260910115831.jpeg"
     },
     {
       "index": 2,
@@ -233,10 +252,11 @@ window.PROJECT_DATA = {
       "linkedAssetIds": [
         "08269355-3126-4dee-a380-b5fed8254130",
         "c5a86692-530d-4efe-8b1a-ffa28f18b5ff",
+        "bf1a49e3-e5e4-42e2-8afb-f02600bbff41",
         "58148da2-ffea-492a-bbf7-ce05c37859f9",
         "3745e856-4753-4057-b200-06998282725b"
       ],
-      "image": "images/thumbnails/clip02_shot02.jpg"
+      "image": "images/storyboard/1-2_The_Fatigued_CEO_20260910115840.jpeg"
     },
     {
       "index": 3,
@@ -252,9 +272,10 @@ window.PROJECT_DATA = {
       "linkedAssetIds": [
         "08269355-3126-4dee-a380-b5fed8254130",
         "3745e856-4753-4057-b200-06998282725b",
-        "58148da2-ffea-492a-bbf7-ce05c37859f9"
+        "58148da2-ffea-492a-bbf7-ce05c37859f9",
+        "bf1a49e3-e5e4-42e2-8afb-f02600bbff41"
       ],
-      "image": "images/thumbnails/frame_03s.jpg"
+      "image": "images/storyboard/1-3_Buried_in_Paperwork_20260910115847.jpeg"
     },
     {
       "index": 4,
@@ -270,7 +291,7 @@ window.PROJECT_DATA = {
       "linkedAssetIds": [
         "fecbbb1d-307b-490e-94ac-82ac3543ce1f"
       ],
-      "image": "images/thumbnails/frame_06s.jpg"
+      "image": "images/storyboard/2-1_The_Training_Screen_20260910115858.jpeg"
     },
     {
       "index": 5,
@@ -286,10 +307,9 @@ window.PROJECT_DATA = {
       "linkedAssetIds": [
         "08269355-3126-4dee-a380-b5fed8254130",
         "2e74b00d-5b95-403a-8f99-60e7903f8ff1",
-        "e03acf45-9e17-47a5-805b-56f6088cfb72",
-        "b8c35d91-49e0-4c7b-a25e-38d6f51f98bc"
+        "e03acf45-9e17-47a5-805b-56f6088cfb72"
       ],
-      "image": "images/thumbnails/clip03_shot04.jpg"
+      "image": "images/storyboard/2-2_The_Training_Session_20260910115903.jpeg"
     },
     {
       "index": 6,
@@ -309,7 +329,7 @@ window.PROJECT_DATA = {
         "e03acf45-9e17-47a5-805b-56f6088cfb72",
         "fecbbb1d-307b-490e-94ac-82ac3543ce1f"
       ],
-      "image": "images/thumbnails/frame_10s.jpg"
+      "image": "images/storyboard/2-3_Hands-On_Experience_20260910115908.jpeg"
     },
     {
       "index": 7,
@@ -327,7 +347,7 @@ window.PROJECT_DATA = {
         "2e74b00d-5b95-403a-8f99-60e7903f8ff1",
         "e03acf45-9e17-47a5-805b-56f6088cfb72"
       ],
-      "image": "images/thumbnails/clip04_shot06.jpg"
+      "image": "images/storyboard/2-4_A_Moment_of_Discovery_20260910115919.jpeg"
     },
     {
       "index": 8,
@@ -345,9 +365,10 @@ window.PROJECT_DATA = {
         "c5a86692-530d-4efe-8b1a-ffa28f18b5ff",
         "58148da2-ffea-492a-bbf7-ce05c37859f9",
         "8c72f6a7-58ba-441c-86ea-ebfe29fddd55",
+        "bf1a49e3-e5e4-42e2-8afb-f02600bbff41",
         "06d23f66-c405-49cd-8e91-2ae7c4b5aff9"
       ],
-      "image": "images/thumbnails/frame_15s.jpg"
+      "image": "images/storyboard/3-1_Morning_Office_Arrival_20260910120535.jpeg"
     },
     {
       "index": 9,
@@ -365,7 +386,7 @@ window.PROJECT_DATA = {
         "58148da2-ffea-492a-bbf7-ce05c37859f9",
         "c4c6c283-089f-4662-a53b-a210fcb2005e"
       ],
-      "image": "images/thumbnails/clip05_shot08.jpg"
+      "image": "images/storyboard/3-2_Prompting_the_AI_20260910120328.jpeg"
     },
     {
       "index": 10,
@@ -381,10 +402,11 @@ window.PROJECT_DATA = {
       "linkedAssetIds": [
         "08269355-3126-4dee-a380-b5fed8254130",
         "06d23f66-c405-49cd-8e91-2ae7c4b5aff9",
+        "bf1a49e3-e5e4-42e2-8afb-f02600bbff41",
         "c5a86692-530d-4efe-8b1a-ffa28f18b5ff",
         "c4c6c283-089f-4662-a53b-a210fcb2005e"
       ],
-      "image": "images/thumbnails/clip06_shot09.jpeg"
+      "image": "images/storyboard/3-3_Organized_Schedule_Approval_20260910120333.jpeg"
     },
     {
       "index": 11,
@@ -398,9 +420,13 @@ window.PROJECT_DATA = {
       "motionDescription": "The camera starts with a tight close-up on the monitor's text before pulling back to capture the Female CEO's reaction and following her as she moves toward the door.",
       "audioDescription": "A swift, digital skimming sound as the text scrolls rapidly, followed by a satisfying chime as the summary highlights appear. The subtle rustle of paper as she gathers her documents accompanies the sound of her steady footsteps.",
       "linkedAssetIds": [
-        "08269355-3126-4dee-a380-b5fed8254130"
+        "08269355-3126-4dee-a380-b5fed8254130",
+        "bf1a49e3-e5e4-42e2-8afb-f02600bbff41",
+        "189743ab-d2fe-4abd-8584-966e2e55f2e4",
+        "a608c1e6-28e1-4ac6-b8ca-9c48ec75b311",
+        "4f825a82-4ec2-4700-a9ab-8437c8d8c6ad"
       ],
-      "image": "images/thumbnails/frame_20s.jpg"
+      "image": "images/storyboard/4-1_Instant_Report_Synthesis_20260910120341.jpeg"
     },
     {
       "index": 12,
@@ -420,7 +446,7 @@ window.PROJECT_DATA = {
         "06d23f66-c405-49cd-8e91-2ae7c4b5aff9",
         "c5a86692-530d-4efe-8b1a-ffa28f18b5ff"
       ],
-      "image": "images/thumbnails/clip07_shot11.jpg"
+      "image": "images/storyboard/4-2_Professional_Email_Polishing_20260910120346.jpeg"
     },
     {
       "index": 13,
@@ -437,10 +463,10 @@ window.PROJECT_DATA = {
         "08269355-3126-4dee-a380-b5fed8254130",
         "58148da2-ffea-492a-bbf7-ce05c37859f9",
         "40b9307d-74a6-4875-943b-241e12c74a49",
-        "c5a86692-530d-4efe-8b1a-ffa28f18b5ff",
-        "d8e4f1a2-3b5c-4e7d-91a0-62e84d12f35b"
+        "9dfb8dda-3054-443f-970f-f97732579b68",
+        "c5a86692-530d-4efe-8b1a-ffa28f18b5ff"
       ],
-      "image": "images/thumbnails/clip08_shot13.jpg"
+      "image": "images/storyboard/4-3_Creative_Idea_Expansion_20260910120351.jpeg"
     },
     {
       "index": 14,
@@ -455,13 +481,15 @@ window.PROJECT_DATA = {
       "audioDescription": "The muffled sounds of the office hallway transition into a peaceful, airy silence inside the room. A soft, uplifting ambient track begins to play, underscoring the change in mood. The gentle clink of a ceramic coffee cup being set down is heard.",
       "linkedAssetIds": [
         "c5a86692-530d-4efe-8b1a-ffa28f18b5ff",
+        "bf1a49e3-e5e4-42e2-8afb-f02600bbff41",
         "58148da2-ffea-492a-bbf7-ce05c37859f9",
         "40b9307d-74a6-4875-943b-241e12c74a49",
+        "9dfb8dda-3054-443f-970f-f97732579b68",
         "06d23f66-c405-49cd-8e91-2ae7c4b5aff9",
         "8c72f6a7-58ba-441c-86ea-ebfe29fddd55",
         "3745e856-4753-4057-b200-06998282725b"
       ],
-      "image": "images/thumbnails/frame_25s.jpg"
+      "image": "images/storyboard/5-1_A_Transformed_Space_20260910120358.jpeg"
     },
     {
       "index": 15,
@@ -481,9 +509,10 @@ window.PROJECT_DATA = {
         "3745e856-4753-4057-b200-06998282725b",
         "58148da2-ffea-492a-bbf7-ce05c37859f9",
         "06d23f66-c405-49cd-8e91-2ae7c4b5aff9",
-        "40b9307d-74a6-4875-943b-241e12c74a49"
+        "40b9307d-74a6-4875-943b-241e12c74a49",
+        "9dfb8dda-3054-443f-970f-f97732579b68"
       ],
-      "image": "images/thumbnails/clip09_shot14.jpg"
+      "image": "images/storyboard/5-2_Mission_Accomplished_20260910120401.jpeg"
     },
     {
       "index": 16,
@@ -501,7 +530,7 @@ window.PROJECT_DATA = {
         "c5a86692-530d-4efe-8b1a-ffa28f18b5ff",
         "8c72f6a7-58ba-441c-86ea-ebfe29fddd55"
       ],
-      "image": "images/thumbnails/clip10_shot15.jpg"
+      "image": "images/storyboard/5-3_Quiet_Confidence_20260910120413.jpeg"
     },
     {
       "index": 17,
@@ -518,9 +547,10 @@ window.PROJECT_DATA = {
         "08269355-3126-4dee-a380-b5fed8254130",
         "c5a86692-530d-4efe-8b1a-ffa28f18b5ff",
         "58148da2-ffea-492a-bbf7-ce05c37859f9",
-        "06d23f66-c405-49cd-8e91-2ae7c4b5aff9"
+        "06d23f66-c405-49cd-8e91-2ae7c4b5aff9",
+        "bf1a49e3-e5e4-42e2-8afb-f02600bbff41"
       ],
-      "image": "images/thumbnails/frame_30s.jpg"
+      "image": "images/storyboard/6-1_The_Lonely_CEO_20260910120420.jpeg"
     },
     {
       "index": 18,
@@ -538,7 +568,7 @@ window.PROJECT_DATA = {
         "8c72f6a7-58ba-441c-86ea-ebfe29fddd55",
         "08269355-3126-4dee-a380-b5fed8254130"
       ],
-      "image": "images/thumbnails/frame_35s.jpg"
+      "image": "images/storyboard/6-2_Cityscape_Pullback_20260910120435.jpeg"
     },
     {
       "index": 19,
@@ -554,68 +584,7 @@ window.PROJECT_DATA = {
       "linkedAssetIds": [
         "8c72f6a7-58ba-441c-86ea-ebfe29fddd55"
       ],
-      "image": "images/thumbnails/clip11_shot17.jpg"
+      "image": "images/storyboard/6-3_The_Final_Message_20260910120444.jpeg"
     }
-  ],
-  "mediaFiles": {
-    "videos": [
-      {
-        "title": "완성본 마스터 영상 (Full Video)",
-        "file": "CEO_video01.mp4",
-        "desc": "자막 및 BGM이 믹싱된 완성형 시네마틱 영상"
-      },
-      {
-        "title": "Scene 1. 늦은 밤 홀로 남은 CEO",
-        "file": "CEO_clip01.mp4",
-        "desc": "야근과 서류 더미 속 고뇌하는 CEO 클립"
-      },
-      {
-        "title": "Scene 2. 생성형 AI 교육과 발견",
-        "file": "CEO_clip02.mp4",
-        "desc": "기업 교육장에서 AI를 접하고 놀라는 CEO"
-      },
-      {
-        "title": "Scene 3. AI와 시작하는 아침 루틴",
-        "file": "CEO_clip03.mp4",
-        "desc": "모닝 커피와 함께 일정 및 우선순위 자동 정리"
-      },
-      {
-        "title": "Scene 4. 실무 혁신과 보고서 요약",
-        "file": "CEO_clip04.mp4",
-        "desc": "회의자료 요약 및 영문 이메일 작성"
-      },
-      {
-        "title": "Scene 1-2 전환 컷",
-        "file": "clip12_con.mp4",
-        "desc": "야근 빌딩에서 교육장으로의 트랜지션"
-      },
-      {
-        "title": "Scene 2-3 전환 컷",
-        "file": "clip23_con.mp4",
-        "desc": "교육장에서 아침 오피스로의 트랜지션"
-      },
-      {
-        "title": "Scene 3-4 전환 컷",
-        "file": "clip34_con.mp4",
-        "desc": "일정 관리에서 회의 및 이메일로의 트랜지션"
-      }
-    ],
-    "audio": [
-      {
-        "title": "SF / 퓨처리스틱 BGM",
-        "file": "mixkit-sci-fi-alien-music-690.wav",
-        "type": "BGM"
-      },
-      {
-        "title": "시계 초침 효과음 (야근/시간 압박)",
-        "file": "mixkit-tick-tock-clock-close-up-1059.wav",
-        "type": "SFX"
-      },
-      {
-        "title": "해피 벨 알림음 (AI 완료/성공)",
-        "file": "mixkit-happy-bell-alert-601.wav",
-        "type": "SFX"
-      }
-    ]
-  }
+  ]
 };
