@@ -26,7 +26,7 @@ const assetImageMapping = {
   'CEO Office (Night)': 'images/thumbnails/frame_00s.jpg',
   'CEO Office (Day)': 'images/thumbnails/frame_39s.jpg',
   'Training Center (AI Seminar)': 'images/Trainees.jpeg',
-  'Meeting Room': 'images/Employees.jpeg',
+  'Meeting Room': 'images/Meeting_room.jpeg',
   'Cityscape (Night)': 'images/thumbnails/frame_00s.jpg',
   'Cityscape (Day)': 'images/thumbnails/frame_39s.jpg',
   'Documents Pile': 'images/thumbnails/frame_03s.jpg',
@@ -40,10 +40,10 @@ const assetImageMapping = {
   'Pen': 'images/Pen.jpeg',
   'Young Employee': 'images/Young_Employee.jpeg',
   'Instructor': 'images/Instructor.jpeg',
-  'CEO Office': 'images/thumbnails/frame_00s.jpg',
-  'Training Center': 'images/Trainees.jpeg',
+  'CEO Office': 'images/CEO_Office.jpeg',
+  'Training Center': 'images/Training_Center.jpeg',
   'Claude Desktop': 'images/thumbnails/frame_35s.jpg',
-  'Cityscape': 'images/thumbnails/frame_39s.jpg',
+  'Cityscape': 'images/Cityscape.jpeg',
   'Notepad': 'images/thumbnails/clip08_shot13.jpg'
 };
 

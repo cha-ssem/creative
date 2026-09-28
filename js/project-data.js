@@ -109,7 +109,7 @@ window.PROJECT_DATA = {
       "physicalCharacteristics": "A spacious 20 feet by 25 feet executive suite featuring floor-to-ceiling glass windows and polished dark walnut flooring. The centerpiece is a large, minimalist black obsidian desk paired with a high-back ergonomic leather chair, initially cluttered with tall stacks of white paper reports and later cleared to show a clean, organized surface. The room includes a separate seating area with a velvet navy blue sofa, a low marble coffee table, and soft recessed LED ceiling lights that transition from a dim, cold blue glow to a warm, bright white across scenes.",
       "clothingAccessories": "",
       "backstory": "",
-      "image": "images/thumbnails/frame_00s.jpg"
+      "image": "images/CEO_Office.jpeg"
     },
     {
       "id": "2e74b00d-5b95-403a-8f99-60e7903f8ff1",
@@ -118,7 +118,7 @@ window.PROJECT_DATA = {
       "physicalCharacteristics": "A wide, rectangular 40 feet by 30 feet modern educational hall with white acoustic paneled walls and light gray industrial carpet. The room is filled with rows of sleek white laminate desks equipped with silver laptops, and a large 4K digital screen is mounted at the front for presentations. Bright, flicker-free overhead daylight LED panels illuminate the space, complemented by minimalist ergonomic plastic chairs in a vibrant orange accent color.",
       "clothingAccessories": "",
       "backstory": "",
-      "image": "images/Trainees.jpeg"
+      "image": "images/Training_Center.jpeg"
     },
     {
       "id": "3745e856-4753-4057-b200-06998282725b",
@@ -163,7 +163,16 @@ window.PROJECT_DATA = {
       "physicalCharacteristics": "A sprawling metropolitan horizon featuring a dense cluster of modern glass and steel skyscrapers ranging from thirty to sixty stories in height. The architectural style is contemporary corporate, characterized by sleek reflective surfaces, sharp geometric silhouettes, and visible rooftop mechanical units. Below the high-rise level, a network of paved streets is visible, lined with smaller commercial buildings and occasional patches of urban greenery.",
       "clothingAccessories": "",
       "backstory": "",
-      "image": "images/thumbnails/frame_39s.jpg"
+      "image": "images/Cityscape.jpeg"
+    },
+    {
+      "id": "e93d1810-72a3-4a11-9f20-8012bc0b784a",
+      "type": "location",
+      "name": "Meeting Room",
+      "physicalCharacteristics": "A bright, contemporary corporate conference room featuring a large solid wood meeting table, comfortable ergonomic leather chairs, clear glass partitions, and warm architectural lighting for executive collaboration.",
+      "clothingAccessories": "",
+      "backstory": "An executive collaboration space where the CEO and team members review strategic proposals and collaborate on AI-driven workflows.",
+      "image": "images/Meeting_room.jpeg"
     },
     {
       "id": "40b9307d-74a6-4875-943b-241e12c74a49",
