@@ -1811,6 +1811,75 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
       }
     });
   });
+
+  // 10. 클립 배경음악 확장 생성 방법 팝업 모달 제어 로직
+  const bgmGuideModal = document.getElementById('bgmGuideModal');
+  const openBgmGuideModalBtn = document.getElementById('openBgmGuideModalBtn');
+  const bgmGuideCloseBtn = document.getElementById('bgmGuideCloseBtn');
+
+  function openBgmGuideModal() {
+    if (bgmGuideModal) {
+      bgmGuideModal.classList.add('open');
+      bgmGuideModal.scrollTop = 0;
+      const card = bgmGuideModal.querySelector('.bgm-guide-modal-card');
+      if (card) card.scrollTop = 0;
+    }
+  }
+
+  function closeBgmGuideModal() {
+    if (bgmGuideModal) {
+      bgmGuideModal.classList.remove('open');
+    }
+  }
+
+  if (openBgmGuideModalBtn) {
+    openBgmGuideModalBtn.addEventListener('click', openBgmGuideModal);
+  }
+  if (bgmGuideCloseBtn) {
+    bgmGuideCloseBtn.addEventListener('click', closeBgmGuideModal);
+  }
+  if (bgmGuideModal) {
+    bgmGuideModal.addEventListener('click', (e) => {
+      if (e.target === bgmGuideModal) {
+        closeBgmGuideModal();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (bgmGuideModal && bgmGuideModal.classList.contains('open')) {
+        closeBgmGuideModal();
+      }
+    }
+  });
+
+  // BGM 가이드 모달 내 코드 블록 원클릭 복사
+  document.querySelectorAll('.copy-code-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const targetId = btn.getAttribute('data-copy-target');
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        navigator.clipboard.writeText(targetEl.textContent).then(() => {
+          const originalText = btn.textContent;
+          btn.textContent = '복사완료! ✓';
+          btn.classList.add('copied');
+          if (typeof showToast === 'function') {
+            showToast('🎵 실행 코드가 클립보드에 복사되었습니다.', 'info');
+          }
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('copied');
+          }, 2000);
+        }).catch(() => {
+          if (typeof showToast === 'function') {
+            showToast('코드 복사에 실패했습니다.', 'warning');
+          }
+        });
+      }
+    });
+  });
 });
 
 /* ==========================================================================

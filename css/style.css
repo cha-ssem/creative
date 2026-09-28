@@ -6217,4 +6217,270 @@ body.is-fullscreen .cert-capture-wrapper {
   border-color: rgba(245, 158, 11, 0.3);
 }
 
+/* ==========================================================================
+   [BGM GUIDE MODAL] 클립 배경음악 확장 생성 방법 (MusicGen) 모달 & 버튼 스타일
+   ========================================================================== */
+.bgm-guide-btn {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(56, 189, 248, 0.12) 100%) !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+  color: #34d399 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.15);
+  transition: all var(--transition-fast) !important;
+}
+
+.bgm-guide-btn:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.28) 0%, rgba(56, 189, 248, 0.22) 100%) !important;
+  border-color: #34d399 !important;
+  color: #6ee7b7 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+}
+
+body.light-theme .bgm-guide-btn {
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%) !important;
+  border-color: #059669 !important;
+  color: #047857 !important;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.12);
+}
+
+body.light-theme .bgm-guide-btn:hover {
+  background: linear-gradient(135deg, #d1fae5 0%, #dcfce7 100%) !important;
+  border-color: #047857 !important;
+  color: #065f46 !important;
+}
+
+/* BGM 모달 카드 레이아웃 */
+.bgm-guide-modal-card {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+  max-width: 980px !important;
+  width: 95% !important;
+  max-height: 90vh !important;
+  padding: 2.2rem 2.4rem !important;
+  background: #0d121f !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(16, 185, 129, 0.15) !important;
+}
+
+body.light-theme .bgm-guide-modal-card {
+  background: #ffffff !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 모달 상단 헤더 */
+.bgm-guide-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.bgm-guide-badge-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.bgm-guide-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+body.light-theme .bgm-guide-badge {
+  background: #ecfdf5;
+  color: #059669;
+  border-color: #a7f3d0;
+}
+
+.colab-external-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.95rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #0f172a;
+  border: 1px solid #fbbf24;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+  transition: all var(--transition-fast);
+}
+
+.colab-external-link-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+}
+
+.bgm-guide-modal-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.35;
+}
+
+.bgm-guide-modal-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 모달 본문 (Step Cards List) */
+.bgm-guide-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+}
+
+.bgm-step-card {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 1.35rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  transition: border-color var(--transition-fast);
+}
+
+.bgm-step-card:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+body.light-theme .bgm-step-card {
+  background: #f8fafc;
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .bgm-step-card:hover {
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.bgm-step-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.step-num-badge {
+  font-family: 'Cinzel', monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  letter-spacing: 0.05em;
+}
+
+body.light-theme .step-num-badge {
+  background: #e0f2fe;
+  color: #0284c7;
+  border-color: #bae6fd;
+}
+
+.bgm-step-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.bgm-step-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 코드 박스 래퍼 */
+.code-box-wrap {
+  margin-top: 0.35rem;
+  background: #050811;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+body.light-theme .code-box-wrap {
+  background: #0f172a;
+  border-color: #1e293b;
+}
+
+.code-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.9rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.code-lang-tag {
+  font-size: 0.74rem;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.copy-code-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.copy-code-btn:hover {
+  background: var(--accent-gold);
+  color: #000;
+  border-color: var(--accent-gold);
+}
+
+.copy-code-btn.copied {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  border-color: #10b981 !important;
+}
+
+.code-content-pre {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #f1f5f9;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  max-height: 380px;
+}
+
+
 
