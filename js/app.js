@@ -1814,7 +1814,7 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
 });
 
 /* ==========================================================================
-   [INTRO VIDEO] 풀스크린 유튜브 인트로 비디오 제어 스크립트 (최종 마스터 영상 연동)
+   [INTRO VIDEO] 풀스크린 유튜브 인트로 비디오 제어 스크립트
    ========================================================================== */
 let ytIntroPlayer = null;
 let isIntroClosed = false;
@@ -1823,48 +1823,14 @@ function initIntroOverlay() {
   const overlay = document.getElementById('introOverlay');
   const skipBtn = document.getElementById('introSkipBtn');
   const soundBtn = document.getElementById('introSoundBtn');
-  const fsBtn = document.getElementById('introFullscreenBtn');
 
   if (!overlay) return;
 
-  // 전체화면 진입 헬퍼
-  const enterFullScreen = () => {
-    const docEl = document.documentElement;
-    try {
-      if (docEl.requestFullscreen) {
-        docEl.requestFullscreen().catch(err => console.log('Fullscreen notice:', err));
-      } else if (docEl.webkitRequestFullscreen) {
-        docEl.webkitRequestFullscreen();
-      } else if (docEl.msRequestFullscreen) {
-        docEl.msRequestFullscreen();
-      }
-    } catch (e) {
-      console.log('Fullscreen error:', e);
-    }
-  };
-
-  // 전체화면 해제 헬퍼
-  const exitFullScreen = () => {
-    try {
-      if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-        if (document.exitFullscreen) {
-          document.exitFullscreen().catch(err => console.log('Exit fullscreen notice:', err));
-        } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        }
-      }
-    } catch (e) {
-      console.log('Exit fullscreen error:', e);
-    }
-  };
-
-  // 인트로 닫기 (부드러운 페이드아웃 및 유튜브 영상 정지 & 전체화면 복귀)
+  // 인트로 닫기 (부드러운 페이드아웃 및 유튜브 영상 정지)
   const closeIntro = () => {
     if (isIntroClosed) return;
     isIntroClosed = true;
     overlay.classList.add('hide');
-
-    exitFullScreen();
 
     if (ytIntroPlayer && typeof ytIntroPlayer.stopVideo === 'function') {
       try {
@@ -1879,21 +1845,7 @@ function initIntroOverlay() {
     }, 850);
   };
 
-  // 1. 전체화면 토글 버튼
-  if (fsBtn) {
-    fsBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (!document.fullscreenElement) {
-        enterFullScreen();
-        fsBtn.textContent = '⛶ 창모드';
-      } else {
-        exitFullScreen();
-        fsBtn.textContent = '⛶ 전체화면';
-      }
-    });
-  }
-
-  // 2. 건너뛰기(Skip) 버튼 이벤트
+  // 1. 건너뛰기(Skip) 버튼 이벤트
   if (skipBtn) {
     skipBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1901,7 +1853,7 @@ function initIntroOverlay() {
     });
   }
 
-  // 3. 음소거 / 소리 켜기 토글 이벤트
+  // 2. 음소거 / 소리 켜기 토글 이벤트
   if (soundBtn) {
     soundBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1924,14 +1876,14 @@ function initIntroOverlay() {
     });
   }
 
-  // 4. 키보드 ESC 키로 건너뛰기
+  // 3. 키보드 ESC 키로 건너뛰기
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeIntro();
     }
   });
 
-  // 5. YouTube IFrame Player 인스턴스 생성 헬퍼 (기본 소리 켜기 & 풀스크린 세팅)
+  // 4. YouTube IFrame Player 인스턴스 생성 헬퍼
   const createYoutubePlayer = () => {
     if (ytIntroPlayer || isIntroClosed) return;
     const playerTarget = document.getElementById('introYoutubePlayer');
@@ -1939,10 +1891,10 @@ function initIntroOverlay() {
 
     try {
       ytIntroPlayer = new window.YT.Player('introYoutubePlayer', {
-        videoId: 't7SxVzb54bc', // 최종 마스터 영상 (영상 + 자막 + 내레이션)
+        videoId: 't7SxVzb54bc', // 사용자 지정 유튜브 영상 (생성형 AI CEO의 하루 시네마틱 무비)
         playerVars: {
           autoplay: 1,
-          mute: 0, // 기본 소리 켜기 상태로 시작 시도
+          mute: 1, // 브라우저 자동재생 정책 준수 (시작 시 음소거)
           controls: 0,
           showinfo: 0,
           rel: 0,
@@ -1955,8 +1907,6 @@ function initIntroOverlay() {
         events: {
           onReady: (event) => {
             try {
-              event.target.unMute();
-              event.target.setVolume(100);
               event.target.playVideo();
             } catch (e) {
               console.log('Play onReady error:', e);
@@ -1974,25 +1924,6 @@ function initIntroOverlay() {
       console.log('Error creating YouTube intro player:', err);
     }
   };
-
-  // 6. 브라우저 첫 터치/클릭 시 전체화면 & 소리 확실히 켜기 보조
-  const enableFeaturesOnFirstInteraction = () => {
-    enterFullScreen();
-    if (ytIntroPlayer && typeof ytIntroPlayer.unMute === 'function') {
-      try {
-        ytIntroPlayer.unMute();
-        ytIntroPlayer.setVolume(100);
-        if (soundBtn) {
-          soundBtn.textContent = '🔇 음소거';
-          soundBtn.style.color = '#fcd34d';
-        }
-      } catch (err) {
-        console.log('First interaction error:', err);
-      }
-    }
-  };
-  document.addEventListener('click', enableFeaturesOnFirstInteraction, { once: true });
-  document.addEventListener('touchstart', enableFeaturesOnFirstInteraction, { once: true });
 
   // YouTube API 준비 완료 시 실행
   if (window.YT && window.YT.Player) {
