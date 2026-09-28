@@ -21,8 +21,8 @@ const data = JSON.parse(jsonStr);
 
 // 에셋 이미지 매핑 (로컬 고해상도 최적화 파일 매핑)
 const assetImageMapping = {
-  'Female CEO': 'images/CEO01.png',
-  'AI Instructor': 'images/CEO02.png',
+  'Female CEO': 'images/Female_CEO.jpeg',
+  'AI Instructor': 'images/Instructor.jpeg',
   'CEO Office (Night)': 'images/thumbnails/frame_00s.jpg',
   'CEO Office (Day)': 'images/thumbnails/frame_39s.jpg',
   'Training Center (AI Seminar)': 'images/Trainees.jpeg',
@@ -39,7 +39,7 @@ const assetImageMapping = {
   'Large Screen': 'images/Large Screen.jpeg',
   'Pen': 'images/Pen.jpeg',
   'Young Employee': 'images/Young_Employee.jpeg',
-  'Instructor': 'images/CEO02.png',
+  'Instructor': 'images/Instructor.jpeg',
   'CEO Office': 'images/thumbnails/frame_00s.jpg',
   'Training Center': 'images/Trainees.jpeg',
   'Claude Desktop': 'images/thumbnails/frame_35s.jpg',
