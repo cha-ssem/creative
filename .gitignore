@@ -9,6 +9,11 @@ node_modules/
 *.mp3
 *.prproj
 *.srt
+*.py
+*.ipynb
+*.mp4
+*.log
+*.vrew
 
 # 프리미어 프로 생성 폴더 무시
 Adobe Premiere Pro Audio Previews/
@@ -16,3 +21,7 @@ Adobe Premiere Pro Auto-Save/
 
 # 비디오 및 미디어 폴더 무시
 video/
+temp_bgm_studio/
+.venv/
+__pycache__/
+.agents/
