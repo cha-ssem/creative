@@ -382,6 +382,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function dataUrlToBlob(dataUrl) {
+    try {
+      const arr = dataUrl.split(',');
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new Blob([u8arr], { type: mime });
+    } catch (e) {
+      return null;
+    }
+  }
+
   // A) 초광역 HTTPS SSE 실시간 수신 (같은 와이파이가 아니어도 LTE/5G 어디서나 100% 실시간 수신)
   function startNtfyGlobalSync() {
     if (ntfyEventSource) return;
@@ -397,14 +413,28 @@ document.addEventListener('DOMContentLoaded', () => {
       ntfyEventSource.addEventListener('message', (e) => {
         try {
           const raw = JSON.parse(e.data);
-          if (raw.event === 'message' && raw.message) {
-            const data = JSON.parse(raw.message);
-            if (data.type === 'NEW_PARTICIPANT' && data.participant) {
+          if (raw.event === 'message') {
+            let data = null;
+            if (raw.message) {
+              try {
+                data = JSON.parse(decodeURIComponent(raw.message));
+              } catch (e1) {
+                try { data = JSON.parse(raw.message); } catch (e2) {}
+              }
+            }
+
+            if (data && data.type === 'NEW_PARTICIPANT' && data.participant) {
+              // 첨부파일 이미지 URL이 함께 온 경우 해당 고화질 URL을 afterImg로 치환
+              if (raw.attachment && raw.attachment.url) {
+                data.participant.afterImg = raw.attachment.url;
+                if (!data.participant.beforeImg || data.participant.beforeImg.length > 50000) {
+                  data.participant.beforeImg = raw.attachment.url;
+                }
+              }
               handleRemoteParticipant(data.participant);
-            } else if (data.type === 'RESET_PARTICIPANTS') {
+            } else if (data && data.type === 'RESET_PARTICIPANTS') {
               handleRemoteReset(data.mode);
-            } else if (data.type === 'SYNC_COMMAND_START') {
-              // 관리자가 연동 시작을 눌렀을 때 모든 기기에서 상태 활성화 및 기존 목록 동기화
+            } else if (data && data.type === 'SYNC_COMMAND_START') {
               if (Array.isArray(data.participants) && data.participants.length > 0) {
                 participants = data.participants;
                 renderCertCards(currentFilter);
@@ -508,18 +538,45 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function broadcastNewParticipant(newP) {
-    // 1) 인터넷 초광역 실시간 전송 (NTFY - 같은 와이파이가 아니어도 LTE/5G 어디서나 전송)
+    // 1) 인터넷 초광역 실시간 전송 (NTFY 첨부파일 바이너리 PUT 전송으로 대용량 사진 100% 실시간 전송 보장)
     try {
-      fetch('https://ntfy.sh', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          topic: NTFY_TOPIC,
-          title: `[참석인증] ${newP.name}`,
-          message: JSON.stringify({ type: 'NEW_PARTICIPANT', participant: newP })
-        })
-      }).then(() => console.log('✦ [Global Sync NTFY] Broadcasted successfully.'))
-        .catch(err => console.warn('Global Sync post error:', err));
+      const imgBlob = dataUrlToBlob(newP.afterImg || newP.beforeImg);
+      const participantMeta = {
+        type: 'NEW_PARTICIPANT',
+        participant: {
+          id: newP.id,
+          name: newP.name,
+          company: newP.company,
+          presetKey: newP.presetKey,
+          promptText: newP.promptText,
+          date: newP.date,
+          timestamp: newP.timestamp,
+          isCurrentViewAfter: true
+        }
+      };
+
+      if (imgBlob) {
+        fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+          method: 'PUT',
+          headers: {
+            'Filename': `${newP.id}.jpg`,
+            'X-Title': encodeURIComponent(`[참석인증] ${newP.name}`),
+            'X-Message': encodeURIComponent(JSON.stringify(participantMeta))
+          },
+          body: imgBlob
+        }).then(() => console.log('✦ [Global Sync NTFY] Photo PUT uploaded successfully.'))
+          .catch(err => console.warn('Global Sync upload error:', err));
+      } else {
+        fetch('https://ntfy.sh', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            topic: NTFY_TOPIC,
+            title: `[참석인증] ${newP.name}`,
+            message: encodeURIComponent(JSON.stringify(participantMeta))
+          })
+        }).catch(() => {});
+      }
     } catch (e) { }
 
     // 2) 로컬 내장 서버로 전송 (SSE 연결된 PC/모바일)
