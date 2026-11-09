@@ -1660,7 +1660,7 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
     'page-final-video'
   ];
 
-  function switchPage(pageId) {
+  function switchPage(pageId, autoOpenGroup = false) {
     // 모든 페이지 숨기기
     pages.forEach(p => p.classList.remove('active-page'));
     // 모든 메뉴 비활성화
@@ -1678,25 +1678,33 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
       targetLink.classList.add('active');
     }
 
-    // 00 상위 메뉴 활성/오픈 상태 동기화
+    // 00 상위 메뉴 활성 및 아코디언 오픈 상태 제어
     if (groupVideoProd) {
       if (videoProdPages.includes(pageId)) {
-        groupVideoProd.classList.add('open');
         groupVideoProd.classList.add('active');
+        // 명시적으로 열도록 요청받은 경우(서브메뉴 클릭 등)에만 open 추가
+        if (autoOpenGroup) {
+          groupVideoProd.classList.add('open');
+        }
       } else {
         groupVideoProd.classList.remove('active');
+        groupVideoProd.classList.remove('open');
       }
     }
 
     // 화면 최상단으로 부드럽게 스크롤
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // URL 해시 업데이트
+    // URL 해시 및 sessionStorage에 현재 활성 페이지 보존 (새로고침 시 완벽 복원용)
     const hashName = pageId.replace('page-', '');
     if (typeof window !== 'undefined' && window.history && window.history.pushState) {
       window.history.pushState(null, null, `#${hashName}`);
     } else if (typeof window !== 'undefined' && window.location) {
       window.location.hash = `#${hashName}`;
+    }
+
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('activePageId', pageId);
     }
   }
 
@@ -1706,7 +1714,9 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
       const pageId = link.getAttribute('data-page');
       if (pageId) {
         e.preventDefault();
-        switchPage(pageId);
+        // 서브링크를 누른 경우 열림 상태 유지
+        const isSublink = link.classList.contains('sidebar-sublink');
+        switchPage(pageId, isSublink);
       }
       // href가 지정된 <a> 태그(auth.html 등)는 브라우저 기본 이동 동작 유지
     });
@@ -1721,7 +1731,7 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
       const activePage = document.querySelector('.page-view.active-page');
       const activeId = activePage ? activePage.id : '';
       if (isOpen && !videoProdPages.includes(activeId)) {
-        switchPage('page-script');
+        switchPage('page-script', true);
       }
     });
   }
@@ -1755,34 +1765,54 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
     });
   });
 
-  // 초기 URL 해시 확인 및 해당 페이지 로드
+  // 초기 URL 해시 및 sessionStorage에 저장된 페이지 확인
   const currentHash = (typeof window !== 'undefined' && window.location && window.location.hash)
     ? window.location.hash.replace('#', '')
     : '';
 
+  const savedPageId = (typeof sessionStorage !== 'undefined')
+    ? sessionStorage.getItem('activePageId')
+    : null;
+
+  let initialPageId = 'page-script';
+  let shouldOpenGroup = false;
+
   if (currentHash === 'assets') {
-    switchPage('page-assets');
+    initialPageId = 'page-assets';
+    shouldOpenGroup = true;
   } else if (currentHash === 'storyboard') {
-    switchPage('page-storyboard');
+    initialPageId = 'page-storyboard';
+    shouldOpenGroup = true;
   } else if (currentHash === 'prompts') {
-    switchPage('page-prompts');
+    initialPageId = 'page-prompts';
+    shouldOpenGroup = true;
   } else if (currentHash === 'results') {
-    switchPage('page-results');
+    initialPageId = 'page-results';
+    shouldOpenGroup = true;
   } else if (currentHash === 'final-video' || currentHash === 'final') {
-    switchPage('page-final-video');
+    initialPageId = 'page-final-video';
+    shouldOpenGroup = true;
   } else if (currentHash === 'birthday-ai' || currentHash === 'birthday' || currentHash === 'open') {
-    switchPage('page-birthday-ai');
+    initialPageId = 'page-birthday-ai';
   } else if (currentHash === 'ai-market' || currentHash === 'market') {
-    switchPage('page-ai-market');
+    initialPageId = 'page-ai-market';
   } else if (currentHash === 'strategy-prompt' || currentHash === 'prompt') {
-    switchPage('page-strategy-prompt');
+    initialPageId = 'page-strategy-prompt';
   } else if (currentHash === 'strategy-connect' || currentHash === 'connect' || currentHash === 'notebooklm') {
-    switchPage('page-strategy-connect');
+    initialPageId = 'page-strategy-connect';
   } else if (currentHash === 'cert' || currentHash === 'upload') {
     window.location.href = `auth.html#${currentHash}`;
-  } else {
-    switchPage('page-script');
+    return;
+  } else if (savedPageId && document.getElementById(savedPageId)) {
+    // 해시가 없을 때 이전에 머물던 페이지가 있으면 해당 페이지로 복원
+    initialPageId = savedPageId;
+    if (videoProdPages.includes(savedPageId) && savedPageId !== 'page-script') {
+      shouldOpenGroup = true;
+    }
   }
+
+  // 복원된 원래 페이지 표시 (00 목록은 기본보기에선 닫힌 상태 유지)
+  switchPage(initialPageId, shouldOpenGroup);
 
   // 8. 라이트 모드 / 다크 모드 테마 전환 로직
   const themeToggleBtn = document.getElementById('themeToggleBtn');
@@ -2035,10 +2065,30 @@ function initIntroOverlay() {
 
   if (!overlay) return;
 
+  // 세션 동안 인트로 영상을 이미 건너뛰었거나 시청 완료했는지 체크
+  const isIntroSkipped = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('introSkipped') === 'true') ||
+    (typeof localStorage !== 'undefined' && localStorage.getItem('introSkipped') === 'true');
+
+  if (isIntroSkipped) {
+    isIntroClosed = true;
+    overlay.style.display = 'none';
+    overlay.classList.add('hide');
+    return;
+  }
+
   // 인트로 닫기 (부드러운 페이드아웃 및 유튜브 영상 정지)
   const closeIntro = () => {
     if (isIntroClosed) return;
     isIntroClosed = true;
+
+    // 건너뛰기 상태 기록 (새로고침 시 인트로 생략 및 원래 보던 페이지 유지)
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('introSkipped', 'true');
+    }
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('introSkipped', 'true');
+    }
+
     overlay.classList.add('hide');
 
     if (ytIntroPlayer && typeof ytIntroPlayer.stopVideo === 'function') {
@@ -2144,6 +2194,20 @@ function initIntroOverlay() {
       if (typeof prevCallback === 'function') prevCallback();
       createYoutubePlayer();
     };
+  }
+
+  // 인트로 영상 다시 보기 버튼 연결
+  const btnReplayIntro = document.getElementById('btnReplayIntro');
+  if (btnReplayIntro) {
+    btnReplayIntro.addEventListener('click', () => {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem('introSkipped');
+      }
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem('introSkipped');
+      }
+      window.location.reload();
+    });
   }
 }
 

@@ -48,7 +48,7 @@
 
     <!-- 사이드바 상단 프로젝트 정보 박스 -->
     <div class="sidebar-project-box">
-      <div class="sidebar-badge">AI Branded Film</div>
+      <div class="sidebar-badge" id="btnReplayIntro" style="cursor: pointer;" title="클릭하여 시네마틱 인트로 영상 다시 보기">🎬 AI Branded Film ↺</div>
       <h1 class="sidebar-project-title" id="projectTitle">생성형 AI로<br>달라진 CEO의 하루</h1>
       <p class="sidebar-project-desc">
         야근과 서류 작업의 압박에서 벗어나, 생성형 AI로 스마트한 리더십을 되찾은 50대 여성 CEO의 시네마틱 여정
@@ -67,7 +67,7 @@
     <div class="sidebar-menu-title">LECTURE & PRODUCTION MENU</div>
     <ul class="sidebar-menu">
       <!-- 00. 영상 기획부터 완성 (현재 1~6을 포함하는 상위 메뉴) -->
-      <li class="sidebar-item-group open" id="group-video-prod">
+      <li class="sidebar-item-group" id="group-video-prod">
         <button class="sidebar-link sidebar-group-toggle" id="btnGroupVideoProd" type="button"
           title="영상 기획부터 완성 하위 메뉴 토글">
           <span class="step-num">00</span>
@@ -1140,13 +1140,15 @@
                   </div>
                   <button type="button" class="prompt-copy-btn" data-copy-target="promptCase1">📋 프롬프트 복사</button>
                 </div>
-                <div class="prompt-text-block editable-prompt" id="promptCase1" contenteditable="true" spellcheck="false" title="클릭하여 프롬프트 내용을 직접 수정할 수 있습니다">[역할] 너는 15년 경력의 중소기업 경영 및 마케팅 전략 전문 컨설턴트야.
-[배경] 나는 직원 5명 규모의 여성 의류 온라인 쇼핑몰을 운영하는 대표야. 주요 고객은 40~50대 여성이고, 최근 신규 고객 유입이 감소하면서 매출 성장이 정체된 상황이야.
-[지시] 신규 고객을 확보하고 기존 고객의 재구매율을 높일 수 있는 실질적인 마케팅 전략 3가지를 제안해 줘. 각 전략의 구체적인 실행 방법도 설명해 줘.
-[형식] 전략명, 실행 방법, 예상 비용, 기대 효과를 표(Table) 형태로 정리하고, 가장 먼저 실행할 전략을 추천해 줘.
-[조건] 월 마케팅 예산은 100만 원 이내로 제한하고, 별도 마케팅 담당자 없이도 실행할 수 있는 방안으로 제안해 줘. 기대 효과는 과장하지 말고, 확인되지 않은 수치를 임의로 만들지 마.
-[샘플] 다음 예시의 구조를 참고해 작성해 줘.
-[전략명] → [실행 방법] → [예상 비용] → [기대 효과]</div>
+                <div class="prompt-text-block editable-prompt" id="promptCase1" contenteditable="true"
+                  spellcheck="false" title="클릭하여 프롬프트 내용을 직접 수정할 수 있습니다">[역할] 너는 15년 경력의 중소기업 경영 및 마케팅 전략 전문 컨설턴트야.
+                  [배경] 나는 직원 5명 규모의 여성 의류 온라인 쇼핑몰을 운영하는 대표야. 주요 고객은 40~50대 여성이고, 최근 신규 고객 유입이 감소하면서 매출 성장이 정체된 상황이야.
+                  [지시] 신규 고객을 확보하고 기존 고객의 재구매율을 높일 수 있는 실질적인 마케팅 전략 3가지를 제안해 줘. 각 전략의 구체적인 실행 방법도 설명해 줘.
+                  [형식] 전략명, 실행 방법, 예상 비용, 기대 효과를 표(Table) 형태로 정리하고, 가장 먼저 실행할 전략을 추천해 줘.
+                  [조건] 월 마케팅 예산은 100만 원 이내로 제한하고, 별도 마케팅 담당자 없이도 실행할 수 있는 방안으로 제안해 줘. 기대 효과는 과장하지 말고, 확인되지 않은 수치를 임의로
+                  만들지 마.
+                  [샘플] 다음 예시의 구조를 참고해 작성해 줘.
+                  [전략명] → [실행 방법] → [예상 비용] → [기대 효과]</div>
                 <p style="font-size: 0.8rem; color: #34d399; line-height: 1.5; margin: 0;">
                   ✨ 결과 : 4050 여성 타깃과 100만 원 예산에 딱 맞는 즉시 실행 가능한 표 형태의 현실적 전략 제안 도출
                 </p>
@@ -1175,12 +1177,13 @@
                   </div>
                   <button type="button" class="prompt-copy-btn" data-copy-target="promptCase2">📋 프롬프트 복사</button>
                 </div>
-                <div class="prompt-text-block editable-prompt" id="promptCase2" contenteditable="true" spellcheck="false" title="클릭하여 프롬프트 내용을 직접 수정할 수 있습니다">[역할] 너는 공공데이터 기반 상권 분석 및 창업 컨설턴트야.
-[배경] 나는 부산에서 카페 창업을 준비 중인 여성 CEO야.
-[지시] 공공데이터를 활용해 부산의 주요 상권별 유동인구, 경쟁 점포 수, 소비 특성을 분석하고 창업 후보 지역 3곳을 제안해 줘.
-[형식] 지역명, 주요 고객층, 경쟁 현황, 창업 시 고려사항을 표로 정리해 줘.
-[조건] 공공데이터 출처와 기준연도를 표시하고, 확인되지 않은 수치는 임의로 만들지 마.
-[샘플] [지역명] → [주요 고객층] → [경쟁 현황] → [창업 시 고려사항]</div>
+                <div class="prompt-text-block editable-prompt" id="promptCase2" contenteditable="true"
+                  spellcheck="false" title="클릭하여 프롬프트 내용을 직접 수정할 수 있습니다">[역할] 너는 공공데이터 기반 상권 분석 및 창업 컨설턴트야.
+                  [배경] 나는 부산에서 카페 창업을 준비 중인 여성 CEO야.
+                  [지시] 공공데이터를 활용해 부산의 주요 상권별 유동인구, 경쟁 점포 수, 소비 특성을 분석하고 창업 후보 지역 3곳을 제안해 줘.
+                  [형식] 지역명, 주요 고객층, 경쟁 현황, 창업 시 고려사항을 표로 정리해 줘.
+                  [조건] 공공데이터 출처와 기준연도를 표시하고, 확인되지 않은 수치는 임의로 만들지 마.
+                  [샘플] [지역명] → [주요 고객층] → [경쟁 현황] → [창업 시 고려사항]</div>
                 <p style="font-size: 0.8rem; color: #34d399; line-height: 1.5; margin: 0;">
                   ✨ 결과 : 부산 공공데이터 기준의 유동인구 및 경쟁 점포 분석이 적용된 객관적 창업 후보지 표 완성
                 </p>
