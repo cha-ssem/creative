@@ -5833,6 +5833,18 @@ body.is-fullscreen .cert-capture-wrapper {
   justify-content: center !important;
 }
 
+/* 8. 관리자 비밀번호 확인 모달 & 정원 설정 모달 (단일 열 수직 정렬 보장) */
+#adminPasscodeModal .modal-card,
+#certMaxSeatsModal .modal-card {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+  width: 90% !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
 .cert-qr-modal-body {
   width: 100%;
   box-sizing: border-box;
