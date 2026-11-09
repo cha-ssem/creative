@@ -311,6 +311,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // 업로드 폼 참조
   const certUploadForm = document.getElementById('certUploadForm');
   const certFileInput = document.getElementById('certFileInput');
+  const certCameraDirectInput = document.getElementById('certCameraDirectInput');
+  const btnDirectCamera = document.getElementById('btnDirectCamera');
+  const btnDirectAlbum = document.getElementById('btnDirectAlbum');
+  const certScrollToSubmitBtn = document.getElementById('certScrollToSubmitBtn');
   const certDropzone = document.getElementById('certDropzone');
   const certTabUploadBtn = document.getElementById('certTabUploadBtn');
   const certTabCameraBtn = document.getElementById('certTabCameraBtn');
@@ -916,12 +920,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 6. 파일 업로드 및 드롭존 핸들링
   if (certDropzone && certFileInput) {
-    certDropzone.addEventListener('click', () => certFileInput.click());
+    certDropzone.addEventListener('click', (e) => {
+      // 자식 빠른 실행 버튼 클릭 시 중복 버블링 방지
+      if (e.target.closest('#btnDirectCamera') || e.target.closest('#btnDirectAlbum')) return;
+      certFileInput.click();
+    });
 
     certFileInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) handleImageFile(file);
     });
+
+    // 스마트폰 카메라 즉시 촬영 input 연동
+    if (btnDirectCamera && certCameraDirectInput) {
+      btnDirectCamera.addEventListener('click', (e) => {
+        e.stopPropagation();
+        certCameraDirectInput.click();
+      });
+    }
+
+    if (btnDirectAlbum) {
+      btnDirectAlbum.addEventListener('click', (e) => {
+        e.stopPropagation();
+        certFileInput.click();
+      });
+    }
+
+    if (certCameraDirectInput) {
+      certCameraDirectInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleImageFile(file);
+      });
+    }
+
+    // 사진 등록 후 하단 전송 단추 바로가기 스크롤
+    if (certScrollToSubmitBtn) {
+      certScrollToSubmitBtn.addEventListener('click', () => {
+        if (certInputName && !certInputName.value.trim()) {
+          certInputName.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          certInputName.focus();
+        } else if (certSubmitBtn) {
+          certSubmitBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    }
 
     certDropzone.addEventListener('dragover', (e) => {
       e.preventDefault();
@@ -1006,6 +1048,16 @@ document.addEventListener('DOMContentLoaded', () => {
       certPreviewContainer.style.display = 'flex';
       if (certDropzone) certDropzone.style.display = 'none';
       if (certCameraWrap) certCameraWrap.style.display = 'none';
+
+      // 모바일 모드 시 사진이 등록되면 사용자가 전송 단추와 성함 입력을 놓치지 않도록 자연스러운 안내 스크롤
+      if (document.body.classList.contains('mobile-upload-mode')) {
+        setTimeout(() => {
+          if (certInputName && !certInputName.value.trim()) {
+            certInputName.focus();
+            certInputName.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 250);
+      }
     }
   }
 
@@ -1014,6 +1066,7 @@ document.addEventListener('DOMContentLoaded', () => {
       currentUploadedDataUrl = null;
       if (certPreviewContainer) certPreviewContainer.style.display = 'none';
       if (certFileInput) certFileInput.value = '';
+      if (certCameraDirectInput) certCameraDirectInput.value = '';
       if (certTabUploadBtn && certTabUploadBtn.classList.contains('active')) {
         if (certDropzone) certDropzone.style.display = 'flex';
       } else {
@@ -1168,7 +1221,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (certAiScanOverlay) certAiScanOverlay.classList.remove('active');
           if (certSubmitBtn) certSubmitBtn.disabled = false;
           if (certBtnSpinner) certBtnSpinner.style.display = 'none';
-          if (certBtnText) certBtnText.textContent = '✨ 등록 완료하기';
+          if (certBtnText) certBtnText.textContent = '🚀 사진 전송 및 참석 등록 완료';
 
           const isMobileMode = document.body.classList.contains('mobile-upload-mode');
           if (isMobileMode && certSuccessView) {
@@ -1206,7 +1259,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (certAiScanOverlay) certAiScanOverlay.classList.remove('active');
         if (certSubmitBtn) certSubmitBtn.disabled = false;
         if (certBtnSpinner) certBtnSpinner.style.display = 'none';
-        if (certBtnText) certBtnText.textContent = '✨ 등록 완료하기';
+        if (certBtnText) certBtnText.textContent = '🚀 사진 전송 및 참석 등록 완료';
       }
     });
   }

@@ -342,7 +342,7 @@
       }
     }
 
-    /* [QR 모바일 접속 전용] 독립형 직관적 업로드 모드 - 가로 스크롤 원천 차단 */
+    /* [QR 모바일 접속 전용] 독립형 직관적 업로드 모드 - 가로 스크롤 원천 차단 및 모바일 터치 최적화 */
     html.mobile-upload-html,
     body.mobile-upload-mode {
       background: #0b0f19 !important;
@@ -353,8 +353,8 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      justify-content: center !important;
-      padding: 1rem 0.75rem !important;
+      justify-content: flex-start !important;
+      padding: 0.75rem 0.5rem 5rem 0.5rem !important;
       margin: 0 !important;
       overflow-x: hidden !important;
       overflow-y: auto !important;
@@ -379,7 +379,7 @@
     body.mobile-upload-mode #certUploadModal {
       position: static !important;
       display: flex !important;
-      align-items: center !important;
+      align-items: flex-start !important;
       justify-content: center !important;
       background: transparent !important;
       backdrop-filter: none !important;
@@ -390,18 +390,19 @@
       opacity: 1 !important;
       visibility: visible !important;
       pointer-events: auto !important;
-      overflow-x: hidden !important;
+      overflow: visible !important;
     }
 
     body.mobile-upload-mode .cert-modal-card {
       width: 100% !important;
       max-width: 100% !important;
+      max-height: none !important;
       margin: 0 auto !important;
       background: #111827 !important;
       border-radius: 20px !important;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
       border: 1px solid rgba(250, 204, 21, 0.4) !important;
-      overflow: hidden !important;
+      overflow: visible !important;
     }
 
     body.mobile-upload-mode .cert-modal-body {
@@ -416,15 +417,37 @@
       background: rgba(17, 24, 39, 0.8) !important;
       border-right: none !important;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-      padding: 1.25rem 1rem !important;
+      padding: 1.1rem 0.9rem !important;
       width: 100% !important;
       max-width: 100% !important;
     }
 
     body.mobile-upload-mode .cert-modal-info-col {
-      padding: 1.25rem 1rem !important;
+      padding: 1.1rem 0.9rem !important;
       width: 100% !important;
       max-width: 100% !important;
+    }
+
+    body.mobile-upload-mode .cert-submit-btn {
+      padding: 1.1rem 1.4rem !important;
+      font-size: 1.1rem !important;
+      font-weight: 800 !important;
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5) !important;
+      animation: pulseAttention 2s infinite !important;
+    }
+
+    @keyframes pulseAttention {
+
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+      }
+
+      50% {
+        transform: scale(1.02);
+        box-shadow: 0 8px 28px rgba(245, 158, 11, 0.7);
+      }
     }
   </style>
 </head>
@@ -550,16 +573,33 @@
         <div class="cert-modal-media-col">
           <div class="cert-media-mode-tabs">
             <button type="button" class="cert-tab-btn active" id="certTabUploadBtn">📁 사진 업로드</button>
-            <button type="button" class="cert-tab-btn" id="certTabCameraBtn">📷 카메라 촬영</button>
+            <button type="button" class="cert-tab-btn" id="certTabCameraBtn">📷 웹캠 촬영</button>
           </div>
 
           <!-- 1. 파일 업로드 영역 -->
           <div class="cert-upload-dropzone" id="certDropzone">
+            <!-- 갤러리/파일 선택용 input -->
             <input type="file" id="certFileInput" accept="image/*" style="display: none;">
+            <!-- 스마트폰 카메라 즉시 촬영용 input (capture="user") -->
+            <input type="file" id="certCameraDirectInput" accept="image/*" capture="user" style="display: none;">
+
             <div class="dropzone-content" id="certDropzoneContent">
               <div class="dropzone-icon">📸</div>
-              <p class="dropzone-text"><strong>사진 파일 선택</strong></p>
-              <span class="dropzone-hint">클릭하거나 사진을 드래그해 주세요</span>
+              <p class="dropzone-text"><strong>사진 촬영 또는 파일 선택</strong></p>
+              <span class="dropzone-hint">스마트폰 카메라로 촬영하거나 사진을 선택하세요</span>
+
+              <!-- 스마트폰 원터치 바로 촬영/선택 단추 바 -->
+              <div class="mobile-photo-quick-actions"
+                style="display: flex; gap: 0.6rem; margin-top: 0.85rem; width: 100%; justify-content: center;">
+                <button type="button" id="btnDirectCamera" class="camera-action-btn"
+                  style="flex: 1; padding: 0.75rem 0.6rem; font-size: 0.88rem; font-weight: 800; border-radius: 10px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #0f172a; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.35rem; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
+                  <span>📷</span> 카메라 즉시 촬영
+                </button>
+                <button type="button" id="btnDirectAlbum" class="camera-action-btn secondary"
+                  style="flex: 1; padding: 0.75rem 0.6rem; font-size: 0.88rem; font-weight: 700; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                  <span>📁</span> 앨범 사진 선택
+                </button>
+              </div>
             </div>
           </div>
 
@@ -585,7 +625,21 @@
                 <div class="scan-status-text">✦ AI 변환 중...</div>
               </div>
             </div>
-            <button type="button" id="certResetImgBtn" class="cert-reset-img-btn">다른 사진 선택</button>
+
+            <!-- 사진 준비 완료 배너 -->
+            <div class="photo-ready-banner"
+              style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 0.6rem 0.8rem; text-align: center; font-size: 0.85rem; color: #34d399; font-weight: 700; margin: 0.5rem 0 0.2rem 0; width: 100%;">
+              <span>✅ 사진 준비 완료!</span> 아래 성함을 적고 전송 버튼을 누르세요.
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; width: 100%; margin-top: 0.4rem;">
+              <button type="button" id="certResetImgBtn" class="cert-reset-img-btn" style="flex: 1;">🔄 다른 사진
+                선택</button>
+              <button type="button" id="certScrollToSubmitBtn" class="cert-reset-img-btn"
+                style="flex: 1.3; background: rgba(245, 158, 11, 0.25); color: #fcd34d; border-color: rgba(245, 158, 11, 0.5); font-weight: 800;">
+                🚀 전송 단추로 이동 ↓
+              </button>
+            </div>
           </div>
         </div>
 
@@ -626,7 +680,7 @@
             <div class="cert-modal-action-bar">
               <button type="submit" id="certSubmitBtn" class="cert-submit-btn">
                 <span class="btn-spinner" id="certBtnSpinner" style="display: none;"></span>
-                <span id="certBtnText">✨ 가상 강의실에 등록하기</span>
+                <span id="certBtnText">🚀 사진 전송 및 참석 등록 완료</span>
               </button>
             </div>
           </form>
@@ -743,7 +797,7 @@
   <div id="toastNotification" class="toast-notification"></div>
 
   <!-- 전용 인증 스크립트 -->
-  <script src="js/auth.js?v=20261109_1830" defer></script>
+  <script src="js/auth.js?v=20261109_1840" defer></script>
 </body>
 
 </html>
