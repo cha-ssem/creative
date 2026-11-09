@@ -5,7 +5,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  const LOCAL_STORAGE_KEY = 'CEO_STORYBOARD_CERT_PARTICIPANTS_V2';
+  const LOCAL_STORAGE_KEY = 'CEO_STORYBOARD_CERT_PARTICIPANTS_V3';
   const urlParams = new URLSearchParams(window.location.search);
   const currentRoomId = urlParams.get('room') || 'womanceo_global_sync_9985';
 
@@ -279,19 +279,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
-  // 로컬스토리지에서 참석자 데이터 로드
+  // 로컬스토리지에서 참석자 데이터 로드 (실시간 라이브 행사용: 0명 빈 좌석 기본값)
   let participants = [];
   try {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (saved) {
       participants = JSON.parse(saved);
     } else {
-      participants = [...DEFAULT_PARTICIPANTS];
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
+      participants = [];
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([]));
     }
   } catch (err) {
-    console.warn('LocalStorage error, using defaults:', err);
-    participants = [...DEFAULT_PARTICIPANTS];
+    console.warn('LocalStorage error, using empty defaults:', err);
+    participants = [];
   }
 
   // DOM 엘리먼트 참조
@@ -2134,7 +2134,28 @@ document.addEventListener('DOMContentLoaded', () => {
     showToastNotification('🎉 70명 실시간 업로드 테스트가 성공적으로 완료되었습니다!');
   };
 
-  // 초기 렌더링
+  // 관리자/테스트용 예시 데이터 복원 및 전체 비우기 전역 헬퍼
+  window.restoreDemoParticipants = function () {
+    participants = [...DEFAULT_PARTICIPANTS];
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
+    } catch (e) { }
+    renderCertCards('all');
+    broadcastResetParticipants('DEMO');
+    showToastNotification('✨ 예시 데모 참석자 데이터가 복원되었습니다.');
+  };
+
+  window.clearAllParticipants = function () {
+    participants = [];
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([]));
+    } catch (e) { }
+    renderCertCards('all');
+    broadcastResetParticipants('EMPTY');
+    showToastNotification('🔄 모든 좌석이 0명 빈 상태로 초기화되었습니다.');
+  };
+
+  // 초기 렌더링 (0명 빈 좌석 대기 상태)
   renderCertCards('all');
 });
 
