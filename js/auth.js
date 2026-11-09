@@ -1290,9 +1290,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!certQrContainer) return;
     const currentUrl = new URL(`auth.html?room=${encodeURIComponent(currentRoomId)}#upload`, origin).href;
 
-    if (typeof QRCode !== 'undefined') {
-      certQrContainer.innerHTML = '';
-      try {
+    try {
+      if (typeof qrcode !== 'undefined') {
+        const qr = qrcode(0, 'M');
+        qr.addData(currentUrl);
+        qr.make();
+        const imgTag = qr.createImgTag(5, 8);
+        certQrContainer.innerHTML = imgTag;
+        const imgEl = certQrContainer.querySelector('img');
+        if (imgEl) {
+          imgEl.style.width = '180px';
+          imgEl.style.height = '180px';
+          imgEl.style.display = 'block';
+          imgEl.style.margin = '0 auto';
+        }
+      } else if (typeof QRCode !== 'undefined') {
+        certQrContainer.innerHTML = '';
         new QRCode(certQrContainer, {
           text: currentUrl,
           width: 180,
@@ -1301,12 +1314,11 @@ document.addEventListener('DOMContentLoaded', () => {
           colorLight: '#ffffff',
           correctLevel: QRCode.CorrectLevel.M
         });
-      } catch (err) {
-        console.warn('QRCode instance error, fallback to image API:', err);
+      } else {
         certQrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="display:block;margin:0 auto;width:180px;height:180px;">`;
       }
-    } else {
-      // QRCode 라이브러리 미로딩 시 온라인 이미지 API 폴백
+    } catch (err) {
+      console.warn('QR render error, using image API fallback:', err);
       certQrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="display:block;margin:0 auto;width:180px;height:180px;">`;
     }
 
