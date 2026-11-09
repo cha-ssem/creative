@@ -403,6 +403,14 @@ document.addEventListener('DOMContentLoaded', () => {
               handleRemoteParticipant(data.participant);
             } else if (data.type === 'RESET_PARTICIPANTS') {
               handleRemoteReset(data.mode);
+            } else if (data.type === 'SYNC_COMMAND_START') {
+              // 관리자가 연동 시작을 눌렀을 때 모든 기기에서 상태 활성화 및 기존 목록 동기화
+              if (Array.isArray(data.participants) && data.participants.length > 0) {
+                participants = data.participants;
+                renderCertCards(currentFilter);
+              }
+              updateRealtimeStatus('online', '실시간 연동 활성화 (전체 기기 연동 중)');
+              showToastNotification('🔔 [실시간 연동]이 관리자에 의해 시작되었습니다. 실시간으로 화면이 동기화됩니다.');
             }
           }
         } catch (err) {
@@ -546,11 +554,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(() => { });
   }
 
-  // 실시간 동기화 시작
+  // 실시간 동기화 수신 채널 상시 연결 (모든 기기가 대기 상태로 메시지 수신)
   initLocalSseSync();
-  if (isGlobalSyncActive) {
-    startNtfyGlobalSync();
-  }
+  startNtfyGlobalSync();
 
   // 3. 테마 제어
   function applyTheme(isLight) {
@@ -1375,23 +1381,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 0. '실시간 연동 시작' 단추 핸들러 (비밀번호 인증 후 실시간 연동 시작)
+  // 0. '실시간 연동 시작' 단추 핸들러 (비밀번호 인증 후 실시간 연동 시작 및 모든 기기로 전파)
   const certStartSyncBtn = document.getElementById('certStartSyncBtn');
   if (certStartSyncBtn) {
     certStartSyncBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (isGlobalSyncActive) {
-        showToastNotification('🟢 실시간 연동이 이미 활성화되어 실시간 수신 대기 중입니다.');
-        return;
-      }
 
       if (!verifyAdminPasscode('실시간 연동 시작')) return;
 
       isGlobalSyncActive = true;
       localStorage.setItem('CEO_GLOBAL_SYNC_ACTIVE', 'true');
-      startNtfyGlobalSync();
       updateRealtimeStatus('online', '인터넷 실시간 연동 활성화됨 (9985 인증 완료)');
-      showToastNotification('🎉 [실시간 연동]이 시작되었습니다! 이제 다른 기기나 외부망에서 업로드한 사진도 즉시 실시간 동기화됩니다.');
+
+      // [핵심] 다른 모든 접속 기기(스마트폰, 다른 PC 등)로 실시간 연동 시작 명령 및 현재 참석자 목록 즉시 방송!
+      try {
+        fetch('https://ntfy.sh', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            topic: NTFY_TOPIC,
+            title: '[명령] 실시간 연동 시작',
+            message: JSON.stringify({
+              type: 'SYNC_COMMAND_START',
+              participants: participants,
+              maxSeats: maxSeats,
+              timestamp: Date.now()
+            })
+          })
+        }).then(() => console.log('✦ [Global Sync NTFY] SYNC_COMMAND_START broadcasted.'))
+          .catch(err => console.warn('Sync start broadcast error:', err));
+      } catch (err) { }
+
+      showToastNotification('🎉 [실시간 연동]이 시작되었습니다! 접속 중인 모든 기기에도 연동이 동시 활성화되었습니다.');
     });
   }
 
