@@ -335,6 +335,13 @@
       }
     }
 
+    /* 모바일 기기(화면 폭 768px 이하)에서는 실시간 연동 시작 버튼 숨김 (PC 웹화면에서만 제어) */
+    @media (max-width: 768px) {
+      #certStartSyncBtn {
+        display: none !important;
+      }
+    }
+
     /* [QR 모바일 접속 전용] 독립형 직관적 업로드 모드 - 가로 스크롤 원천 차단 */
     html.mobile-upload-html,
     body.mobile-upload-mode {

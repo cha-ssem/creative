@@ -1391,11 +1391,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 0. '실시간 연동 시작' 단추 핸들러 (비밀번호 인증 후 실시간 연동 시작 및 모든 기기로 전파)
+  // 0. '실시간 연동 시작' 단추 핸들러 (PC 웹화면에서만 비밀번호 인증 후 시작 가능)
   const certStartSyncBtn = document.getElementById('certStartSyncBtn');
   if (certStartSyncBtn) {
     certStartSyncBtn.addEventListener('click', (e) => {
       e.stopPropagation();
+
+      // 모바일 기기 접속 시 실행 방지
+      const isMobileDevice = window.innerWidth <= 768 || document.body.classList.contains('mobile-upload-mode');
+      if (isMobileDevice) {
+        showToastNotification('⚠️ 실시간 연동 시작 제어는 PC 메인 웹페이지에서만 가능합니다.');
+        return;
+      }
 
       if (!verifyAdminPasscode('실시간 연동 시작')) return;
 
@@ -1784,10 +1791,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // 13. [QR 모바일 접속] URL 해시(#upload) 또는 쿼리 파라미터(?mode=upload) 감지 시 모바일 단독 업로드 화면 활성화
   const isUploadMode = window.location.hash.includes('upload') || urlParams.get('mode') === 'upload';
   if (isUploadMode) {
+    document.documentElement.classList.add('mobile-upload-html');
     document.body.classList.add('mobile-upload-mode');
-    setTimeout(() => {
-      openCertUploadModal();
-    }, 100);
+    // 모바일 전용 업로드 모달 즉시 표시
+    if (certUploadModal) {
+      certUploadModal.classList.add('open');
+    }
   }
 
   // 14. 전체화면 표시/해제 기능
