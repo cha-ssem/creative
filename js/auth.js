@@ -6,6 +6,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const LOCAL_STORAGE_KEY = 'CEO_STORYBOARD_CERT_PARTICIPANTS_V3';
+  const MY_PARTICIPANT_ID_KEY = 'CEO_CERT_MY_DEVICE_PARTICIPANT_ID';
+  let myParticipantId = (typeof localStorage !== 'undefined') ? localStorage.getItem(MY_PARTICIPANT_ID_KEY) : null;
   const urlParams = new URLSearchParams(window.location.search);
   const currentRoomId = urlParams.get('room') || 'womanceo_global_sync_9985';
 
@@ -639,6 +641,9 @@ document.addEventListener('DOMContentLoaded', () => {
       showToastNotification('✨ 원격에서 기본 예시 참석자 데이터가 복원되었습니다.');
     } else {
       participants = [];
+      myParticipantId = null;
+      try { localStorage.removeItem(MY_PARTICIPANT_ID_KEY); } catch (e) { }
+      if (typeof updateMyDeviceUiState === 'function') updateMyDeviceUiState();
       showToastNotification('🔄 원격에서 모든 참석자 사진이 비워졌습니다. (빈 좌석 대기)');
     }
     try {
@@ -1307,8 +1312,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const parsedData = parseNameAndCompany({ name: name, company: '' });
 
+        // [1기기 1참석자 정책] 이미 사진을 전송한 기기인 경우 신규 좌석 추가가 아닌 기존 좌석의 사진/정보 수정(교체)
+        const isEditing = !!(myParticipantId && participants.some(p => p.id === myParticipantId));
+        const participantId = isEditing ? myParticipantId : `cert-user-${Date.now()}`;
+
         const newParticipant = {
-          id: `cert-user-${Date.now()}`,
+          id: participantId,
           name: parsedData.name,
           company: parsedData.company,
           presetKey: presetKey,
@@ -1320,21 +1329,34 @@ document.addEventListener('DOMContentLoaded', () => {
           isCurrentViewAfter: true
         };
 
-        participants.unshift(newParticipant);
+        // 내 기기 고유 ID 보존
+        myParticipantId = participantId;
+        try {
+          localStorage.setItem(MY_PARTICIPANT_ID_KEY, myParticipantId);
+        } catch (e) { }
+
+        // 기존 좌석이 있으면 그 자리에 교체(수정), 없으면 신규 추가
+        const myIndex = participants.findIndex(p => p.id === participantId);
+        if (myIndex >= 0) {
+          participants[myIndex] = newParticipant;
+        } else {
+          participants.unshift(newParticipant);
+        }
+
         try {
           localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
         } catch (storageErr) {
           console.warn('Storage limit reached, keeping in-memory:', storageErr);
         }
 
-        // [실시간 브로드캐스트] 연결된 모든 PC/모바일 화면으로 즉시 전파
+        // [실시간 브로드캐스트] 연결된 모든 PC/모바일 화면으로 전파 (서버/클라이언트 모두 ID 동일 시 수정/교체 반영)
         broadcastNewParticipant(newParticipant);
 
         setTimeout(() => {
           if (certAiScanOverlay) certAiScanOverlay.classList.remove('active');
           if (certSubmitBtn) certSubmitBtn.disabled = false;
           if (certBtnSpinner) certBtnSpinner.style.display = 'none';
-          if (certBtnText) certBtnText.textContent = '✨ 가상 강의실에 등록하기';
+          if (certBtnText) certBtnText.textContent = isEditing ? '💾 사진 수정 및 교체 완료' : '✨ 가상 강의실에 등록하기';
 
           const isMobileMode = document.body.classList.contains('mobile-upload-mode');
           if (isMobileMode && certSuccessView) {
@@ -1344,6 +1366,11 @@ document.addEventListener('DOMContentLoaded', () => {
             certSuccessView.style.display = 'block';
             if (certSuccessParticipantName) {
               certSuccessParticipantName.textContent = `👤 ${name} 님`;
+            }
+
+            const successTitleEl = certSuccessView.querySelector('h3');
+            if (successTitleEl) {
+              successTitleEl.textContent = isEditing ? '사진 수정이 완료되었습니다!' : '등록이 완료되었습니다!';
             }
 
             // 모바일 기기에서도 등록 2.2초 후 자동으로 모달을 닫고 실시간 가상 강의실 좌석 화면으로 전환
@@ -1358,8 +1385,9 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
           renderCertCards(currentFilter);
-          showToastNotification(`🎉 ${name} 님의 참석 등록이 완료되었습니다!`);
+          showToastNotification(isEditing ? `✏️ ${name} 님의 참석 사진이 성공적으로 수정되었습니다!` : `🎉 ${name} 님의 참석 등록이 완료되었습니다!`);
           focusOnSeat(newParticipant.id);
+          updateMyDeviceUiState();
         }, 1200);
 
       } catch (err) {
@@ -1391,18 +1419,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   }
 
+  // [1기기 1참석자 정책] 현재 기기의 등록/수정 상태에 따른 UI 텍스트 동기화
+  function updateMyDeviceUiState() {
+    const isEditing = !!(myParticipantId && participants.some(p => p.id === myParticipantId));
+    const modalTitleEl = document.querySelector('.cert-modal-title');
+    const modalBadgeEl = document.querySelector('.cert-badge');
+
+    if (isEditing) {
+      if (mobileFloatingUploadBtn) {
+        mobileFloatingUploadBtn.innerHTML = '<span>✏️</span> 내 사진 수정';
+        mobileFloatingUploadBtn.title = '등록된 내 사진 수정/교체하기';
+      }
+      if (modalTitleEl) modalTitleEl.textContent = '내 참석 사진 수정 (기존 사진 교체)';
+      if (modalBadgeEl) modalBadgeEl.textContent = '✦ EDIT MY ATTENDANCE';
+      if (certBtnText) certBtnText.textContent = '💾 사진 수정 및 교체 완료';
+    } else {
+      if (mobileFloatingUploadBtn) {
+        mobileFloatingUploadBtn.innerHTML = '<span>📷</span> 내 사진 등록';
+        mobileFloatingUploadBtn.title = '내 사진 등록 및 등재하기';
+      }
+      if (modalTitleEl) modalTitleEl.textContent = '참석자 사진 등록';
+      if (modalBadgeEl) modalBadgeEl.textContent = '✦ PARTICIPANT REGISTRATION';
+      if (certBtnText) certBtnText.textContent = '✨ 가상 강의실에 등록하기';
+    }
+  }
+
   // 모달 열기 / 닫기
   function openCertUploadModal() {
-    if (certUploadModal) {
-      if (certSuccessView) certSuccessView.style.display = 'none';
-      if (certModalMediaCol) certModalMediaCol.style.display = '';
-      if (certModalInfoCol) certModalInfoCol.style.display = '';
-      certUploadModal.classList.add('open');
-      certUploadModal.scrollTop = 0;
-      setTimeout(() => {
-        if (certInputName) certInputName.focus();
-      }, 150);
+    if (!certUploadModal) return;
+    if (certSuccessView) certSuccessView.style.display = 'none';
+    if (certModalMediaCol) certModalMediaCol.style.display = '';
+    if (certModalInfoCol) certModalInfoCol.style.display = '';
+
+    updateMyDeviceUiState();
+
+    // 이미 등록된 기기라면 기존 정보 자동 프리필(성함 및 기존 사진 로드)
+    const myInfo = myParticipantId ? participants.find(p => p.id === myParticipantId) : null;
+    if (myInfo) {
+      if (certInputName && !certInputName.value.trim()) {
+        certInputName.value = myInfo.company ? `${myInfo.name} (${myInfo.company})` : myInfo.name;
+      }
+      if (!currentUploadedDataUrl && (myInfo.afterImg || myInfo.beforeImg)) {
+        currentUploadedDataUrl = myInfo.afterImg || myInfo.beforeImg;
+        showPreviewImage(currentUploadedDataUrl);
+      }
     }
+
+    certUploadModal.classList.add('open');
+    certUploadModal.scrollTop = 0;
+    setTimeout(() => {
+      if (certInputName) certInputName.focus();
+    }, 150);
   }
 
   function closeCertUploadModal() {
@@ -2319,6 +2386,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 초기 렌더링 (0명 빈 좌석 대기 상태)
   renderCertCards('all');
+  if (typeof updateMyDeviceUiState === 'function') updateMyDeviceUiState();
 
   // 첫 접속 시 및 실시간 연동 시작 후 뒤늦게 접속한 기기를 위한 즉시 자동 동기화
   syncLatestParticipantsFromServer(false);
