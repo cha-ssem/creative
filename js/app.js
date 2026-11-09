@@ -2024,6 +2024,12 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
   );
 
   contentImages.forEach(img => {
+    // 확대 해제 대상 이미지(no-lightbox 또는 6가지 질문 이미지) 제외
+    if (img.classList.contains('no-lightbox') || img.getAttribute('data-no-lightbox') === 'true' || (img.alt && img.alt.includes('6가지 질문'))) {
+      img.removeAttribute('title');
+      return;
+    }
+
     img.setAttribute('title', '클릭하여 이미지 크게 보기 🔍');
     img.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -2217,11 +2223,15 @@ if (document.readyState === 'loading') {
     initIntroOverlay();
     initCertificationPage();
     initQrModal();
+    initCeoRoleGenerator();
+    initMobileNav();
   });
 } else {
   initIntroOverlay();
   initCertificationPage();
   initQrModal();
+  initCeoRoleGenerator();
+  initMobileNav();
 }
 
 /**
@@ -3002,10 +3012,10 @@ function escapeHtml(str) {
  */
 function initQrModal() {
   const qrModal = document.getElementById('qrModal');
-  const btnOpenQrModal = document.getElementById('btnOpenQrModal');
+  const qrTrigger = document.getElementById('sidebarQrBox') || document.getElementById('btnOpenQrModal');
   const qrModalCloseBtn = document.getElementById('qrModalCloseBtn');
 
-  if (!qrModal || !btnOpenQrModal) return;
+  if (!qrModal) return;
 
   function openQrModal() {
     qrModal.classList.add('open');
@@ -3019,10 +3029,12 @@ function initQrModal() {
     document.body.style.overflow = '';
   }
 
-  btnOpenQrModal.addEventListener('click', (e) => {
-    e.preventDefault();
-    openQrModal();
-  });
+  if (qrTrigger) {
+    qrTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      openQrModal();
+    });
+  }
 
   if (qrModalCloseBtn) {
     qrModalCloseBtn.addEventListener('click', (e) => {
@@ -3040,6 +3052,296 @@ function initQrModal() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && qrModal.classList.contains('open')) {
       closeQrModal();
+    }
+  });
+}
+
+/**
+ * ==========================================================================
+ * CEO 맞춤 AI [역할] 추천 생성기 (Prompt Role Generator) 컨트롤러
+ * ==========================================================================
+ */
+function initCeoRoleGenerator() {
+  const container = document.getElementById('roleGeneratorSection');
+  if (!container || !window.CEO_ROLES_DATA) return;
+
+  const data = window.CEO_ROLES_DATA;
+  const quickChipsWrap = document.getElementById('roleQuickChips');
+  const searchInput = document.getElementById('roleSearchInput');
+  const searchBtn = document.getElementById('roleSearchBtn');
+  const resetBtn = document.getElementById('roleResetBtn');
+  const resultsContainer = document.getElementById('roleResultsContainer');
+
+  let currentQuery = '';
+  let activePreset = data.presets[0]; // 기본 정부지원사업
+
+  // 1. 퀵 칩 버튼 렌더링
+  if (quickChipsWrap && data.quickChips) {
+    quickChipsWrap.innerHTML = '';
+    data.quickChips.forEach((chip, idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'role-chip' + (idx === 0 ? ' active' : '');
+      btn.textContent = chip.label;
+      btn.setAttribute('data-query', chip.query);
+
+      btn.addEventListener('click', () => {
+        quickChipsWrap.querySelectorAll('.role-chip').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (searchInput) {
+          searchInput.value = chip.query;
+          if (resetBtn) resetBtn.style.display = 'block';
+        }
+        currentQuery = chip.query;
+        renderResults(chip.query);
+      });
+
+      quickChipsWrap.appendChild(btn);
+    });
+  }
+
+  // 2. 추천 결과 카드 렌더링 함수
+  function renderResults(query) {
+    if (!resultsContainer) return;
+
+    activePreset = data.findMatchingRoles(query);
+    if (!activePreset) return;
+
+    const displayQuery = query ? query.trim() : activePreset.title;
+
+    let html = `
+      <div class="role-results-header">
+        <div class="role-results-title">
+          <span>🎯 추천 페르소나 분석 결과</span>
+          <span class="role-results-badge">${escapeHtml(activePreset.category)}</span>
+        </div>
+        <div style="font-size: 0.82rem; color: var(--text-secondary);">
+          입력 과업: <strong style="color: var(--accent-gold);">${escapeHtml(displayQuery)}</strong>
+        </div>
+      </div>
+      <div class="role-cards-grid">
+    `;
+
+    activePreset.roles.forEach((role, idx) => {
+      const typeClass = `type-${idx + 1}`;
+      html += `
+        <div class="role-card" data-role-index="${idx}">
+          <div class="role-card-header">
+            <span class="role-card-type ${typeClass}">${escapeHtml(role.type)}</span>
+            <span class="role-card-tag">${escapeHtml(role.tag)}</span>
+          </div>
+          <h4 class="role-card-title">${escapeHtml(role.roleTitle)}</h4>
+          <p class="role-card-persona">${escapeHtml(role.persona)}</p>
+          <div class="role-card-focus">
+            <strong>💡 추천 관점:</strong> ${escapeHtml(role.focus)}
+          </div>
+          <div class="role-card-preview-wrap">
+            <button type="button" class="role-preview-toggle-btn" data-preview-idx="${idx}">
+              <span>👁️ 프롬프트 보기</span>
+            </button>
+            <div class="role-prompt-preview-box" id="rolePromptPreview-${idx}" style="display: none;">
+              <pre class="role-prompt-preview-text">${escapeHtml(role.template(currentQuery || activePreset.title))}</pre>
+            </div>
+            <button type="button" class="role-copy-action-btn" data-role-idx="${idx}">
+              <span>📋 이 역할로 4+2 프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+    resultsContainer.innerHTML = html;
+
+    // '프롬프트 보기' 토글 버튼 이벤트 바인딩
+    resultsContainer.querySelectorAll('.role-preview-toggle-btn').forEach(toggleBtn => {
+      toggleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const pIdx = toggleBtn.getAttribute('data-preview-idx');
+        const previewBox = document.getElementById(`rolePromptPreview-${pIdx}`);
+        if (!previewBox) return;
+
+        const isHidden = previewBox.style.display === 'none';
+        if (isHidden) {
+          previewBox.style.display = 'block';
+          toggleBtn.innerHTML = '<span>✕ 프롬프트 접기</span>';
+          toggleBtn.classList.add('active');
+        } else {
+          previewBox.style.display = 'none';
+          toggleBtn.innerHTML = '<span>👁️ 프롬프트 보기</span>';
+          toggleBtn.classList.remove('active');
+        }
+      });
+    });
+
+    // 복사 버튼 이벤트 바인딩
+    resultsContainer.querySelectorAll('.role-copy-action-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const roleIdx = parseInt(btn.getAttribute('data-role-idx'), 10);
+        const selectedRole = activePreset.roles[roleIdx];
+        if (!selectedRole) return;
+
+        const fullPrompt = selectedRole.template(currentQuery || activePreset.title);
+
+        navigator.clipboard.writeText(fullPrompt).then(() => {
+          const originalText = btn.innerHTML;
+          btn.innerHTML = '<span>✓ 프롬프트 복사 완료!</span>';
+          btn.classList.add('copied');
+
+          // 토스트 알림
+          const toastMsg = `🎉 [${selectedRole.type}] 4+2 결합 프롬프트가 복사되었습니다! Gemini나 ChatGPT에 붙여넣어 보세요.`;
+          if (typeof showToastNotification === 'function') {
+            showToastNotification(toastMsg);
+          } else if (typeof showToast === 'function') {
+            showToast(toastMsg);
+          }
+
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.classList.remove('copied');
+          }, 2200);
+        }).catch(err => {
+          console.error('Copy failed:', err);
+        });
+      });
+    });
+  }
+
+  // 3. 검색 이벤트 바인딩
+  function executeSearch() {
+    if (!searchInput) return;
+    const val = searchInput.value.trim();
+    currentQuery = val;
+    if (resetBtn) resetBtn.style.display = val ? 'block' : 'none';
+
+    // 퀵 칩 활성화 상태 해제
+    if (quickChipsWrap) {
+      const activeChip = Array.from(quickChipsWrap.querySelectorAll('.role-chip')).find(c => c.getAttribute('data-query') === val);
+      quickChipsWrap.querySelectorAll('.role-chip').forEach(c => c.classList.remove('active'));
+      if (activeChip) activeChip.classList.add('active');
+    }
+
+    renderResults(val);
+  }
+
+  if (searchBtn) {
+    searchBtn.addEventListener('click', executeSearch);
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        executeSearch();
+      }
+    });
+
+    searchInput.addEventListener('input', () => {
+      if (resetBtn) {
+        resetBtn.style.display = searchInput.value.trim() ? 'block' : 'none';
+      }
+    });
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      resetBtn.style.display = 'none';
+      currentQuery = '';
+      if (quickChipsWrap) {
+        const firstChip = quickChipsWrap.querySelector('.role-chip');
+        if (firstChip) firstChip.click();
+      } else {
+        renderResults('');
+      }
+    });
+  }
+
+  // 4. 초기 렌더링 (첫 번째 추천 칩 기준)
+  if (data.quickChips && data.quickChips.length > 0) {
+    currentQuery = data.quickChips[0].query;
+    if (searchInput) searchInput.value = currentQuery;
+    if (resetBtn) resetBtn.style.display = 'block';
+    renderResults(currentQuery);
+  } else {
+    renderResults('');
+  }
+}
+
+/**
+ * ==========================================================================
+ * 모바일(스마트폰) 네비게이션 드로어 및 상단 바 컨트롤러
+ * (PC 환경에서는 전혀 실행/영향 없음)
+ * ==========================================================================
+ */
+function initMobileNav() {
+  const sidebar = document.getElementById('mainSidebar') || document.querySelector('.sidebar');
+  const toggleBtn = document.getElementById('mobileNavToggleBtn');
+  const closeBtn = document.getElementById('mobileSidebarCloseBtn');
+  const backdrop = document.getElementById('mobileSidebarBackdrop');
+  const mobileThemeBtn = document.getElementById('mobileThemeToggleBtn');
+  const pcThemeBtn = document.getElementById('themeToggleBtn');
+  const mobileThemeIcon = document.getElementById('mobileThemeIcon');
+  const pcThemeIcon = document.getElementById('themeIcon');
+
+  if (!sidebar) return;
+
+  function openMobileSidebar() {
+    sidebar.classList.add('mobile-open');
+    if (backdrop) backdrop.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileSidebar() {
+    sidebar.classList.remove('mobile-open');
+    if (backdrop) backdrop.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openMobileSidebar();
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeMobileSidebar();
+    });
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener('click', closeMobileSidebar);
+  }
+
+  // 모바일에서 사이드바 링크 클릭 시 자동 닫힘
+  const navLinks = sidebar.querySelectorAll('.sidebar-link, .sidebar-sublink');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        closeMobileSidebar();
+      }
+    });
+  });
+
+  // 모바일 테마 토글 버튼 연동
+  if (mobileThemeBtn && pcThemeBtn) {
+    mobileThemeBtn.addEventListener('click', () => {
+      pcThemeBtn.click();
+      if (mobileThemeIcon && pcThemeIcon) {
+        mobileThemeIcon.textContent = pcThemeIcon.textContent;
+      }
+    });
+  }
+
+  // 화면 크기가 다시 PC로 커졌을 때 닫기 리셋
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && sidebar.classList.contains('mobile-open')) {
+      closeMobileSidebar();
     }
   });
 }

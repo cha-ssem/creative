@@ -7182,10 +7182,11 @@ body.light-theme .prompt-copy-btn.copied {
 .prompt-text-block.editable-prompt {
   cursor: text;
   min-height: 200px;
-  text-align: left;
+  text-align: left !important;
+  text-indent: 0 !important;
   line-height: 1.8;
   white-space: pre-wrap;
-  word-break: keep-all;
+  word-break: break-all;
   overflow-wrap: break-word;
   tab-size: 2;
 }
@@ -7217,6 +7218,55 @@ body.light-theme .prompt-text-block.editable-prompt:focus {
   border-color: var(--accent-gold);
   background: #ffffff;
   box-shadow: 0 0 12px rgba(180, 131, 24, 0.2);
+}
+
+/* 4+2 공식 결합형 프롬프트 태그 라벨 ([역할], [배경] 등 '[]' 텍스트 검정색 설정 및 일반 굵기) */
+.prompt-tag-label {
+  color: #000000 !important;
+  font-weight: normal !important;
+  display: inline-block;
+  user-select: none;
+}
+
+body:not(.light-theme) .prompt-tag-label {
+  background: rgba(255, 255, 255, 0.95);
+  color: #000000 !important;
+  font-weight: normal !important;
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  line-height: 1.25;
+  margin-right: 0.15rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+body.light-theme .prompt-tag-label {
+  color: #000000 !important;
+  font-weight: normal !important;
+}
+
+.prompt-var-text {
+  color: #fb923c;
+  /* 밝은 주황색 계열 (다크 모드 가독성 극대화) */
+  font-weight: 600;
+  border-bottom: 1px dashed rgba(251, 146, 60, 0.5);
+  transition: all var(--transition-fast);
+}
+
+.prompt-text-block.editable-prompt:focus .prompt-var-text {
+  color: #fdba74;
+  border-bottom-color: #fdba74;
+}
+
+body.light-theme .prompt-var-text {
+  color: #ea580c;
+  /* 선명한 딥 주황색 (라이트 모드 고대비 가독성) */
+  font-weight: 700;
+  border-bottom: 1px dashed rgba(234, 88, 12, 0.55);
+}
+
+body.light-theme .prompt-text-block.editable-prompt:focus .prompt-var-text {
+  color: #c2410c;
+  border-bottom-color: #c2410c;
 }
 
 /* 6대 콘텐츠 갤러리 그리드 (전략2 쇼케이스) */
@@ -7449,6 +7499,14 @@ body.light-theme .tech-judge-badge.non-ai {
   filter: brightness(1.05);
 }
 
+.notion-content-wrapper img.no-lightbox,
+.notion-content-wrapper img[data-no-lightbox="true"],
+.notion-content-wrapper img.no-lightbox:hover {
+  cursor: default !important;
+  filter: none !important;
+  transform: none !important;
+}
+
 .image-lightbox-overlay {
   position: fixed;
   top: 0;
@@ -7572,51 +7630,112 @@ body.light-theme .tech-judge-badge.non-ai {
 }
 
 /* ==========================================================================
-   사이드바 하단 정렬 'QR코드 보기' 및 전용 QR 팝업 모달
+   사이드바 하단 상시 노출 'QR코드' 카드 스타일
    ========================================================================== */
 .sidebar-item-qr {
   margin-top: auto;
   padding-top: 0.85rem;
   border-top: 1px dashed var(--border-subtle);
+  list-style: none;
 }
 
-.sidebar-qr-btn {
-  background: rgba(56, 189, 248, 0.08);
-  border-color: rgba(56, 189, 248, 0.28);
-  color: var(--accent-cyan);
-  cursor: pointer;
+.sidebar-qr-box {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 0.65rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  text-align: center;
   transition: all var(--transition-fast);
+  cursor: pointer;
 }
 
-.sidebar-qr-btn:hover {
-  background: rgba(56, 189, 248, 0.16);
+.sidebar-qr-box:hover {
   border-color: var(--accent-cyan);
-  color: #ffffff;
-  box-shadow: 0 0 14px var(--accent-cyan-glow);
+  background: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
+  transform: translateY(-2px);
 }
 
-.sidebar-qr-btn .step-num {
-  background: rgba(56, 189, 248, 0.2);
-  color: var(--accent-cyan);
-  font-size: 0.85rem;
-  border-radius: var(--radius-sm);
+body.light-theme .sidebar-qr-box {
+  background: #ffffff;
+  border-color: rgba(2, 132, 199, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-body.light-theme .sidebar-qr-btn {
-  background: rgba(2, 132, 199, 0.08);
-  border-color: rgba(2, 132, 199, 0.28);
-  color: #0284c7;
-}
-
-body.light-theme .sidebar-qr-btn:hover {
-  background: rgba(2, 132, 199, 0.15);
-  color: #0369a1;
+body.light-theme .sidebar-qr-box:hover {
   border-color: #0284c7;
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.15);
 }
 
-body.light-theme .sidebar-qr-btn .step-num {
-  background: rgba(2, 132, 199, 0.15);
+.sidebar-qr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 0.15rem;
+}
+
+.sidebar-qr-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+}
+
+body.light-theme .sidebar-qr-badge {
   color: #0284c7;
+}
+
+.sidebar-qr-scan-text {
+  font-size: 0.65rem;
+  font-weight: 800;
+  font-family: 'Cinzel', sans-serif;
+  color: var(--accent-gold);
+  background: rgba(229, 185, 88, 0.15);
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+}
+
+body.light-theme .sidebar-qr-scan-text {
+  color: #92400e;
+  background: rgba(180, 131, 24, 0.12);
+}
+
+/* 카메라 인식률 극대화를 위한 흰색 백그라운드 프레임 */
+.sidebar-qr-image-wrap {
+  background: #ffffff;
+  padding: 0.45rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  width: 135px;
+  height: 135px;
+  box-sizing: border-box;
+}
+
+.sidebar-qr-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.sidebar-qr-hint {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+body.light-theme .sidebar-qr-hint {
+  color: #475569;
 }
 
 /* QR 전용 모달 스타일 */
@@ -7697,4 +7816,504 @@ body.light-theme .qr-scan-guide {
   color: #0284c7;
   background: rgba(2, 132, 199, 0.08);
   border-color: rgba(2, 132, 199, 0.3);
+}
+
+/* ==========================================================================
+   CEO 맞춤 AI [역할] 추천 생성기 (Prompt Role Generator Widget)
+   ========================================================================== */
+.role-generator-block {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.75) 100%);
+  border: 1px solid rgba(229, 185, 88, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(229, 185, 88, 0.1);
+  margin-bottom: 2.2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+body.light-theme .role-generator-block {
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(180, 131, 24, 0.4);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06), 0 0 18px rgba(180, 131, 24, 0.12);
+}
+
+.role-badge {
+  background: rgba(229, 185, 88, 0.18) !important;
+  color: var(--accent-gold) !important;
+  border: 1px solid rgba(229, 185, 88, 0.45) !important;
+}
+
+body.light-theme .role-badge {
+  background: rgba(180, 131, 24, 0.12) !important;
+  color: #92400e !important;
+  border-color: rgba(180, 131, 24, 0.4) !important;
+}
+
+/* 퀵 추천 키워드 칩 */
+.role-quick-chips-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 1.15rem;
+  padding: 0.75rem 0.95rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+body.light-theme .role-quick-chips-wrap {
+  background: #f1f5f9;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.role-quick-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  white-space: nowrap;
+}
+
+body.light-theme .role-quick-label {
+  color: #92400e;
+}
+
+.role-quick-chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.role-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 0.32rem 0.7rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.role-chip:hover,
+.role-chip.active {
+  background: rgba(229, 185, 88, 0.18);
+  border-color: var(--accent-gold);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(229, 185, 88, 0.25);
+}
+
+body.light-theme .role-chip {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #475569;
+}
+
+body.light-theme .role-chip:hover,
+body.light-theme .role-chip.active {
+  background: #fffbeb;
+  border-color: var(--accent-gold);
+  color: #92400e;
+  box-shadow: 0 2px 8px rgba(180, 131, 24, 0.2);
+}
+
+/* 검색 인풋 바 */
+.role-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.45rem 0.6rem 0.45rem 1rem;
+  transition: all var(--transition-fast);
+  margin-bottom: 1.5rem;
+}
+
+.role-input-bar:focus-within {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 15px rgba(229, 185, 88, 0.25);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+body.light-theme .role-input-bar {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .role-input-bar:focus-within {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 12px rgba(180, 131, 24, 0.2);
+}
+
+.role-input-icon {
+  font-size: 1.15rem;
+  opacity: 0.7;
+}
+
+.role-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.role-search-input::placeholder {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+body.light-theme .role-search-input {
+  color: #0f172a;
+}
+
+.role-reset-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.45rem;
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+}
+
+.role-reset-btn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.role-search-btn {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, #b48318 100%);
+  color: #0b0f19;
+  font-weight: 700;
+  font-size: 0.88rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 1.25rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(229, 185, 88, 0.3);
+}
+
+.role-search-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(229, 185, 88, 0.45);
+  filter: brightness(1.08);
+}
+
+body.light-theme .role-search-btn {
+  color: #ffffff;
+}
+
+/* 결과 컨테이너 */
+.role-results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.role-results-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.role-results-badge {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+body.light-theme .role-results-badge {
+  background: rgba(2, 132, 199, 0.1);
+  color: #0284c7;
+  border-color: rgba(2, 132, 199, 0.3);
+}
+
+/* 3대 추천 카드 그리드 */
+.role-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 1.25rem;
+}
+
+.role-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.role-card:hover {
+  border-color: var(--accent-gold);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(229, 185, 88, 0.15);
+}
+
+body.light-theme .role-card {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .role-card:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 0 15px rgba(180, 131, 24, 0.15);
+}
+
+.role-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.role-card-type {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+}
+
+.role-card-type.type-1 {
+  background: rgba(229, 185, 88, 0.15);
+  color: var(--accent-gold);
+  border: 1px solid rgba(229, 185, 88, 0.4);
+}
+
+.role-card-type.type-2 {
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.role-card-type.type-3 {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+body.light-theme .role-card-type.type-1 {
+  background: rgba(180, 131, 24, 0.12);
+  color: #92400e;
+  border-color: rgba(180, 131, 24, 0.35);
+}
+
+body.light-theme .role-card-type.type-2 {
+  background: rgba(2, 132, 199, 0.1);
+  color: #0284c7;
+  border-color: rgba(2, 132, 199, 0.3);
+}
+
+body.light-theme .role-card-type.type-3 {
+  background: rgba(147, 51, 234, 0.1);
+  color: #7e22ce;
+  border-color: rgba(147, 51, 234, 0.3);
+}
+
+.role-card-tag {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.role-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.45;
+  margin: 0;
+}
+
+body.light-theme .role-card-title {
+  color: #0f172a;
+}
+
+.role-card-persona {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.role-card-focus {
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.06);
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--accent-cyan);
+  line-height: 1.5;
+}
+
+body.light-theme .role-card-focus {
+  color: #0369a1;
+  background: rgba(2, 132, 199, 0.06);
+  border-left-color: #0284c7;
+}
+
+/* 프롬프트 미리보기 토글 */
+.role-card-preview-wrap {
+  margin-top: auto;
+  padding-top: 0.65rem;
+  border-top: 1px dashed var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+/* 프롬프트 보기 토글 버튼 */
+.role-preview-toggle-btn {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.role-preview-toggle-btn:hover,
+.role-preview-toggle-btn.active {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+body.light-theme .role-preview-toggle-btn {
+  background: #f8fafc;
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #475569;
+}
+
+body.light-theme .role-preview-toggle-btn:hover,
+body.light-theme .role-preview-toggle-btn.active {
+  background: rgba(2, 132, 199, 0.08);
+  border-color: #0284c7;
+  color: #0284c7;
+}
+
+/* 프롬프트 내용 박스 */
+.role-prompt-preview-box {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 0.95rem;
+  max-height: 220px;
+  overflow-y: auto;
+  animation: fadeInDown 0.25s ease-out;
+}
+
+body.light-theme .role-prompt-preview-box {
+  background: #f1f5f9;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.role-prompt-preview-text {
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+  text-align: left !important;
+  text-indent: 0 !important;
+}
+
+body.light-theme .role-prompt-preview-text {
+  color: #1e293b;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.role-copy-action-btn {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(229, 185, 88, 0.2) 0%, rgba(229, 185, 88, 0.1) 100%);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  font-weight: 700;
+  font-size: 0.86rem;
+  padding: 0.65rem 0.95rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.role-copy-action-btn:hover {
+  background: var(--accent-gold);
+  color: #0b0f19;
+  box-shadow: 0 4px 14px rgba(229, 185, 88, 0.35);
+  transform: translateY(-1px);
+}
+
+.role-copy-action-btn.copied {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  border-color: #059669 !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+}
+
+body.light-theme .role-copy-action-btn {
+  background: rgba(180, 131, 24, 0.1);
+  border-color: #b48318;
+  color: #92400e;
+}
+
+body.light-theme .role-copy-action-btn:hover {
+  background: #b48318;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   PC 기본 화면에서 모바일 전용 컴포넌트 완벽 은닉 (PC 100% 무영향 보장)
+   ========================================================================== */
+.mobile-top-bar,
+.mobile-sidebar-close-btn,
+.mobile-sidebar-backdrop {
+  display: none !important;
 }
