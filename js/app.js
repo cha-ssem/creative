@@ -2216,10 +2216,12 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     initIntroOverlay();
     initCertificationPage();
+    initQrModal();
   });
 } else {
   initIntroOverlay();
   initCertificationPage();
+  initQrModal();
 }
 
 /**
@@ -2991,4 +2993,53 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+/**
+ * ==========================================================================
+ * 좌측 사이드바 하단 'QR코드 보기' 모달 컨트롤러
+ * ==========================================================================
+ */
+function initQrModal() {
+  const qrModal = document.getElementById('qrModal');
+  const btnOpenQrModal = document.getElementById('btnOpenQrModal');
+  const qrModalCloseBtn = document.getElementById('qrModalCloseBtn');
+
+  if (!qrModal || !btnOpenQrModal) return;
+
+  function openQrModal() {
+    qrModal.classList.add('open');
+    qrModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeQrModal() {
+    qrModal.classList.remove('open');
+    qrModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  btnOpenQrModal.addEventListener('click', (e) => {
+    e.preventDefault();
+    openQrModal();
+  });
+
+  if (qrModalCloseBtn) {
+    qrModalCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeQrModal();
+    });
+  }
+
+  qrModal.addEventListener('click', (e) => {
+    if (e.target === qrModal) {
+      closeQrModal();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && qrModal.classList.contains('open')) {
+      closeQrModal();
+    }
+  });
 }

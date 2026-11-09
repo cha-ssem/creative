@@ -986,6 +986,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  flex: 1;
 }
 
 .sidebar-menu-title {
@@ -7181,6 +7182,12 @@ body.light-theme .prompt-copy-btn.copied {
 .prompt-text-block.editable-prompt {
   cursor: text;
   min-height: 200px;
+  text-align: left;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  tab-size: 2;
 }
 
 .prompt-text-block.editable-prompt:hover {
@@ -7562,4 +7569,132 @@ body.light-theme .tech-judge-badge.non-ai {
 .image-lightbox-action-btn:hover {
   background: var(--accent-cyan);
   color: #0b0f19;
+}
+
+/* ==========================================================================
+   사이드바 하단 정렬 'QR코드 보기' 및 전용 QR 팝업 모달
+   ========================================================================== */
+.sidebar-item-qr {
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--border-subtle);
+}
+
+.sidebar-qr-btn {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.28);
+  color: var(--accent-cyan);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sidebar-qr-btn:hover {
+  background: rgba(56, 189, 248, 0.16);
+  border-color: var(--accent-cyan);
+  color: #ffffff;
+  box-shadow: 0 0 14px var(--accent-cyan-glow);
+}
+
+.sidebar-qr-btn .step-num {
+  background: rgba(56, 189, 248, 0.2);
+  color: var(--accent-cyan);
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+}
+
+body.light-theme .sidebar-qr-btn {
+  background: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.28);
+  color: #0284c7;
+}
+
+body.light-theme .sidebar-qr-btn:hover {
+  background: rgba(2, 132, 199, 0.15);
+  color: #0369a1;
+  border-color: #0284c7;
+}
+
+body.light-theme .sidebar-qr-btn .step-num {
+  background: rgba(2, 132, 199, 0.15);
+  color: #0284c7;
+}
+
+/* QR 전용 모달 스타일 */
+.qr-modal-card {
+  max-width: 440px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 2.2rem 2rem;
+  border: 1px solid var(--border-highlight);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-lg), 0 0 35px var(--accent-gold-glow);
+}
+
+body.light-theme .qr-modal-card {
+  background: #ffffff;
+  border-color: rgba(180, 131, 24, 0.35);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.qr-image-frame {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.qr-image-frame img {
+  width: 230px;
+  height: 230px;
+  object-fit: contain;
+  display: block;
+}
+
+.qr-modal-badge {
+  font-family: 'Cinzel', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  background: rgba(229, 185, 88, 0.12);
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-highlight);
+  letter-spacing: 1px;
+}
+
+.qr-modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.qr-modal-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.qr-scan-guide {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.08);
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1px dashed var(--border-cyan);
+}
+
+body.light-theme .qr-scan-guide {
+  color: #0284c7;
+  background: rgba(2, 132, 199, 0.08);
+  border-color: rgba(2, 132, 199, 0.3);
 }

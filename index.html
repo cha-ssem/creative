@@ -48,7 +48,8 @@
 
     <!-- 사이드바 상단 프로젝트 정보 박스 -->
     <div class="sidebar-project-box">
-      <div class="sidebar-badge" id="btnReplayIntro" style="cursor: pointer;" title="클릭하여 시네마틱 인트로 영상 다시 보기">🎬 AI Branded Film ↺</div>
+      <div class="sidebar-badge" id="btnReplayIntro" style="cursor: pointer;" title="클릭하여 시네마틱 인트로 영상 다시 보기">🎬 AI
+        Branded Film ↺</div>
       <h1 class="sidebar-project-title" id="projectTitle">생성형 AI로<br>달라진 CEO의 하루</h1>
       <p class="sidebar-project-desc">
         야근과 서류 작업의 압박에서 벗어나, 생성형 AI로 스마트한 리더십을 되찾은 50대 여성 CEO의 시네마틱 여정
@@ -153,6 +154,15 @@
           <span>변화의 시작 인증</span>
           <span class="nav-ext-badge" style="font-size: 0.75rem; margin-left: auto; opacity: 0.8;">↗</span>
         </a>
+      </li>
+
+      <!-- QR코드 보기 (메뉴 영역 아래쪽 정렬) -->
+      <li class="sidebar-item-qr">
+        <button class="sidebar-link sidebar-qr-btn" id="btnOpenQrModal" type="button" title="스마트폰 접속 QR코드 보기">
+          <span class="step-num">📱</span>
+          <span>QR코드 보기</span>
+          <span class="nav-ext-badge" style="font-size: 0.72rem; margin-left: auto; opacity: 0.9;">SCAN</span>
+        </button>
       </li>
     </ul>
 
@@ -1147,8 +1157,7 @@
                   [형식] 전략명, 실행 방법, 예상 비용, 기대 효과를 표(Table) 형태로 정리하고, 가장 먼저 실행할 전략을 추천해 줘.
                   [조건] 월 마케팅 예산은 100만 원 이내로 제한하고, 별도 마케팅 담당자 없이도 실행할 수 있는 방안으로 제안해 줘. 기대 효과는 과장하지 말고, 확인되지 않은 수치를 임의로
                   만들지 마.
-                  [샘플] 다음 예시의 구조를 참고해 작성해 줘.
-                  [전략명] → [실행 방법] → [예상 비용] → [기대 효과]</div>
+                  [샘플] 다음 예시의 구조를 참고해 작성해 줘. [전략명] → [실행 방법] → [예상 비용] → [기대 효과]</div>
                 <p style="font-size: 0.8rem; color: #34d399; line-height: 1.5; margin: 0;">
                   ✨ 결과 : 4050 여성 타깃과 100만 원 예산에 딱 맞는 즉시 실행 가능한 표 형태의 현실적 전략 제안 도출
                 </p>
@@ -2225,6 +2234,20 @@ files.download(OUTPUT_FILE)</pre>
           <span>새 탭에서 원본 보기</span> ↗
         </a>
       </div>
+    </div>
+  </div>
+
+  <!-- QR 코드 보기 팝업 모달 -->
+  <div id="qrModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-card qr-modal-card">
+      <button type="button" class="modal-close-btn" id="qrModalCloseBtn" title="닫기 (Esc)">&times;</button>
+      <span class="qr-modal-badge">MOBILE ACCESS</span>
+      <h3 class="qr-modal-title">📱 모바일 접속 QR 코드</h3>
+      <p class="qr-modal-desc">스마트폰 기본 카메라 앱으로 아래 QR 코드를 스캔하시면 모바일 기기에서 웹페이지를 바로 열람하실 수 있습니다.</p>
+      <div class="qr-image-frame">
+        <img src="images/chassem_QR.jpg" alt="차쌤의 通하는 클라스 모바일 접속 QR 코드" loading="lazy">
+      </div>
+      <div class="qr-scan-guide">🔍 스마트폰 카메라를 비추면 상단에 바로가기 알림이 표시됩니다</div>
     </div>
   </div>
 
