@@ -333,12 +333,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const certBtnSpinner = document.getElementById('certBtnSpinner');
   const certBtnText = document.getElementById('certBtnText');
 
-  // 모바일 전용 등록 완료 뷰 참조
+  // 모바일 전용 등록 완료 뷰 및 새로고침 참조
   const certSuccessView = document.getElementById('certSuccessView');
   const certSuccessParticipantName = document.getElementById('certSuccessParticipantName');
   const certRegisterAnotherBtn = document.getElementById('certRegisterAnotherBtn');
   const certViewLiveClassroomBtn = document.getElementById('certViewLiveClassroomBtn');
   const mobileFloatingUploadBtn = document.getElementById('mobileFloatingUploadBtn');
+  const mobileFloatingRefreshBtn = document.getElementById('mobileFloatingRefreshBtn');
+  const mobileNavRefreshBtn = document.getElementById('mobileNavRefreshBtn');
   const certModalMediaCol = document.querySelector('.cert-modal-media-col');
   const certModalInfoCol = document.querySelector('.cert-modal-info-col');
 
@@ -416,6 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ntfyEventSource.addEventListener('open', () => {
         console.log('✦ [Global Sync NTFY] Connected to real-time pubsub stream.');
         updateRealtimeStatus('online', '인터넷 실시간 연동 활성화 (연결됨)');
+        syncLatestParticipantsFromServer(false);
       });
 
       ntfyEventSource.addEventListener('message', (e) => {
@@ -473,13 +476,13 @@ document.addEventListener('DOMContentLoaded', () => {
           if (!isGlobalSyncActive) {
             updateRealtimeStatus('online', '로컬 실시간 연동 완료');
           }
+          syncLatestParticipantsFromServer(false);
         });
         sseEventSource.addEventListener('init', (e) => {
           try {
             const data = JSON.parse(e.data);
             if (Array.isArray(data.participants) && data.participants.length > 0) {
-              participants = data.participants;
-              renderCertCards(currentFilter);
+              mergeParticipantsList(data.participants);
             }
           } catch (err) { }
         });
@@ -497,6 +500,105 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     } catch (e) { }
+  }
+
+  // =========================================================================
+  // [핵심] 실시간 연동 시작 후 뒤늦게 접속한 기기를 위한 최신 데이터 원격 동기화 & 새로고침
+  // =========================================================================
+  function mergeParticipantsList(newList) {
+    if (!Array.isArray(newList)) return;
+    let hasChanged = false;
+    newList.forEach(item => {
+      if (item && item.id) {
+        const idx = participants.findIndex(p => p.id === item.id);
+        if (idx >= 0) {
+          participants[idx] = item;
+        } else {
+          participants.unshift(item);
+          hasChanged = true;
+        }
+      }
+    });
+    if (hasChanged || newList.length === 0) {
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
+      } catch (e) { }
+      renderCertCards(currentFilter);
+    }
+  }
+
+  async function syncLatestParticipantsFromServer(showNotice = false) {
+    const refreshIcons = document.querySelectorAll('.refresh-icon, .nav-refresh-icon');
+    refreshIcons.forEach(icon => icon.classList.add('spinning-refresh'));
+
+    // 1) 로컬 서버 상태 조회
+    try {
+      const res = await fetch('/api/cert/state', { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data.participants) && data.participants.length > 0) {
+          mergeParticipantsList(data.participants);
+          if (data.maxSeats && data.maxSeats !== maxSeats) {
+            maxSeats = data.maxSeats;
+          }
+        }
+      }
+    } catch (err) { }
+
+    // 2) 초광역 NTFY 최근 캐시 메시지 조회 (동일 와이파이가 아닌 LTE/5G 모바일 완벽 대응)
+    try {
+      const ntfyRes = await fetch(`https://ntfy.sh/${NTFY_TOPIC}/json?poll=1`, { cache: 'no-store' });
+      if (ntfyRes.ok) {
+        const text = await ntfyRes.text();
+        const lines = text.trim().split('\n');
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          try {
+            const raw = JSON.parse(line);
+            if (raw && raw.message) {
+              let msgObj = null;
+              try { msgObj = JSON.parse(decodeURIComponent(raw.message)); } catch (e) {
+                try { msgObj = JSON.parse(raw.message); } catch (e2) { }
+              }
+              if (msgObj && msgObj.type === 'NEW_PARTICIPANT' && msgObj.participant) {
+                if (raw.attachment && raw.attachment.url) {
+                  msgObj.participant.afterImg = raw.attachment.url;
+                  if (!msgObj.participant.beforeImg || msgObj.participant.beforeImg.length > 50000) {
+                    msgObj.participant.beforeImg = raw.attachment.url;
+                  }
+                }
+                const idx = participants.findIndex(p => p.id === msgObj.participant.id);
+                if (idx < 0) {
+                  participants.unshift(msgObj.participant);
+                } else {
+                  participants[idx] = msgObj.participant;
+                }
+              } else if (msgObj && msgObj.type === 'SYNC_COMMAND_START' && Array.isArray(msgObj.participants)) {
+                mergeParticipantsList(msgObj.participants);
+              } else if (msgObj && msgObj.type === 'RESET_PARTICIPANTS') {
+                if (msgObj.mode === 'EMPTY') {
+                  participants = [];
+                }
+              }
+            }
+          } catch (lineErr) { }
+        }
+      }
+    } catch (ntfyErr) { }
+
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
+    } catch (e) { }
+
+    renderCertCards(currentFilter);
+
+    setTimeout(() => {
+      refreshIcons.forEach(icon => icon.classList.remove('spinning-refresh'));
+    }, 750);
+
+    if (showNotice) {
+      showToastNotification(`🔄 실시간 참석 현황이 최신으로 새로고침되었습니다! (총 ${participants.length}명 등재)`);
+    }
   }
 
   // 원격(스마트폰)에서 새로 등록된 참석자 수신 처리
@@ -1338,6 +1440,26 @@ document.addEventListener('DOMContentLoaded', () => {
       openCertUploadModal();
     });
   }
+
+  // [모바일] 실시간 새로고침 버튼 (플로팅 & 네비게이션)
+  if (mobileFloatingRefreshBtn) {
+    mobileFloatingRefreshBtn.addEventListener('click', () => {
+      syncLatestParticipantsFromServer(true);
+    });
+  }
+
+  if (mobileNavRefreshBtn) {
+    mobileNavRefreshBtn.addEventListener('click', () => {
+      syncLatestParticipantsFromServer(true);
+    });
+  }
+
+  // 화면 다시 켰을 때(스마트폰 화면 전환 등) 자동 최신 동기화
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      syncLatestParticipantsFromServer(false);
+    }
+  });
 
   if (certRegisterAnotherBtn) {
     certRegisterAnotherBtn.addEventListener('click', () => {
@@ -2197,6 +2319,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 초기 렌더링 (0명 빈 좌석 대기 상태)
   renderCertCards('all');
+
+  // 첫 접속 시 및 실시간 연동 시작 후 뒤늦게 접속한 기기를 위한 즉시 자동 동기화
+  syncLatestParticipantsFromServer(false);
 });
 
 /**

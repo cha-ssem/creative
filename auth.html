@@ -376,34 +376,86 @@
       backdrop-filter: blur(12px) !important;
     }
 
-    /* 모바일 전용 우측 하단 사진 등록/변경 플로팅 FAB 버튼 */
-    .mobile-floating-upload-btn {
+    /* 상단 네비게이션 실시간 새로고침 버튼 */
+    .mobile-nav-refresh-btn {
+      display: none;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      border-radius: 20px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    body.mobile-upload-mode .mobile-nav-refresh-btn {
+      display: inline-flex !important;
+    }
+
+    /* 모바일 전용 플로팅 액션 컨트롤 바 (새로고침 + 내 사진 등록) */
+    .mobile-floating-actions {
       display: none;
       position: fixed;
       bottom: 1.5rem;
-      right: 1.2rem;
+      right: 1rem;
       z-index: 1500;
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-      color: #0f172a;
-      border: none;
-      border-radius: 30px;
-      padding: 0.8rem 1.3rem;
-      font-size: 0.95rem;
-      font-weight: 800;
-      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.55);
-      cursor: pointer;
-      display: flex;
+      gap: 0.6rem;
       align-items: center;
-      gap: 0.45rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    body.mobile-upload-mode .mobile-floating-upload-btn {
+    body.mobile-upload-mode .mobile-floating-actions {
       display: flex !important;
     }
 
-    body.mobile-upload-mode .mobile-floating-upload-btn:active {
+    .mobile-floating-btn {
+      border: none;
+      border-radius: 30px;
+      padding: 0.75rem 1.15rem;
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .mobile-floating-btn:active {
       transform: scale(0.95);
+    }
+
+    .mobile-floating-btn.upload-btn {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #0f172a;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.55);
+    }
+
+    .mobile-floating-btn.refresh-btn {
+      background: rgba(15, 23, 42, 0.95);
+      color: #38bdf8;
+      border: 1.5px solid rgba(56, 189, 248, 0.5);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .spinning-refresh {
+      display: inline-block;
+      animation: spinRefresh 0.75s ease-in-out;
+    }
+
+    @keyframes spinRefresh {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     /* 모바일 모드에서의 업로드 모달 카드 */
@@ -469,10 +521,16 @@
 
 <body class="light-theme">
 
-  <!-- [모바일 전용 우측 하단 플로팅 사진 등록 버튼] -->
-  <button type="button" id="mobileFloatingUploadBtn" class="mobile-floating-upload-btn" title="내 사진 등록 및 수정하기">
-    <span>📷</span> 내 사진 등록
-  </button>
+  <!-- [모바일 전용 우측 하단 플로팅 컨트롤 바 (새로고침 & 내 사진 등록)] -->
+  <div class="mobile-floating-actions" id="mobileFloatingActions">
+    <button type="button" id="mobileFloatingRefreshBtn" class="mobile-floating-btn refresh-btn"
+      title="실시간 최신 참석 현황 새로고침">
+      <span class="refresh-icon">🔄</span> <span class="refresh-text">새로고침</span>
+    </button>
+    <button type="button" id="mobileFloatingUploadBtn" class="mobile-floating-btn upload-btn" title="내 사진 등록 및 수정하기">
+      <span>📷</span> 내 사진 등록
+    </button>
+  </div>
 
   <!-- [전체 화면 보기 전용 우측 플로팅 액션 컨트롤 (해제 & 캡처)] -->
   <div class="fullscreen-overlay-controls" id="fullscreenOverlayControls">
@@ -502,10 +560,17 @@
         <span class="brand-icon">✦</span>
       </div>
 
-      <button id="authThemeToggleBtn" class="auth-theme-toggle" title="라이트/다크 테마 전환">
-        <span id="authThemeIcon">🌙</span>
-        <span id="authThemeText">다크 모드</span>
-      </button>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <button type="button" id="mobileNavRefreshBtn" class="mobile-nav-refresh-btn" title="실시간 참석 현황 새로고침">
+          <span class="nav-refresh-icon">🔄</span>
+          <span class="nav-refresh-text">실시간 새로고침</span>
+        </button>
+
+        <button id="authThemeToggleBtn" class="auth-theme-toggle" title="라이트/다크 테마 전환">
+          <span id="authThemeIcon">🌙</span>
+          <span id="authThemeText">다크 모드</span>
+        </button>
+      </div>
     </header>
 
     <!-- 7. 변화의 시작 인증 메인 섹션 (스크롤 없는 단일 화면 핏) -->
@@ -824,7 +889,7 @@
   <div id="toastNotification" class="toast-notification"></div>
 
   <!-- 전용 인증 스크립트 -->
-  <script src="js/auth.js?v=20261109_1920" defer></script>
+  <script src="js/auth.js?v=20261109_1930" defer></script>
 </body>
 
 </html>
