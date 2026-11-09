@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>변화의 시작 인증 (참석자 인증) | CEO AI 클래스</title>
   <!-- Resource Preconnect for Performance -->
@@ -23,7 +24,8 @@
   <script src="https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js"></script>
   <!-- Auth Page Specific Styles -->
   <style>
-    html, body {
+    html,
+    body {
       height: 100%;
       margin: 0;
       padding: 0;
@@ -107,6 +109,7 @@
       .auth-page-wrapper {
         padding: 0.6rem 0.8rem 1.5rem;
       }
+
       .auth-top-nav {
         flex-wrap: wrap;
         gap: 0.5rem;
@@ -324,6 +327,7 @@
         justify-content: center !important;
         height: 100vh !important;
       }
+
       .auth-page-wrapper {
         justify-content: center !important;
         align-items: center !important;
@@ -423,11 +427,13 @@
   <!-- [전체 화면 보기 전용 우측 플로팅 액션 컨트롤 (해제 & 캡처)] -->
   <div class="fullscreen-overlay-controls" id="fullscreenOverlayControls">
     <!-- 전체보기 해제 아이콘 단추 -->
-    <button type="button" id="fsExitBtn" class="fs-fab-btn fs-exit-fab" title="전체화면 해제 (단축키: ESC 또는 F11)" aria-label="전체화면 해제">
+    <button type="button" id="fsExitBtn" class="fs-fab-btn fs-exit-fab" title="전체화면 해제 (단축키: ESC 또는 F11)"
+      aria-label="전체화면 해제">
       <span class="fs-btn-icon">✖</span>
     </button>
     <!-- 화면 캡쳐 아이콘 단추 -->
-    <button type="button" id="fsCaptureBtn" class="fs-fab-btn fs-capture-fab" title="화면 캡쳐 저장 (고화질 이미지 다운로드)" aria-label="화면 캡쳐 저장">
+    <button type="button" id="fsCaptureBtn" class="fs-fab-btn fs-capture-fab" title="화면 캡쳐 저장 (고화질 이미지 다운로드)"
+      aria-label="화면 캡쳐 저장">
       <span class="fs-btn-icon">📸</span>
     </button>
   </div>
@@ -458,10 +464,16 @@
         <!-- 뷰 컨트롤 툴바 (필터, QR, 등록, 캡처) -->
         <div class="view-control-bar cert-action-toolbar">
           <div class="filter-bar" id="certFilterBar" style="margin-bottom: 0;">
-            <button type="button" class="filter-chip active" id="certFilterAllBtn" data-cert-filter="all" title="클릭하여 최대 참석자 정원(좌석 수) 변경하기">전체 참석자 (<span id="certCountTotal">0 / 72</span> ⚙️)</button>
-            <button type="button" class="filter-chip cert-sync-start-btn" id="certStartSyncBtn" title="관리자 비밀번호를 입력하여 실시간 연동을 활성화합니다" style="border-color: #10b981; color: #10b981; font-weight: 700;">⚡ 실시간 연동 시작</button>
-            <button type="button" class="filter-chip cert-reset-btn" id="certResetParticipantsBtn" title="모든 사진을 비우고 0명 빈 좌석 상태로 초기화합니다">🔄 전체 비우기(0명)</button>
-            <button type="button" class="filter-chip" id="certSimulate70Btn" title="70명이 실시간으로 사진을 등록하는 상황을 자동 시뮬레이션 테스트합니다" style="border-color: #38bdf8; color: #38bdf8; font-weight: 700;">🧪 70명 테스트</button>
+            <button type="button" class="filter-chip active" id="certFilterAllBtn" data-cert-filter="all"
+              title="클릭하여 최대 참석자 정원(좌석 수) 변경하기">전체 참석자 (<span id="certCountTotal">0 / 72</span> ⚙️)</button>
+            <button type="button" class="filter-chip cert-sync-start-btn" id="certStartSyncBtn"
+              title="관리자 비밀번호를 입력하여 실시간 연동을 활성화합니다" style="border-color: #10b981; color: #10b981; font-weight: 700;">⚡
+              실시간 연동 시작</button>
+            <button type="button" class="filter-chip cert-reset-btn" id="certResetParticipantsBtn"
+              title="모든 사진을 비우고 0명 빈 좌석 상태로 초기화합니다">🔄 전체 비우기(0명)</button>
+            <button type="button" class="filter-chip" id="certSimulate70Btn"
+              title="70명이 실시간으로 사진을 등록하는 상황을 자동 시뮬레이션 테스트합니다"
+              style="border-color: #38bdf8; color: #38bdf8; font-weight: 700;">🧪 70명 테스트</button>
             <button type="button" class="filter-chip" data-cert-filter="recent">✨ 최근 등록순</button>
             <div class="realtime-status-badge" id="realtimeStatusBadge" title="모바일 ↔ 메인 화면 실시간 연동 상태">
               <span class="realtime-pulse-dot" id="realtimePulseDot"></span>
@@ -470,19 +482,23 @@
           </div>
 
           <div class="cert-btn-group">
-            <button type="button" id="openCertQrBtn" class="toggle-view-btn cert-qr-btn" title="스마트폰으로 사진을 업로드할 수 있는 QR 코드 열기">
+            <button type="button" id="openCertQrBtn" class="toggle-view-btn cert-qr-btn"
+              title="스마트폰으로 사진을 업로드할 수 있는 QR 코드 열기">
               <span class="btn-icon">📱</span>
               <span>모바일 접속 QR</span>
             </button>
-            <button type="button" id="openCertUploadBtn" class="toggle-view-btn cert-upload-trigger-btn" title="사진 촬영 또는 업로드하여 AI 인증 카드 만들기">
+            <button type="button" id="openCertUploadBtn" class="toggle-view-btn cert-upload-trigger-btn"
+              title="사진 촬영 또는 업로드하여 AI 인증 카드 만들기">
               <span class="btn-icon">📸</span>
               <span>사진 등록 &amp; AI 변환</span>
             </button>
-            <button type="button" id="fullscreenToggleBtn" class="toggle-view-btn cert-fullscreen-btn" title="모니터 화면에 꽉 찬 전체화면으로 전환 (단축키: F11 또는 ESC로 해제)">
+            <button type="button" id="fullscreenToggleBtn" class="toggle-view-btn cert-fullscreen-btn"
+              title="모니터 화면에 꽉 찬 전체화면으로 전환 (단축키: F11 또는 ESC로 해제)">
               <span class="btn-icon" id="fullscreenIcon">⛶</span>
               <span id="fullscreenText">전체화면 표시</span>
             </button>
-            <button type="button" id="captureBoardBtn" class="google-flow-link-btn cert-capture-btn" title="상단 현수막과 참석자 전원 카드를 고화질 이미지로 캡처 저장">
+            <button type="button" id="captureBoardBtn" class="google-flow-link-btn cert-capture-btn"
+              title="상단 현수막과 참석자 전원 카드를 고화질 이미지로 캡처 저장">
               <span class="btn-icon">🖼️</span>
               <span>현수막 보드 캡처 저장</span>
             </button>
@@ -521,7 +537,7 @@
   <div class="modal-overlay" id="certUploadModal">
     <div class="modal-card cert-modal-card">
       <button class="modal-close-btn" id="certUploadModalCloseBtn">&times;</button>
-      
+
       <div class="cert-modal-body">
         <!-- 좌측: 사진 업로드 및 촬영/미리보기 컬럼 -->
         <div class="cert-modal-media-col">
@@ -583,7 +599,8 @@
                 <span>👤 성함 및 소속 (기업명)</span>
                 <span class="required-star">*</span>
               </label>
-              <input type="text" id="certInputName" class="form-input" placeholder="예: 김희진 대표 (디지털솔루션)" required maxlength="30" autofocus>
+              <input type="text" id="certInputName" class="form-input" placeholder="예: 김희진 대표 (디지털솔루션)" required
+                maxlength="30" autofocus>
               <div class="input-helper-card">
                 <div class="helper-card-header">
                   <span class="helper-icon">💡</span>
@@ -609,15 +626,18 @@
         </div>
 
         <!-- 등록 완료 상태 뷰 (초기 숨김) -->
-        <div class="cert-modal-success-view" id="certSuccessView" style="display: none; padding: 2.5rem 1.5rem; text-align: center; width: 100%;">
+        <div class="cert-modal-success-view" id="certSuccessView"
+          style="display: none; padding: 2.5rem 1.5rem; text-align: center; width: 100%;">
           <div style="font-size: 3.5rem; margin-bottom: 0.8rem;">🎉</div>
           <h3 style="font-size: 1.35rem; font-weight: 800; color: #fcd34d; margin: 0 0 0.5rem;">등록이 완료되었습니다!</h3>
-          <p id="certSuccessParticipantName" style="font-size: 1.05rem; font-weight: 700; color: #ffffff; margin: 0 0 0.6rem;"></p>
+          <p id="certSuccessParticipantName"
+            style="font-size: 1.05rem; font-weight: 700; color: #ffffff; margin: 0 0 0.6rem;"></p>
           <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.5; margin: 0 0 1.8rem;">
             앞쪽 대형 스크린의 가상 강의실 좌석에<br>
             성공적으로 등재되었습니다. ✨
           </p>
-          <button type="button" id="certRegisterAnotherBtn" class="camera-action-btn secondary" style="width: 100%; padding: 0.8rem; font-size: 0.95rem; border-radius: 10px;">
+          <button type="button" id="certRegisterAnotherBtn" class="camera-action-btn secondary"
+            style="width: 100%; padding: 0.8rem; font-size: 0.95rem; border-radius: 10px;">
             🔄 다른 사진으로 다시 등록하기
           </button>
         </div>
@@ -629,7 +649,7 @@
   <div class="modal-overlay" id="certQrModal">
     <div class="modal-card cert-qr-modal-card">
       <button class="modal-close-btn" id="certQrModalCloseBtn">&times;</button>
-      
+
       <div class="cert-qr-modal-body">
         <div class="qr-modal-icon">📱</div>
         <h3 class="qr-modal-title">스마트폰으로 간편 참석 인증하기</h3>
@@ -643,7 +663,8 @@
           <div class="qr-badge">SCAN TO PARTICIPATE</div>
         </div>
 
-        <div style="margin: 0 auto 0.8rem auto; font-size: 0.78rem; color: #10b981; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; background: rgba(16, 185, 129, 0.1); padding: 0.3rem 0.7rem; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.3);">
+        <div
+          style="margin: 0 auto 0.8rem auto; font-size: 0.78rem; color: #10b981; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; background: rgba(16, 185, 129, 0.1); padding: 0.3rem 0.7rem; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.3);">
           <span>🔒</span> <span>난수화된 비밀 보안 룸 적용 (외부 유출 차단)</span>
         </div>
 
@@ -659,10 +680,11 @@
   <div class="modal-overlay" id="certMaxSeatsModal">
     <div class="modal-card" style="max-width: 500px; padding: 1.8rem 1.6rem;">
       <button class="modal-close-btn" id="certMaxSeatsModalCloseBtn">&times;</button>
-      
+
       <div style="text-align: center; margin-bottom: 1.2rem;">
         <div style="font-size: 2.2rem; margin-bottom: 0.3rem;">👥</div>
-        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin: 0 0 0.4rem;">전체 참석자 정원(좌석 수) 설정</h3>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin: 0 0 0.4rem;">전체 참석자 정원(좌석
+          수) 설정</h3>
         <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; margin: 0;">
           가상 강의실에 배치할 최대 참석자 정원을 설정하세요.<br>
           설정한 인원에 맞춰 최적의 좌석 행과 열이 자동으로 재구성됩니다.
@@ -671,7 +693,8 @@
 
       <!-- 빠른 인원 선택 프리셋 버튼 -->
       <div style="margin-bottom: 1.2rem;">
-        <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 0.5rem;">
+        <label
+          style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 0.5rem;">
           ⚡ 빠른 정원 선택
         </label>
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;" id="quickSeatsPresetGrid">
@@ -693,14 +716,17 @@
             <span>직접 숫자 입력 (1 ~ 120명)</span>
           </label>
           <div style="display: flex; align-items: center; gap: 0.6rem;">
-            <input type="number" id="inputMaxSeats" class="form-input" min="1" max="120" value="72" required style="font-size: 1.1rem; font-weight: 800; text-align: center;">
+            <input type="number" id="inputMaxSeats" class="form-input" min="1" max="120" value="72" required
+              style="font-size: 1.1rem; font-weight: 800; text-align: center;">
             <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-secondary);">석</span>
           </div>
         </div>
 
         <div style="display: flex; gap: 0.6rem; justify-content: flex-end;">
-          <button type="button" id="btnCancelMaxSeats" class="toggle-view-btn" style="padding: 0.6rem 1.2rem;">취소</button>
-          <button type="submit" class="google-flow-link-btn" style="padding: 0.6rem 1.4rem; font-weight: 700;">✓ 정원 설정 적용</button>
+          <button type="button" id="btnCancelMaxSeats" class="toggle-view-btn"
+            style="padding: 0.6rem 1.2rem;">취소</button>
+          <button type="submit" class="google-flow-link-btn" style="padding: 0.6rem 1.4rem; font-weight: 700;">✓ 정원 설정
+            적용</button>
         </div>
       </form>
     </div>
