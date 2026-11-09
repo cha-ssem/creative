@@ -1226,7 +1226,7 @@ document.addEventListener('DOMContentLoaded', () => {
           renderQrCodeWithOrigin(mobileOrigin);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }
 
   function renderQrCodeWithOrigin(origin) {
