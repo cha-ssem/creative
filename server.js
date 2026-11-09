@@ -1,16 +1,60 @@
 /**
  * @file server.js
- * @description 로컬 정적 웹 서버 (Node.js 내장 모듈 사용 - 무설치 실행)
- * 비디오/오디오 스트리밍을 위한 HTTP Range 헤더 지원 및 한글 파일명 완벽 대응
+ * @description 로컬 정적 웹 서버 & 실시간 참석자 동기화(SSE/API) 내장 서버
+ * - 무설치 Node.js 내장 모듈 사용 (100% 무료)
+ * - 비디오/오디오 스트리밍 HTTP Range 지원
+ * - 기기간(스마트폰 ⇄ PC) 실시간 사진 동기화 Server-Sent Events (SSE) 지원
  */
 
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const os = require('os');
 
 const DEFAULT_PORT = 3000;
 const ROOT_DIR = __dirname;
+
+// 실시간 동기화 상태 저장소 (메모리 및 영속 캐시)
+const certStore = {
+  participants: [],
+  maxSeats: 72,
+  lastModified: Date.now()
+};
+
+// SSE(Server-Sent Events) 연결 클라이언트 풀
+const sseClients = new Set();
+
+/**
+ * 연결된 모든 브라우저(스마트폰, PC 화면)로 실시간 이벤트 전송
+ * @param {string} event
+ * @param {any} data
+ */
+function broadcastSseEvent(event, data) {
+  const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+  for (const client of sseClients) {
+    try {
+      client.write(payload);
+    } catch (err) {
+      sseClients.delete(client);
+    }
+  }
+}
+
+/**
+ * 로컬 IPv4 주소 자동 탐색 (스마트폰 접속용)
+ */
+function getLocalIpAddress() {
+  const ifaces = os.networkInterfaces();
+  for (const dev in ifaces) {
+    for (const details of ifaces[dev]) {
+      if (details.family === 'IPv4' && !details.internal) {
+        return details.address;
+      }
+    }
+  }
+  return 'localhost';
+}
 
 /**
  * 지원 파일 확장자별 MIME 타입 맵
@@ -45,9 +89,134 @@ const MIME_TYPES = {
  * @param {http.ServerResponse} res
  */
 const handleRequest = (req, res) => {
+  // CORS 헤더 설정
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Range');
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
   try {
-    const parsedUrl = url.parse(req.url);
+    const parsedUrl = url.parse(req.url, true);
     let pathname = decodeURIComponent(parsedUrl.pathname);
+
+    // =========================================================================
+    // [실시간 동기화 API 1] Server-Sent Events (SSE) 스트림 엔드포인트
+    // =========================================================================
+    if (pathname === '/api/cert/events') {
+      res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+        'Access-Control-Allow-Origin': '*'
+      });
+      res.write('\n');
+
+      sseClients.add(res);
+
+      // 접속 즉시 현재 상태 전송
+      res.write(`event: init\ndata: ${JSON.stringify({
+        participants: certStore.participants,
+        maxSeats: certStore.maxSeats,
+        lastModified: certStore.lastModified
+      })}\n\n`);
+
+      req.on('close', () => {
+        sseClients.delete(res);
+      });
+      return;
+    }
+
+    // =========================================================================
+    // [실시간 동기화 API 2] 현재 참가자 및 상태 조회
+    // =========================================================================
+    if (pathname === '/api/cert/state' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({
+        success: true,
+        participants: certStore.participants,
+        maxSeats: certStore.maxSeats,
+        lastModified: certStore.lastModified,
+        localIp: getLocalIpAddress()
+      }));
+      return;
+    }
+
+    // =========================================================================
+    // [실시간 동기화 API 3] 신규 참가자(사진 등) 등록
+    // =========================================================================
+    if (pathname === '/api/cert/participant' && req.method === 'POST') {
+      let body = '';
+      req.on('data', chunk => {
+        body += chunk;
+        if (body.length > 50 * 1024 * 1024) { // 50MB 제한
+          req.destroy();
+        }
+      });
+
+      req.on('end', () => {
+        try {
+          const newP = JSON.parse(body);
+          if (!newP || !newP.id) {
+            res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify({ success: false, error: '유효하지 않은 데이터입니다.' }));
+            return;
+          }
+
+          // 중복 체크 및 추가
+          const existsIndex = certStore.participants.findIndex(p => p.id === newP.id);
+          if (existsIndex >= 0) {
+            certStore.participants[existsIndex] = newP;
+          } else {
+            certStore.participants.unshift(newP);
+          }
+          certStore.lastModified = Date.now();
+
+          // 모든 연결된 기기(메인 스크린 PC 포함)로 즉각 방송!
+          broadcastSseEvent('new_participant', newP);
+
+          res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: true, count: certStore.participants.length }));
+        } catch (err) {
+          res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: false, error: err.message }));
+        }
+      });
+      return;
+    }
+
+    // =========================================================================
+    // [실시간 동기화 API 4] 참가자 초기화 / 리셋
+    // =========================================================================
+    if (pathname === '/api/cert/reset' && req.method === 'POST') {
+      let body = '';
+      req.on('data', chunk => { body += chunk; });
+      req.on('end', () => {
+        try {
+          const reqData = body ? JSON.parse(body) : {};
+          const mode = reqData.mode || 'EMPTY';
+          if (mode === 'EMPTY') {
+            certStore.participants = [];
+          } else if (Array.isArray(reqData.defaults)) {
+            certStore.participants = [...reqData.defaults];
+          }
+          certStore.lastModified = Date.now();
+
+          broadcastSseEvent('reset_participants', { mode: mode, participants: certStore.participants });
+
+          res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: true, count: certStore.participants.length }));
+        } catch (err) {
+          res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: false, error: err.message }));
+        }
+      });
+      return;
+    }
 
     // 기본 파일 설정
     if (pathname === '/' || pathname === '') {
@@ -144,18 +313,20 @@ const serveFile = (req, res, filePath, stats) => {
 };
 
 /**
- * 서버 시작 (포트 충돌 시 자동 다음 포트 시도)
+ * 서버 시작 (0.0.0.0 바인딩으로 같은 네트워크의 모바일 기기 접속 완벽 지원)
  * @param {number} port
  */
 const startServer = (port) => {
   const server = http.createServer(handleRequest);
+  const localIp = getLocalIpAddress();
 
-  server.listen(port, () => {
+  server.listen(port, '0.0.0.0', () => {
     console.log(`\n==================================================`);
-    console.log(`  🚀 로컬 웹 서버가 성공적으로 실행되었습니다!`);
-    console.log(`  🌐 웹페이지 주소: http://localhost:${port}`);
+    console.log(`  🚀 로컬 웹 & 실시간 동기화 서버가 실행되었습니다!`);
+    console.log(`  🌐 PC 접속 주소: http://localhost:${port}`);
+    console.log(`  📱 스마트폰 접속 주소: http://${localIp}:${port}`);
+    console.log(`  ⚡ 실시간 동기화: 무설치 SSE 내장 (100% 무료 로컬 중계)`);
     console.log(`  📁 서빙 루트 경로: ${ROOT_DIR}`);
-    console.log(`  종료하려면 터미널에서 [Ctrl + C]를 누르세요.`);
     console.log(`==================================================\n`);
   });
 
@@ -171,4 +342,3 @@ const startServer = (port) => {
 
 const portToUse = parseInt(process.env.PORT, 10) || DEFAULT_PORT;
 startServer(portToUse);
-

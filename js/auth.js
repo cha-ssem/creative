@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
       currentRoomId = generateSecureRoomId();
       try {
         localStorage.setItem('CEO_STORYBOARD_SECURE_ROOM_ID', currentRoomId);
-      } catch (e) {}
+      } catch (e) { }
     }
   }
 
@@ -389,8 +389,64 @@ document.addEventListener('DOMContentLoaded', () => {
       realtimePulseDot.className = 'realtime-pulse-dot ' + status;
     }
     if (realtimeStatusBadge) {
-      realtimeStatusBadge.title = `🔒 보안 암호화 룸: ${currentRoomId} (${text})`;
+      realtimeStatusBadge.title = `⚡ 실시간 연동: ${text}`;
     }
+  }
+
+  // 1) 내장 로컬 SSE 실시간 동기화 (최우선 & 100% 무료 로컬 중계)
+  let sseEventSource = null;
+  function initLocalSseSync() {
+    try {
+      if (typeof EventSource !== 'undefined') {
+        updateRealtimeStatus('connecting', '로컬 서버 연동 중...');
+        sseEventSource = new EventSource('/api/cert/events');
+
+        sseEventSource.addEventListener('open', () => {
+          console.log('✦ [Realtime SSE] Connected to local server.');
+          updateRealtimeStatus('online', '실시간 연동 완료 (로컬)');
+        });
+
+        sseEventSource.addEventListener('init', (e) => {
+          try {
+            const data = JSON.parse(e.data);
+            if (Array.isArray(data.participants) && data.participants.length > 0) {
+              participants = data.participants;
+              if (data.maxSeats) maxSeats = data.maxSeats;
+              renderCertCards(currentFilter);
+            }
+          } catch (err) { }
+        });
+
+        sseEventSource.addEventListener('new_participant', (e) => {
+          try {
+            const newP = JSON.parse(e.data);
+            handleRemoteParticipant(newP);
+          } catch (err) { }
+        });
+
+        sseEventSource.addEventListener('reset_participants', (e) => {
+          try {
+            const data = JSON.parse(e.data);
+            handleRemoteReset(data.mode);
+          } catch (err) { }
+        });
+
+        sseEventSource.addEventListener('error', () => {
+          // SSE 일시 중단 시 MQTT 또는 폴링 백업
+          initMqttFallback();
+        });
+      } else {
+        initMqttFallback();
+      }
+    } catch (e) {
+      initMqttFallback();
+    }
+  }
+
+  // 2) 외부 공용 MQTT 폴백 (서버 미지원 정적 호스팅 환경용)
+  function initMqttFallback() {
+    if (realtimeClient && realtimeClient.connected) return;
+    initRealtimeSync();
   }
 
   function initRealtimeSync() {
@@ -412,8 +468,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       realtimeClient.on('connect', () => {
-        console.log('✦ [Realtime] Connected to live broker. Channel:', currentRoomId);
-        updateRealtimeStatus('online', '실시간 연동 완료');
+        console.log('✦ [Realtime MQTT] Connected to live broker. Channel:', currentRoomId);
+        updateRealtimeStatus('online', '실시간 연동 완료 (MQTT)');
         realtimeClient.subscribe(SYNC_TOPIC, { qos: 1 }, (err) => {
           if (!err) {
             // 접속 시 방 내의 최신 상태(빈 좌석인지, 참가자 목록 등)를 요청
@@ -467,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
               try {
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
                 localStorage.setItem(MAX_SEATS_KEY, String(maxSeats));
-              } catch (e) {}
+              } catch (e) { }
               renderCertCards(currentFilter);
               console.log('✦ [Realtime] Initial room state synced:', participants.length, 'participants');
             }
@@ -524,11 +580,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
-    } catch (e) {}
+    } catch (e) { }
     renderCertCards(currentFilter);
   }
 
   function broadcastNewParticipant(newP) {
+    // 1) 로컬 내장 서버로 전송 (SSE 연결된 모든 PC/모바일로 자동 브로드캐스트)
+    fetch('/api/cert/participant', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newP)
+    }).then(res => res.json())
+      .then(res => console.log('✦ [Local Sync] Server broadcast response:', res))
+      .catch(err => console.warn('Local Sync post error:', err));
+
+    // 2) MQTT 브로커 전송 (서버 미지원 정적 환경 대비)
     if (realtimeClient && realtimeClient.connected) {
       try {
         const payload = JSON.stringify({
@@ -537,7 +603,7 @@ document.addEventListener('DOMContentLoaded', () => {
           timestamp: Date.now()
         });
         realtimeClient.publish(SYNC_TOPIC, payload, { qos: 1 });
-        console.log('✦ [Realtime] Broadcasted new participant:', newP.name);
+        console.log('✦ [Realtime MQTT] Broadcasted new participant:', newP.name);
       } catch (err) {
         console.warn('Broadcast error:', err);
       }
@@ -545,6 +611,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function broadcastResetParticipants(mode = 'EMPTY') {
+    // 1) 로컬 내장 서버 리셋 요청
+    fetch('/api/cert/reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: mode, defaults: DEFAULT_PARTICIPANTS })
+    }).catch(() => { });
+
+    // 2) MQTT 브로커 전송
     if (realtimeClient && realtimeClient.connected) {
       try {
         const payload = JSON.stringify({
@@ -553,12 +627,12 @@ document.addEventListener('DOMContentLoaded', () => {
           timestamp: Date.now()
         });
         realtimeClient.publish(SYNC_TOPIC, payload, { qos: 1 });
-      } catch (err) {}
+      } catch (err) { }
     }
   }
 
-  // 실시간 동기화 시작
-  initRealtimeSync();
+  // 실시간 동기화 시작 (로컬 SSE 최우선 실행)
+  initLocalSseSync();
 
   // 3. 테마 제어
   function applyTheme(isLight) {
@@ -623,7 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedMax && savedMax >= 1 && savedMax <= 120) {
       maxSeats = savedMax;
     }
-  } catch (e) {}
+  } catch (e) { }
 
   function renderCertCards(filter = 'all') {
     if (!classroomStage) return;
@@ -1216,9 +1290,26 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!certQrModal) return;
     certQrModal.classList.add('open');
 
+    // 서버에서 탐색된 로컬 IP 기반 접속 주소 확인
+    fetch('/api/cert/state')
+      .then(res => res.json())
+      .then(data => {
+        let mobileOrigin = window.location.origin;
+        if (data && data.localIp && data.localIp !== 'localhost' && window.location.hostname === 'localhost') {
+          // PC가 localhost로 열려 있어도 QR은 스마트폰이 접속할 수 있는 실제 로컬 IP로 자동 치환
+          mobileOrigin = `http://${data.localIp}:${window.location.port || 3000}`;
+        }
+        renderQrCodeWithOrigin(mobileOrigin);
+      })
+      .catch(() => {
+        renderQrCodeWithOrigin(window.location.origin);
+      });
+  }
+
+  function renderQrCodeWithOrigin(origin) {
     if (certQrContainer && typeof QRCode !== 'undefined') {
       certQrContainer.innerHTML = '';
-      const currentUrl = new URL(`auth.html?room=${encodeURIComponent(currentRoomId)}#upload`, window.location.href).href;
+      const currentUrl = new URL(`auth.html?room=${encodeURIComponent(currentRoomId)}#upload`, origin).href;
       new QRCode(certQrContainer, {
         text: currentUrl,
         width: 180,
@@ -1344,7 +1435,7 @@ document.addEventListener('DOMContentLoaded', () => {
       maxSeats = val;
       try {
         localStorage.setItem(MAX_SEATS_KEY, String(maxSeats));
-      } catch (err) {}
+      } catch (err) { }
 
       renderCertCards(currentFilter);
       closeCertMaxSeatsModal();
@@ -1845,7 +1936,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // [테스트 시뮬레이터] 70명 실시간 동시/순차 업로드 부하 테스트 함수
   // ==========================================================================
-  window.run70SimulationTest = async function(intervalMs = 350) {
+  window.run70SimulationTest = async function (intervalMs = 350) {
     showToastNotification(`🚀 70명 실시간 업로드 테스트를 시작합니다! (${intervalMs}ms 간격)`);
     console.log('🚀 [Simulation Test] Starting 70 participants real-time test...');
 
@@ -1890,7 +1981,7 @@ document.addEventListener('DOMContentLoaded', () => {
       participants.unshift(simUser);
       try {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
-      } catch (e) {}
+      } catch (e) { }
 
       broadcastNewParticipant(simUser);
       renderCertCards(currentFilter);
