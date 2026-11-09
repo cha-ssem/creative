@@ -64,47 +64,92 @@
       </div>
     </div>
 
-    <div class="sidebar-menu-title">PAGES MENU</div>
+    <div class="sidebar-menu-title">LECTURE & PRODUCTION MENU</div>
     <ul class="sidebar-menu">
+      <!-- 00. 영상 기획부터 완성 (현재 1~6을 포함하는 상위 메뉴) -->
+      <li class="sidebar-item-group open" id="group-video-prod">
+        <button class="sidebar-link sidebar-group-toggle" id="btnGroupVideoProd" type="button"
+          title="영상 기획부터 완성 하위 메뉴 토글">
+          <span class="step-num">00</span>
+          <span>영상 기획부터 완성</span>
+          <span class="group-arrow">▼</span>
+        </button>
+        <ul class="sidebar-submenu" id="submenu-video-prod">
+          <li>
+            <button class="sidebar-sublink active" data-page="page-script">
+              <span class="sub-num">1</span>
+              <span>시나리오 기획안</span>
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-sublink" data-page="page-assets">
+              <span class="sub-num">2</span>
+              <span>에셋 라이브러리</span>
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-sublink" data-page="page-storyboard">
+              <span class="sub-num">3</span>
+              <span>스토리보드 콘티</span>
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-sublink" data-page="page-prompts">
+              <span class="sub-num">4</span>
+              <span>영상제작 프롬프트</span>
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-sublink" data-page="page-results">
+              <span class="sub-num">5</span>
+              <span>클립 제작 결과</span>
+            </button>
+          </li>
+          <li>
+            <button class="sidebar-sublink" data-page="page-final-video">
+              <span class="sub-num">6</span>
+              <span>최종 클립연결 영상</span>
+            </button>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Open. 내가 태어난 날은 -->
       <li>
-        <button class="sidebar-link active" data-page="page-script">
-          <span class="step-num">1</span>
-          <span>시나리오 기획안</span>
+        <button class="sidebar-link" data-page="page-birthday-ai">
+          <span class="step-num">Open</span>
+          <span>내가 태어난 날은</span>
         </button>
       </li>
+
+      <!-- 01. 생성형AI 시장 맥락 -->
       <li>
-        <button class="sidebar-link" data-page="page-assets">
-          <span class="step-num">2</span>
-          <span>에셋 라이브러리</span>
+        <button class="sidebar-link" data-page="page-ai-market">
+          <span class="step-num">01</span>
+          <span>생성형AI 시장 맥락</span>
         </button>
       </li>
+
+      <!-- 02. 전략1 - 제대로 질문하기 -->
       <li>
-        <button class="sidebar-link" data-page="page-storyboard">
-          <span class="step-num">3</span>
-          <span>스토리보드 콘티</span>
+        <button class="sidebar-link" data-page="page-strategy-prompt">
+          <span class="step-num">02</span>
+          <span>전략1 - 제대로 질문하기</span>
         </button>
       </li>
+
+      <!-- 03. 전략2 - 선택과 연결하기 -->
       <li>
-        <button class="sidebar-link" data-page="page-prompts">
-          <span class="step-num">4</span>
-          <span>영상제작 프롬프트</span>
+        <button class="sidebar-link" data-page="page-strategy-connect">
+          <span class="step-num">03</span>
+          <span>전략2 - 선택과 연결하기</span>
         </button>
       </li>
-      <li>
-        <button class="sidebar-link" data-page="page-results">
-          <span class="step-num">5</span>
-          <span>클립 제작 결과</span>
-        </button>
-      </li>
-      <li>
-        <button class="sidebar-link" data-page="page-final-video">
-          <span class="step-num">6</span>
-          <span>최종 클립연결 영상</span>
-        </button>
-      </li>
+
+      <!-- End. 변화의 시작 인증 -->
       <li>
         <a href="auth.html" class="sidebar-link" title="변화의 시작 인증 (전용 페이지 열기)">
-          <span class="step-num">7</span>
+          <span class="step-num">End</span>
           <span>변화의 시작 인증</span>
           <span class="nav-ext-badge" style="font-size: 0.75rem; margin-left: auto; opacity: 0.8;">↗</span>
         </a>
@@ -442,6 +487,862 @@
               <div class="concept-item">
                 <strong>SCENE 06 (01:14~01:26) · 찬란한 비전</strong>
                 <span>"일하는 방식이 바뀌면, 우리의 시간도 달라집니다." 생성형 AI와 함께 비즈니스의 격과 새로운 여유를 시작하는 감동적 피날레 (✨ 5600K 골든아워)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           [OPENING] 「내가 태어난 날의 대한민국」 AI 기술 분석
+           ========================================================================== -->
+      <section id="page-birthday-ai" class="page-view">
+        <div class="section-header">
+          <div class="section-number-badge">OPENING MODULE · SERVICE ANALYSIS</div>
+          <h2 class="section-title">「내가 태어난 날의 대한민국」 AI 기술 분석</h2>
+          <p class="section-desc">생년월일을 넣으면 그날의 날씨·물가·동갑 수·1위 노래까지 보여주는 공공데이터 + AI 서비스의 실제 작동 원리와 기술 구조를 심층 분석합니다.</p>
+        </div>
+
+        <div class="notion-content-wrapper">
+          <!-- 서비스 바로가기 배너 -->
+          <div class="notion-preview-banner">
+            <div class="notion-preview-info">
+              <div class="notion-preview-icon">🎂</div>
+              <div class="notion-preview-text">
+                <strong>「내가 태어난 날의 대한민국」 서비스 체험하기</strong>
+                <span>생년월일을 넣으면 내가 태어난 날의 날씨와 달, 그해 물가·동갑 수·1위 노래·있었던 일까지 공공데이터로 그날의 대한민국을 카드로 보여 드려요.</span>
+              </div>
+            </div>
+            <a href="https://birthday.altolab.ai/" target="_blank" rel="noopener noreferrer" class="notion-link-btn">
+              <span>서비스 직접 체험하기</span> ↗
+            </a>
+          </div>
+
+          <!-- 영상 설명 쇼케이스 -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">VIDEO BRIEFING</span>
+              <h3 class="notion-block-title">🎬 AI 기술 분석 설명 영상</h3>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 0.75rem;">
+              차쌤의 通하는 클라스에서 제공하는 「내가 태어난 날의 대한민국」 서비스 속 AI 기술 적용 원리와 분석 해설 영상입니다.
+            </p>
+            <div class="notion-video-embed-wrap">
+              <iframe src="https://www.youtube.com/embed/w7AaUFnsOj0?rel=0" title="AI 기술 설명 (차쌤의 通하는 클라스)"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen loading="lazy"></iframe>
+            </div>
+          </div>
+
+          <!-- 인포그래픽 쇼케이스 -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">INFOGRAPHIC</span>
+              <h3 class="notion-block-title">📊 사용자 입력부터 맞춤형 결과까지 인포그래픽</h3>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.25rem;">
+              사용자가 생년월일과 지역을 입력했을 때, 공공데이터 조회부터 생성형 AI 모델 연동 및 화면 카드 구성까지 이어지는 파이프라인 흐름도입니다.
+            </p>
+            <div
+              style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm);">
+              <img src="images/notion_사용자_입력부터_맞춤형_결과까지_인포그래픽.png" alt="사용자 입력부터 맞춤형 결과까지 인포그래픽"
+                style="width: 100%; height: auto; display: block;" loading="lazy">
+            </div>
+          </div>
+
+          <!-- 핵심 결론 박스 -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">INSIGHT</span>
+              <h3 class="notion-block-title">💡 핵심 결론</h3>
+            </div>
+            <div class="notion-quote-box" style="margin-top: 0; font-size: 0.95rem;">
+              이 사이트는 생성형 AI만으로 운영되는 서비스가 아니라, <strong>공공데이터 분석 + 개인화 정보 제공 + 생성형 AI 콘텐츠 + 웹 자동화 기술</strong>을 결합한 서비스입니다.
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; margin-top: 1rem;">
+              운영자가 공개한 자료에서 <strong>ChatGPT 이미지 생성과 Suno 음악 생성</strong>을 확인할 수 있습니다. 반면 과거 날씨·물가·교육통계를 보여 주는 주요 기능은 AI
+              예측보다 <strong>공공데이터 조회와 계산(규칙 기반 데이터 매칭)</strong>에 가깝습니다.
+            </p>
+          </div>
+
+          <!-- 1. 확인된 AI 기술과 활용 가능 기술 테이블 -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">MATRIX</span>
+              <h3 class="notion-block-title">1. 확인된 AI 기술과 활용 가능 기술</h3>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.25rem;">
+              서비스 내 각 기능에 실제로 AI가 적용되었는지, 일반 데이터/웹 기술인지 판정한 종합 매트릭스입니다.
+            </p>
+
+            <div class="notion-data-table-wrap">
+              <table class="notion-data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 25%;">기술·기능</th>
+                    <th style="width: 18%; text-align: center;">판정</th>
+                    <th style="width: 57%;">활용 내용과 판단 근거</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>1. 생성형 이미지 AI</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge confirmed">확인</span></td>
+                    <td>미래의 바다·세대·패션 일러스트를 ChatGPT로 생성했다고 운영자가 명시</td>
+                  </tr>
+                  <tr>
+                    <td><strong>2. AI 음악 생성</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge confirmed">확인</span></td>
+                    <td>2030~2100년 미래 시대 음악 12곡을 Suno로 제작했다고 명시</td>
+                  </tr>
+                  <tr>
+                    <td><strong>3. AI 기반 개발 (바이브 코딩)</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge confirmed">확인 (제작 과정)</span></td>
+                    <td>제작사 ALTO LAB이 AI와 함께 기획부터 배포까지 웹 서비스를 제작한다고 소개</td>
+                  </tr>
+                  <tr>
+                    <td><strong>4. 개인화 추천·콘텐츠 매칭</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge general">일반 기술</span></td>
+                    <td>생일·지역·학교에 맞는 날씨, 사진, 통계, 문화를 선별. AI 추천 모델일 수도 있지만 규칙 기반 구현도 가능</td>
+                  </tr>
+                  <tr>
+                    <td><strong>5. 자연어 처리 (NLP)</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge estimated">추정</span></td>
+                    <td>학교 이름을 줄여 입력해도 찾는 기능. 문자열 정규화·유사도 검색일 가능성이 높으며 NLP 모델 사용은 미확인</td>
+                  </tr>
+                  <tr>
+                    <td><strong>6. 예측 분석·시뮬레이션</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge estimated">추정</span></td>
+                    <td>타임머신 미래 화면에 미래 추정값과 인구 관련 자료 활용. 머신러닝 예측인지 통계적 외삽인지는 미확인</td>
+                  </tr>
+                  <tr>
+                    <td><strong>7. 데이터 통합·분석</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge general">일반 기술</span></td>
+                    <td>기상청·국가데이터처·교육통계 등을 날짜와 지역 기준으로 결합. 데이터 분석 기술이지만 AI 모델 사용의 증거는 아님</td>
+                  </tr>
+                  <tr>
+                    <td><strong>8. 이미지 검색·매칭</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge general">일반 기술</span></td>
+                    <td>과거 지역 사진을 연도·지역과 연결. 이미지 인식 AI 없이도 메타데이터로 처리 가능</td>
+                  </tr>
+                  <tr>
+                    <td><strong>9. 콘텐츠 자동 생성</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge general">일반 기술</span></td>
+                    <td>입력한 생일에 따른 여러 결과 카드를 자동 구성. LLM 생성이 아닌 템플릿 기반 구현도 가능</td>
+                  </tr>
+                  <tr>
+                    <td><strong>10. 사용자 행동 분석</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge general">일반 기술</span></td>
+                    <td>방문·카드 배치·공유 등의 이용 패턴을 분석해 화면 개선에 활용. AI 기반 분석 여부는 미확인</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. 실제 AI가 적용된 부분과 근거 -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">EVIDENCE</span>
+              <h3 class="notion-block-title">2. 실제 AI가 적용된 부분과 구체적 근거</h3>
+            </div>
+
+            <div class="prompt-matrix-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+              <div class="prompt-matrix-card" style="flex-direction: column; gap: 0.5rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                  <strong style="color: var(--accent-gold); font-size: 1rem;">① ChatGPT — 이미지 생성</strong>
+                  <span class="tech-judge-badge confirmed">실제 적용 확인</span>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-primary); margin: 0; line-height: 1.55;">
+                  미래 도시의 바다 그림, 시대별 세대 이미지, 미래 패션 이미지를 생성하는 데 사용했습니다.
+                </p>
+                <div
+                  style="font-size: 0.78rem; color: var(--text-secondary); background: rgba(0,0,0,0.2); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); margin-top: 0.4rem; line-height: 1.45;">
+                  📌 <strong>판단 근거 :</strong> 운영자가 개인정보 처리방침에 해당 일러스트들을 ChatGPT로 제작했다고 직접 명시
+                </div>
+              </div>
+
+              <div class="prompt-matrix-card" style="flex-direction: column; gap: 0.5rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                  <strong style="color: var(--accent-gold); font-size: 1rem;">② Suno AI — 음악 생성</strong>
+                  <span class="tech-judge-badge confirmed">실제 적용 확인</span>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-primary); margin: 0; line-height: 1.55;">
+                  2030~2100년 미래 시대를 상상한 음악 12곡을 AI로 제작했습니다.
+                </p>
+                <div
+                  style="font-size: 0.78rem; color: var(--text-secondary); background: rgba(0,0,0,0.2); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); margin-top: 0.4rem; line-height: 1.45;">
+                  📌 <strong>판단 근거 :</strong> 운영자가 Suno로 만든 음악 파일을 연도에 맞춰 제공한다고 공식 명시
+                </div>
+              </div>
+
+              <div class="prompt-matrix-card" style="flex-direction: column; gap: 0.5rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                  <strong style="color: var(--accent-gold); font-size: 1rem;">③ AI 활용 웹 개발 (바이브 코딩)</strong>
+                  <span class="tech-judge-badge confirmed">제작 과정 확인</span>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-primary); margin: 0; line-height: 1.55;">
+                  AI를 적극적으로 활용한 기획·개발·배포 방식입니다. (Claude Code, Cursor 등 최신 AI 코딩 도구 활용)
+                </p>
+                <div
+                  style="font-size: 0.78rem; color: var(--text-secondary); background: rgba(0,0,0,0.2); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); margin-top: 0.4rem; line-height: 1.45;">
+                  📌 <strong>판단 근거 :</strong> ALTO LAB 공식 소개 페이지의 AI 공동 제작 설명 명시
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. AI와 결합된 주요 웹·데이터 기술 -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">WEB & DATA TECH</span>
+              <h3 class="notion-block-title">3. AI와 결합된 주요 웹·데이터 기술</h3>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.25rem;">
+              실제 서비스를 구현하는 데 있어 생성형 AI 외에 함께 맞물려 돌아가는 핵심 웹·데이터 엔지니어링 기술들입니다.
+            </p>
+
+            <div class="notion-data-table-wrap">
+              <table class="notion-data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 25%;">기술</th>
+                    <th style="width: 18%; text-align: center;">AI 여부</th>
+                    <th style="width: 57%;">실제 기능 및 기술 설명</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>공공데이터 API·데이터셋</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge non-ai">비AI</span></td>
+                    <td>기상청 과거 관측값, 소비자 물가지수, 교육통계 등 신뢰도 높은 공공 데이터 결합</td>
+                  </tr>
+                  <tr>
+                    <td><strong>규칙 기반 개인화</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge non-ai">비AI</span></td>
+                    <td>입력한 날짜·지역 조건과 일치하는 레코드를 1:1로 매칭하여 선별</td>
+                  </tr>
+                  <tr>
+                    <td><strong>천문 계산 알고리즘</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge non-ai">비AI</span></td>
+                    <td>생일 당일의 달의 모양(월령), 일출·일몰 시각, 별자리 좌표 계산 수식</td>
+                  </tr>
+                  <tr>
+                    <td><strong>통계적 추정</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge estimated">AI 여부 미확인</span></td>
+                    <td>미래 인구·경제 등의 추정치 지표 표시 (통계적 추세선 모델 활용 가능성)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>3D 그래픽 (WebGL)</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge non-ai">비AI</span></td>
+                    <td>2026년 10월 30일부터 제공되는 ‘그날의 거리’ 3D 인터랙티브 공간 테스트</td>
+                  </tr>
+                  <tr>
+                    <td><strong>실시간 통신 (WebRTC)</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge non-ai">비AI</span></td>
+                    <td>같은 연대 거리에 접속한 사용자 간의 실시간 브라우저 연결 지원</td>
+                  </tr>
+                  <tr>
+                    <td><strong>데이터 시각화</strong></td>
+                    <td style="text-align: center;"><span class="tech-judge-badge non-ai">비AI</span></td>
+                    <td>과거 통계와 미래 수치를 카드 및 세련된 그래픽 UI로 표시</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p
+              style="color: var(--text-muted); font-size: 0.82rem; line-height: 1.6; margin-top: 1rem; border-top: 1px dashed var(--border-subtle); padding-top: 0.75rem;">
+              💬 <strong>운영자 인터뷰 및 기술 해설 :</strong> "결과 계산이 서버의 대형 AI가 아니라 사용자의 브라우저에서 가볍게 이루어지며, 공개 데이터 파일을 받아 필요한 값을
+              선택합니다. 따라서 개인별 결과가 자동 생성된다는 사실만으로 모든 것이 AI에 의해 실시간 추론된다고 오해하지 않는 것이 중요합니다."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           [MODULE 01] 생성형 AI 시장의 맥락 보기
+           ========================================================================== -->
+      <section id="page-ai-market" class="page-view">
+        <div class="section-header">
+          <div class="section-number-badge">MODULE 01 · MARKET CONTEXT</div>
+          <h2 class="section-title">1. 생성형 AI 시장의 맥락 보기</h2>
+          <p class="section-desc">급변하는 생성형 AI 생태계 흐름과 주요 LLM 비교, 그리고 기업 리더에게 필요한 AI 리터러시 5대 핵심 역량을 체계적으로 분석합니다.</p>
+        </div>
+
+        <div class="notion-content-wrapper">
+          <!-- 1. 생태계 및 LLM 3종 비교 쇼케이스 -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">ECOSYSTEM</span>
+              <h3 class="notion-block-title">AI 생태계 조망 & 글로벌 대표 LLM 3종 비교</h3>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.25rem;">
+              국내외 반도체·클라우드 인프라부터 모델, 에이전트 서비스에 이르는 AI 밸류체인을 이해하고, 대표적인 거대언어모델(LLM) 3종의 특장점을 비교 분석합니다.
+            </p>
+            <div class="notion-showcase-grid">
+              <div class="notion-media-card">
+                <img src="images/notion_한국_AI_생태계_한눈에_보기.png" alt="한국 AI 생태계 한눈에 보기" loading="lazy">
+                <div class="notion-media-card-body">
+                  <span class="notion-media-card-title">🌐 한국 AI 생태계 한눈에 보기</span>
+                  <p class="notion-media-card-desc">칩셋·인프라부터 파운데이션 모델, AI Agent 서비스까지 대한민국 AI 산업의 전체 지형도</p>
+                </div>
+              </div>
+              <div class="notion-media-card">
+                <img src="images/notion_LLM_3종_비교_인포그래픽.png" alt="LLM 3종 비교 인포그래픽" loading="lazy">
+                <div class="notion-media-card-body">
+                  <span class="notion-media-card-title">⚖️ LLM 3종 비교 (ChatGPT · Gemini · Claude)</span>
+                  <p class="notion-media-card-desc">기획과 창의성(ChatGPT), 구글 도구 연동 및 최신 정보(Gemini), 정밀한 문서 분석과 코딩(Claude)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. AI 리터러시란 무엇인가? -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">DEFINITION</span>
+              <h3 class="notion-block-title">1. AI 리터러시란 무엇인가?</h3>
+            </div>
+            <p style="color: var(--text-primary); font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.75rem;">
+              <strong>AI 리터러시(Artificial Intelligence Literacy)</strong>란 인공지능의 기본 원리와 특성을 이해하고, AI 도구를 목적에 맞게 활용하며, AI가
+              생성한 결과를 비판적으로 평가하고, 윤리적·책임감 있게 활용하여 <strong>실제 비즈니스 문제를 해결할 수 있는 종합적인 역량</strong>을 의미합니다.
+            </p>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.65;">
+              과거 디지털 리터러시가 디지털 기기와 정보를 이해하고 활용하는 능력에 중점을 두었다면, <strong>AI 리터러시는 여기에 AI와의 상호작용, 결과 검증, 인간의 판단과 통제, AI를
+                활용한 문제해결 능력</strong>을 포괄합니다.
+            </p>
+
+            <!-- 5가지 핵심 요소 그리드 -->
+            <h4 style="font-size: 1rem; color: var(--text-primary); margin: 1.5rem 0 0.75rem;">✦ AI 리터러시 5가지 핵심 요소</h4>
+            <div class="literacy-elements-grid">
+              <div class="literacy-element-card">
+                <div class="literacy-element-icon">🔍</div>
+                <div class="literacy-element-title">1. 이해</div>
+                <p class="literacy-element-desc">AI의 기본 개념·원리·한계 이해</p>
+              </div>
+              <div class="literacy-element-card">
+                <div class="literacy-element-icon">🛠️</div>
+                <div class="literacy-element-title">2. 활용</div>
+                <p class="literacy-element-desc">AI 서비스와 기능을 목적에 맞게 선택·활용</p>
+              </div>
+              <div class="literacy-element-card">
+                <div class="literacy-element-icon">💬</div>
+                <div class="literacy-element-title">3. 상호작용</div>
+                <p class="literacy-element-desc">효과적인 프롬프트 설계와 결과 개선</p>
+              </div>
+              <div class="literacy-element-card">
+                <div class="literacy-element-icon">⚖️</div>
+                <div class="literacy-element-title">4. 윤리·평가</div>
+                <p class="literacy-element-desc">사실 검증, 편향 인식, 개인정보·저작권 보호</p>
+              </div>
+              <div class="literacy-element-card">
+                <div class="literacy-element-icon">💡</div>
+                <div class="literacy-element-title">5. 문제해결</div>
+                <p class="literacy-element-desc">AI와 협력해 실제 문제의 해결책 설계</p>
+              </div>
+            </div>
+
+            <!-- 핵심 요약 인용구 -->
+            <div class="notion-quote-box">
+              <strong>💡 핵심 요약 :</strong> AI를 잘 사용하는 능력 + AI 결과를 올바르게 판단하는 능력 + 실제 문제에 적용하는 능력
+            </div>
+          </div>
+
+          <!-- 3. AI 리터러시의 5대 핵심 역량 매트릭스 -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">FRAMEWORK</span>
+              <h3 class="notion-block-title">2. AI 리터러시의 5대 핵심 역량 매트릭스</h3>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.25rem;">
+              앞서 살펴본 생성형 AI 생태계 및 LLM 3종 비교 내용을 기업 실무와 리더십 교육에 바로 적용할 수 있도록 정리한 <strong>실무 중심 5대 핵심 역량 통합
+                분류안</strong>입니다.
+            </p>
+
+            <!-- 인포그래픽 이미지 -->
+            <div
+              style="margin-bottom: 1.25rem; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-subtle);">
+              <img src="images/notion_1847cf78_cfed_4478_b3e8_45bd0ae0d6f2.png" alt="AI 리터러시 핵심 역량 인포그래픽"
+                style="width: 100%; height: auto; display: block;" loading="lazy">
+            </div>
+
+            <!-- 5대 핵심 역량 테이블 -->
+            <div class="notion-data-table-wrap">
+              <table class="notion-data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 25%;">핵심 영역</th>
+                    <th style="width: 40%;">세부 역량</th>
+                    <th style="width: 35%;">실제 비즈니스 활용 예시</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>① AI 개념 이해</strong></td>
+                    <td>AI·LLM의 기본 원리, 모델과 서비스 구분, 성능과 한계 이해</td>
+                    <td>GPT와 ChatGPT의 차이 설명, 생성형 AI 오류(환각) 원인 이해</td>
+                  </tr>
+                  <tr>
+                    <td><strong>② AI 도구 활용</strong></td>
+                    <td>목적별 AI 서비스 선택, 멀티모달 기능 활용, 업무 도구 연동</td>
+                    <td>ChatGPT로 기획안 작성, Gemini로 Google Workspace 연동, Claude로 대용량 문서 분석</td>
+                  </tr>
+                  <tr>
+                    <td><strong>③ AI 상호작용 및 생성</strong></td>
+                    <td>프롬프트 설계, 반복 개선(Iterative Prompting), 생성 콘텐츠 평가·편집</td>
+                    <td>역할·맥락·출력 형식을 지정해 맞춤형 보고서, 마케팅 문구 및 이미지 생성</td>
+                  </tr>
+                  <tr>
+                    <td><strong>④ AI 윤리·안전·비판적 평가</strong></td>
+                    <td>사실 검증(Grounding), 편향 인식, 개인정보 보호, 저작권, 책임 있는 활용</td>
+                    <td>AI 답변 출처 크로스 체크, 기업 기밀 및 고객 개인정보 입력 방지</td>
+                  </tr>
+                  <tr>
+                    <td><strong>⑤ AI 기반 문제해결·창의</strong></td>
+                    <td>문제 정의, AI 활용 전략 수립, 워크플로 설계, 성과 평가</td>
+                    <td>반복 행정·CS 업무 자동화 파이프라인 구축, AI Agent를 활용한 업무 혁신</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 참고 문헌 -->
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--border-subtle);">
+              <h5
+                style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">
+                📚 참고할 주요 글로벌 기준</h5>
+              <ul
+                style="color: var(--text-secondary); font-size: 0.78rem; line-height: 1.6; padding-left: 1.2rem; margin: 0;">
+                <li><strong>Long, D., & Magerko, B. (2020)</strong>: What Is AI Literacy? Competencies and Design
+                  Considerations (ACM CHI)</li>
+                <li><strong>UNESCO (2024)</strong>: AI Competency Framework for Students</li>
+                <li><strong>European Union (2024)</strong>: Regulation (EU) 2024/1689 (Artificial Intelligence Act),
+                  Article 4</li>
+                <li><strong>OECD & European Commission</strong>: AI Literacy 교육 프레임워크 가이드라인</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           [MODULE 02] 핵심 전략1 - 제대로 질문하기(복습)
+           ========================================================================== -->
+      <section id="page-strategy-prompt" class="page-view">
+        <div class="section-header">
+          <div class="section-number-badge">MODULE 02 · PROMPT FRAMEWORK</div>
+          <h2 class="section-title">2. 핵심 전략 1 - 제대로 질문하기 (복습)</h2>
+          <p class="section-desc">AI에게 명확한 방향성과 제약을 주어 신뢰도 높은 최적의 결과물을 이끌어내는 「프롬프트 공식 4+2」 프레임워크와 실전 Before &amp; After
+            사례입니다.</p>
+        </div>
+
+        <div class="notion-content-wrapper">
+          <!-- 실습 결과 바로가기 배너 -->
+          <div class="notion-preview-banner">
+            <div class="notion-preview-info">
+              <div class="notion-preview-icon">💎</div>
+              <div class="notion-preview-text">
+                <strong>Gemini 실습 결과 : 4050 쇼핑몰 저예산 마케팅 전략</strong>
+                <span>실제 4+2 프롬프트 공식으로 도출된 고품질 마케팅 전략 결과를 구글 Gemini 공유 링크로 직접 확인하세요.</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <a href="https://share.gemini.google/ZrDq57S5OWmO" target="_blank" rel="noopener noreferrer"
+                class="notion-link-btn">
+                <span>Gemini 결과 보기</span> ↗
+              </a>
+              <a href="https://huggingface.co/spaces/Xenova/the-tokenizer-playground" target="_blank"
+                rel="noopener noreferrer" class="notion-link-btn"
+                style="background: rgba(255, 255, 255, 0.1); color: var(--text-primary); box-shadow: none;">
+                <span>토크나이저 체험</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- 1. 프롬프트 공식 4+2 프레임워크 -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">FRAMEWORK</span>
+              <h3 class="notion-block-title">1. 「프롬프트 공식 4+2」 프레임워크</h3>
+            </div>
+            <p style="color: var(--text-primary); font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.5rem;">
+              생성형 AI로부터 신뢰성 높은 고품질의 답변을 얻기 위한 표준 프레임워크입니다.
+            </p>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.65; margin-bottom: 1.25rem;">
+              기본 답변의 뼈대를 이루는 <strong>핵심 요소 4개(역·배·지·형)</strong>와, 환각을 줄이고 정밀도를 극대화하는 <strong>추가 보강 요소 2개(조·샘)</strong>로
+              구성됩니다.
+            </p>
+
+            <!-- 인포그래픽 이미지 -->
+            <div
+              style="margin-bottom: 1.5rem; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-subtle);">
+              <img src="images/notion_8f32b017_0426_43a5_bab7_53a794da19c1.png" alt="여성 CEO를 위한 AI 프롬프트 6가지 질문"
+                style="width: 100%; height: auto; display: block;" loading="lazy">
+            </div>
+
+            <!-- 6가지 질문 매트릭스 그리드 -->
+            <div class="prompt-matrix-grid">
+              <div class="prompt-matrix-card">
+                <span class="prompt-matrix-tag">Q 01</span>
+                <div class="prompt-matrix-info">
+                  <strong>누구처럼 생각할까? [역할]</strong>
+                  <span>AI에게 전문가 페르소나와 관점을 부여</span>
+                </div>
+              </div>
+              <div class="prompt-matrix-card">
+                <span class="prompt-matrix-tag">Q 02</span>
+                <div class="prompt-matrix-info">
+                  <strong>우리 회사 상황은? [배경]</strong>
+                  <span>기업 규모, 주요 고객, 현재 직면한 고민 전달</span>
+                </div>
+              </div>
+              <div class="prompt-matrix-card">
+                <span class="prompt-matrix-tag">Q 03</span>
+                <div class="prompt-matrix-info">
+                  <strong>무슨 일을 시킬까? [지시]</strong>
+                  <span>해결해야 할 구체적인 업무와 원하는 산출물 지시</span>
+                </div>
+              </div>
+              <div class="prompt-matrix-card">
+                <span class="prompt-matrix-tag">Q 04</span>
+                <div class="prompt-matrix-info">
+                  <strong>어떤 결과가 필요한가? [형식]</strong>
+                  <span>표(Table), 보고서, 카드뉴스, 카카오톡 메시지 등 형태 지정</span>
+                </div>
+              </div>
+              <div class="prompt-matrix-card">
+                <span class="prompt-matrix-tag">Q 05</span>
+                <div class="prompt-matrix-info">
+                  <strong>무엇을 지켜야 할까? [조건]</strong>
+                  <span>예산 한도, 실행 가능성, 환각 방지 등 제약 조건</span>
+                </div>
+              </div>
+              <div class="prompt-matrix-card">
+                <span class="prompt-matrix-tag">Q 06</span>
+                <div class="prompt-matrix-info">
+                  <strong>어떤 예시를 따라 할까? [샘플]</strong>
+                  <span>원하는 결과의 구조와 톤앤매너 템플릿(Few-shot) 제공</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 핵심 4대 요소 상세 표 -->
+            <h4 style="font-size: 1rem; color: var(--text-primary); margin: 1.75rem 0 0.75rem;">🧱 핵심 4대 요소 (뼈대 :
+              역·배·지·형)</h4>
+            <p style="color: var(--text-secondary); font-size: 0.84rem; margin-bottom: 0.75rem;">AI에게 명확한 방향성과 구조를 제공하기
+              위해 반드시 포함해야 하는 4가지 기본 요소입니다.</p>
+            <div class="notion-data-table-wrap">
+              <table class="notion-data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 18%;">핵심 요소</th>
+                    <th style="width: 32%;">정의 및 역할</th>
+                    <th style="width: 38%;">작성 팁 &amp; 예시 문구</th>
+                    <th style="width: 12%;">영문</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>1. 역할 (Role)</strong></td>
+                    <td>AI에게 부여할 전문가 역할과 관점 설정</td>
+                    <td>• "너는 15년 경력의 중소기업 경영 컨설턴트야."<br>• "온라인 마케팅 전문가의 관점에서 조언해 줘."</td>
+                    <td>Persona</td>
+                  </tr>
+                  <tr>
+                    <td><strong>2. 배경 (Context)</strong></td>
+                    <td>기업의 사업 현황, 고객 특성, 현재 고민 등 상황 설명</td>
+                    <td>• "나는 직원 10명 규모의 화장품 제조기업을 운영하는 대표야."<br>• "40~50대 여성을 주요 고객으로 하는 온라인 쇼핑몰을 운영하고 있어."</td>
+                    <td>Situation</td>
+                  </tr>
+                  <tr>
+                    <td><strong>3. 지시 (Task)</strong></td>
+                    <td>AI가 수행해야 할 구체적인 업무와 원하는 결과 제시</td>
+                    <td>• "신규 고객 확보를 위한 마케팅 전략 3가지를 제안해 줘."<br>• "우리 회사의 매출을 높일 수 있는 실천 방안을 분석해 줘."</td>
+                    <td>Instruction</td>
+                  </tr>
+                  <tr>
+                    <td><strong>4. 형식 (Format)</strong></td>
+                    <td>답변을 활용하기 쉬운 보고서, 표, 메시지 등 결과물 형태 지정</td>
+                    <td>• "전략별 기대 효과와 실행 방법을 표로 정리해 줘."<br>• "직원 회의에서 공유할 수 있도록 핵심 내용을 5줄로 요약해 줘."<br>• "고객에게 발송할 카카오톡
+                      안내문 형식으로 작성해 줘."</td>
+                    <td>Layout</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 추가 보강 2대 요소 상세 표 -->
+            <h4 style="font-size: 1rem; color: var(--text-primary); margin: 1.75rem 0 0.75rem;">🎯 추가하면 좋은 2대 요소 (보강재 :
+              조·샘)</h4>
+            <p style="color: var(--text-secondary); font-size: 0.84rem; margin-bottom: 0.75rem;">답변의 오차(환각 현상)를 줄이고,
+              사용자의 의도에 100% 부합하는 맞춤형 결과를 완성하는 핵심 보강 요소입니다.</p>
+            <div class="notion-data-table-wrap">
+              <table class="notion-data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 18%;">추가 요소</th>
+                    <th style="width: 32%;">정의 및 역할</th>
+                    <th style="width: 38%;">작성 팁 &amp; 예시 문구</th>
+                    <th style="width: 12%;">영문</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>5. 조건 (Constraint)</strong></td>
+                    <td>답변에 반드시 반영할 예산, 기간, 분량, 표현 방식, 제한사항 설정</td>
+                    <td>• "마케팅 예산은 월 100만 원 이내로 제한해 줘."<br>• "직원 5명 이하의 소규모 기업에서도 실행 가능한 방법만 제안해 줘."<br>• "확인되지 않은 통계나
+                      시장 수치는 임의로 만들지 마."</td>
+                    <td>Rules</td>
+                  </tr>
+                  <tr>
+                    <td><strong>6. 샘플 (Example)</strong></td>
+                    <td>원하는 결과의 예시 문장이나 기존 자료를 제공하여 답변 완성도 향상</td>
+                    <td>• "다음 형식을 참고해 작성해 줘: [전략명] → [실행 방법] → [예상 비용] → [기대 효과]"<br>• "아래에 첨부한 기존 고객 안내문의 친근하고 신뢰감 있는
+                      말투를 유지해 줘."</td>
+                    <td>Few-shot</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. 실전 비교 (Before vs After) -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">COMPARISON</span>
+              <h3 class="notion-block-title">💡 실전 비교 (Before vs After)</h3>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.25rem;">
+              단순 지시형 프롬프트와 4+2 공식을 결합한 프롬프트의 품질 차이를 비교해 보세요. 우측 '복사' 버튼으로 고품질 프롬프트를 복사하여 바로 테스트할 수 있습니다.
+            </p>
+
+            <!-- 사례 1 -->
+            <h4 style="font-size: 0.95rem; color: var(--accent-gold); margin: 1.25rem 0 0.5rem;">[사례 1] 여성 의류 온라인 쇼핑몰 매출
+              성장 전략</h4>
+            <div class="prompt-compare-grid">
+              <div class="prompt-compare-card before">
+                <div class="prompt-compare-header">
+                  <span class="prompt-compare-title">❌ 단순 지시형 (일반적인 프롬프트)</span>
+                </div>
+                <p class="prompt-text-block">"우리 회사 매출을 높이는 방법 알려줘."</p>
+                <p style="font-size: 0.8rem; color: #f87171; line-height: 1.5; margin: 0;">
+                  ⚠️ 결과 : 기업의 규모와 예산, 고객 연령대가 전혀 고려되지 않은 일반적이고 추상적인 마케팅 교과서 내용만 나열됨
+                </p>
+              </div>
+
+              <div class="prompt-compare-card after">
+                <div class="prompt-compare-header">
+                  <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem;">
+                    <span class="prompt-compare-title">✅ 4+2 공식 결합형 (고품질 프롬프트)</span>
+                    <span class="editable-hint-badge">✏️ 클릭하여 직접 수정 가능</span>
+                  </div>
+                  <button type="button" class="prompt-copy-btn" data-copy-target="promptCase1">📋 프롬프트 복사</button>
+                </div>
+                <div class="prompt-text-block editable-prompt" id="promptCase1" contenteditable="true" spellcheck="false" title="클릭하여 프롬프트 내용을 직접 수정할 수 있습니다">[역할] 너는 15년 경력의 중소기업 경영 및 마케팅 전략 전문 컨설턴트야.
+[배경] 나는 직원 5명 규모의 여성 의류 온라인 쇼핑몰을 운영하는 대표야. 주요 고객은 40~50대 여성이고, 최근 신규 고객 유입이 감소하면서 매출 성장이 정체된 상황이야.
+[지시] 신규 고객을 확보하고 기존 고객의 재구매율을 높일 수 있는 실질적인 마케팅 전략 3가지를 제안해 줘. 각 전략의 구체적인 실행 방법도 설명해 줘.
+[형식] 전략명, 실행 방법, 예상 비용, 기대 효과를 표(Table) 형태로 정리하고, 가장 먼저 실행할 전략을 추천해 줘.
+[조건] 월 마케팅 예산은 100만 원 이내로 제한하고, 별도 마케팅 담당자 없이도 실행할 수 있는 방안으로 제안해 줘. 기대 효과는 과장하지 말고, 확인되지 않은 수치를 임의로 만들지 마.
+[샘플] 다음 예시의 구조를 참고해 작성해 줘.
+[전략명] → [실행 방법] → [예상 비용] → [기대 효과]</div>
+                <p style="font-size: 0.8rem; color: #34d399; line-height: 1.5; margin: 0;">
+                  ✨ 결과 : 4050 여성 타깃과 100만 원 예산에 딱 맞는 즉시 실행 가능한 표 형태의 현실적 전략 제안 도출
+                </p>
+              </div>
+            </div>
+
+            <!-- 사례 2 -->
+            <h4 style="font-size: 0.95rem; color: var(--accent-gold); margin: 2rem 0 0.5rem;">[사례 2] 공공데이터 기반 부산 상권 분석 및
+              카페 창업 컨설팅</h4>
+            <div class="prompt-compare-grid">
+              <div class="prompt-compare-card before">
+                <div class="prompt-compare-header">
+                  <span class="prompt-compare-title">❌ 단순 지시형 (일반적인 프롬프트)</span>
+                </div>
+                <p class="prompt-text-block">"우리 지역에서 창업하기 좋은 업종을 알려줘."</p>
+                <p style="font-size: 0.8rem; color: #f87171; line-height: 1.5; margin: 0;">
+                  ⚠️ 결과 : 구체적인 지역 데이터나 근거 없이 일반적인 창업 아이디어만 나열되어 의사결정에 활용 불가
+                </p>
+              </div>
+
+              <div class="prompt-compare-card after">
+                <div class="prompt-compare-header">
+                  <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem;">
+                    <span class="prompt-compare-title">✅ 4+2 공식 결합형 (고품질 프롬프트)</span>
+                    <span class="editable-hint-badge">✏️ 클릭하여 직접 수정 가능</span>
+                  </div>
+                  <button type="button" class="prompt-copy-btn" data-copy-target="promptCase2">📋 프롬프트 복사</button>
+                </div>
+                <div class="prompt-text-block editable-prompt" id="promptCase2" contenteditable="true" spellcheck="false" title="클릭하여 프롬프트 내용을 직접 수정할 수 있습니다">[역할] 너는 공공데이터 기반 상권 분석 및 창업 컨설턴트야.
+[배경] 나는 부산에서 카페 창업을 준비 중인 여성 CEO야.
+[지시] 공공데이터를 활용해 부산의 주요 상권별 유동인구, 경쟁 점포 수, 소비 특성을 분석하고 창업 후보 지역 3곳을 제안해 줘.
+[형식] 지역명, 주요 고객층, 경쟁 현황, 창업 시 고려사항을 표로 정리해 줘.
+[조건] 공공데이터 출처와 기준연도를 표시하고, 확인되지 않은 수치는 임의로 만들지 마.
+[샘플] [지역명] → [주요 고객층] → [경쟁 현황] → [창업 시 고려사항]</div>
+                <p style="font-size: 0.8rem; color: #34d399; line-height: 1.5; margin: 0;">
+                  ✨ 결과 : 부산 공공데이터 기준의 유동인구 및 경쟁 점포 분석이 적용된 객관적 창업 후보지 표 완성
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           [MODULE 03] 핵심 전략2 - 선택과 연결하기
+           ========================================================================== -->
+      <section id="page-strategy-connect" class="page-view">
+        <div class="section-header">
+          <div class="section-number-badge">MODULE 03 · SOURCE INTEGRATION</div>
+          <h2 class="section-title">3. 핵심 전략 2 - 선택과 연결하기</h2>
+          <p class="section-desc">기업의 핵심 출처 자료(Source)를 AI와 연결하여 마인드맵, 인포그래픽, 발표 슬라이드, 오디오 팟캐스트, 영상까지 원스톱으로 확장하는 멀티모달 지식
+            워크플로입니다.</p>
+        </div>
+
+        <div class="notion-content-wrapper">
+          <!-- 노트북LM 실습 결과 바로가기 배너 -->
+          <div class="notion-preview-banner">
+            <div class="notion-preview-info">
+              <div class="notion-preview-icon">📓</div>
+              <div class="notion-preview-text">
+                <strong>Google NotebookLM 실습 노트북 &amp; 결과 확인하기</strong>
+                <span>업로드한 자료(Source)를 기반으로 자동 생성된 마인드맵, 오디오 팟캐스트, 슬라이드를 직접 확인해 보세요.</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <a href="https://notebook.google.com/notebook/c831193a-51ec-4988-a35f-d7a356517fc7" target="_blank"
+                rel="noopener noreferrer" class="notion-link-btn">
+                <span>실습 노트북 열기</span> ↗
+              </a>
+              <a href="https://notebooklm.google/" target="_blank" rel="noopener noreferrer" class="notion-link-btn"
+                style="background: rgba(255, 255, 255, 0.1); color: var(--text-primary); box-shadow: none;">
+                <span>NotebookLM 공식 사이트</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- 1. 노트북LM이란? -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">CONCEPT</span>
+              <h3 class="notion-block-title">1. 노트북LM(NotebookLM)이란?</h3>
+            </div>
+            <p style="color: var(--text-primary); font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.5rem;">
+              사용자가 업로드한 <strong>자료(Source: PDF, 웹페이지 링크, 구글 문서, 텍스트 메모 등)를 기반</strong>으로 질문에 정확히 답변하고, 다양한 형태의 지식 콘텐츠를
+              자동 생성해 주는 구글의 AI 리서치 &amp; 협업 파트너입니다.
+            </p>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.65; margin-bottom: 1.5rem;">
+              일반 챗봇과 달리 <strong>내가 제공한 출처 내에서만 답변(Grounding)</strong>하므로 거짓 정보(환각)가 극히 적고, 답변마다 정확한 원본 각주(Citation)를
+              제공합니다.
+            </p>
+
+            <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.5rem;">✦ 노트북LM으로 제작할 수 있는 주요 콘텐츠 6종
+              쇼케이스</h4>
+            <p style="color: var(--text-secondary); font-size: 0.84rem; margin-bottom: 1.25rem;">업로드된 하나의 소스로부터 즉시 확장
+              생성된 실제 산출물 사례입니다.</p>
+
+            <!-- 6대 산출물 갤러리 그리드 -->
+            <div class="connect-gallery-grid">
+              <!-- 1. 마인드 맵 -->
+              <div class="connect-gallery-card">
+                <img src="images/notion_19873516_9C80_4027_AFC0_D1B2C4BF960C.png" alt="마인드 맵 산출물" loading="lazy">
+                <div class="connect-gallery-body">
+                  <span class="connect-gallery-badge">MIND MAP</span>
+                  <h5 class="connect-gallery-title">🧠 구조화된 마인드 맵</h5>
+                  <p class="connect-gallery-desc">방대한 사업 계획서나 시장 보고서의 핵심 개념과 위계 구조를 한눈에 파악할 수 있는 시각적 트리 다이어그램</p>
+                </div>
+              </div>
+
+              <!-- 2. 인포그래픽 -->
+              <div class="connect-gallery-card">
+                <img src="images/notion_4050_중장년층_패션_트렌드_리포트.png" alt="4050 중장년층 패션 트렌드 인포그래픽" loading="lazy">
+                <div class="connect-gallery-body">
+                  <span class="connect-gallery-badge">INFOGRAPHIC</span>
+                  <h5 class="connect-gallery-title">📊 트렌드 리포트 인포그래픽</h5>
+                  <p class="connect-gallery-desc">4050 여성 패션 트렌드 보고서의 핵심 통계치와 고객 행동 패턴을 압축 정리한 고해상도 인포그래픽</p>
+                </div>
+              </div>
+
+              <!-- 3. 슬라이드 자료 -->
+              <div class="connect-gallery-card">
+                <img src="images/notion_14D0FB4B_3C51_4D21_81F4_EC0A0BCB33E9.png" alt="발표자용 슬라이드 자료" loading="lazy">
+                <div class="connect-gallery-body">
+                  <span class="connect-gallery-badge">PRESENTATION SLIDES</span>
+                  <h5 class="connect-gallery-title">📑 강의 및 발표용 슬라이드</h5>
+                  <p class="connect-gallery-desc">자료를 기반으로 청중의 이해도를 극대화하는 키노트 슬라이드 자동 구성 및 프롬프트 최적화</p>
+                  <div class="connect-gallery-code">
+                    💡 <strong>슬라이드 프롬프트 팁 :</strong> "발표자용 슬라이드로 구성, 한글 무료 폰트 이용, 줌 강의를 위해 텍스트:이미지 = 7:3 비율 유지"
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4. 오디오 오버뷰 -->
+              <div class="connect-gallery-card">
+                <img src="images/notion_2002885A_618A_4917_B7FB_0F56B86BB2CF.png" alt="오디오 오버뷰 팟캐스트" loading="lazy">
+                <div class="connect-gallery-body">
+                  <span class="connect-gallery-badge">AUDIO OVERVIEW</span>
+                  <h5 class="connect-gallery-title">🎙️ AI 오디오 팟캐스트</h5>
+                  <p class="connect-gallery-desc">두 명의 AI 진행자가 자료의 핵심을 서로 질문하고 토론하며 알기 쉽게 브리핑하는 음성 팟캐스트</p>
+                </div>
+              </div>
+
+              <!-- 5. 심층 보고서 -->
+              <div class="connect-gallery-card">
+                <img src="images/notion_7D69D26C_44B0_4909_B898_47F8CBD4AF76.png" alt="심층 보고서 산출물" loading="lazy">
+                <div class="connect-gallery-body">
+                  <span class="connect-gallery-badge">EXECUTIVE REPORT</span>
+                  <h5 class="connect-gallery-title">📝 임원 보고서 및 스터디 가이드</h5>
+                  <p class="connect-gallery-desc">출처 각주와 함께 신뢰할 수 있는 요약본, FAQ, 비즈니스 타임라인을 체계적으로 서술한 보고서</p>
+                </div>
+              </div>
+
+              <!-- 6. 동영상 연계 -->
+              <div class="connect-gallery-card">
+                <img src="images/notion_B07875E7_8314_4635_9F05_DFB0A78E75C4.png" alt="동영상 연계 제작" loading="lazy">
+                <div class="connect-gallery-body">
+                  <span class="connect-gallery-badge">VIDEO SYNERGY</span>
+                  <h5 class="connect-gallery-title">🎬 AI 비디오 및 쇼츠 스토리 연계</h5>
+                  <p class="connect-gallery-desc">노트북LM에서 정제된 스토리를 영상 제작 프롬프트로 변환하여 런웨이, 클링 등 영상 AI로 확장 연결</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. 노트북LM 접속 및 화면 구성 완벽 가이드 -->
+          <div class="notion-block">
+            <div class="notion-block-header">
+              <span class="notion-block-badge">INTERFACE GUIDE</span>
+              <h3 class="notion-block-title">2. 노트북LM 접속 &amp; 3단계 핵심 워크플로</h3>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.25rem;">
+              구글 계정만 있으면 누구나 무료로 사용할 수 있는 노트북LM의 주요 화면 구성과 3단계 워크플로를 소개합니다.
+            </p>
+
+            <!-- 화면 구성 가이드 이미지 -->
+            <div
+              style="margin-bottom: 1.5rem; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-subtle);">
+              <img src="images/notion_notebookLM_화면구성.png" alt="NotebookLM 화면 구성 안내"
+                style="width: 100%; height: auto; display: block;" loading="lazy">
+            </div>
+
+            <!-- 워크플로 3단계 -->
+            <div class="workflow-steps-grid">
+              <div class="workflow-step-box">
+                <span class="workflow-step-num">STEP 01</span>
+                <span class="workflow-step-title">📂 소스(Sources) 업로드</span>
+                <p class="workflow-step-desc">좌측 패널에서 PDF, 웹 링크, 구글 문서, 유튜브 영상 링크 등 최대 50개의 출처 자료를 손쉽게 추가합니다.</p>
+              </div>
+              <div class="workflow-step-box">
+                <span class="workflow-step-num">STEP 02</span>
+                <span class="workflow-step-title">💬 채팅 질의응답 (Chat)</span>
+                <p class="workflow-step-desc">중앙 채팅창에 질문하면 업로드한 자료만을 근거로 정확히 답변하며, 번호 각주를 눌러 원본 위치를 즉시 확인합니다.</p>
+              </div>
+              <div class="workflow-step-box">
+                <span class="workflow-step-num">STEP 03</span>
+                <span class="workflow-step-title">🎨 스튜디오(Studio) 제작</span>
+                <p class="workflow-step-desc">우측 스튜디오 패널에서 클릭 한 번으로 오디오 오버뷰, 스터디 가이드, 브리핑 문서, 개요를 자동 생성합니다.</p>
               </div>
             </div>
           </div>
@@ -1308,6 +2209,21 @@ files.download(OUTPUT_FILE)</pre>
 
   <!-- 전역 토스트 알림 메시지 바 -->
   <div id="toastNotification" class="toast-notification"></div>
+
+  <!-- 상세 페이지 이미지 확대 라이트박스 모달 -->
+  <div id="imageLightboxModal" class="image-lightbox-overlay" aria-hidden="true">
+    <div class="image-lightbox-container">
+      <button type="button" class="image-lightbox-close" id="lightboxCloseBtn" title="닫기 (Esc)">&times;</button>
+      <img src="" alt="확대 이미지" class="image-lightbox-img" id="lightboxImg">
+      <div class="image-lightbox-caption">
+        <span id="lightboxCaptionText">상세 이미지</span>
+        <span class="zoom-hint">🔍 클릭하여 닫기 / Esc 키</span>
+        <a href="" target="_blank" rel="noopener noreferrer" class="image-lightbox-action-btn" id="lightboxNewTabBtn">
+          <span>새 탭에서 원본 보기</span> ↗
+        </a>
+      </div>
+    </div>
+  </div>
 
   <!-- YouTube IFrame API & 메인 스크립트 -->
   <script src="https://www.youtube.com/iframe_api"></script>

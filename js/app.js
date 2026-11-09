@@ -453,14 +453,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const header = document.createElement('div');
       header.className = 'scene-group-header';
 
-      const sceneBadgeText = sceneTitle.includes('SCENE') 
-        ? sceneTitle.split('.')[0].trim() 
+      const sceneBadgeText = sceneTitle.includes('SCENE')
+        ? sceneTitle.split('.')[0].trim()
         : (sceneTitle.includes('Final') ? 'FINAL' : `SCENE 0${sIdx + 1}`);
-      
-      const sceneTitleText = sceneTitle.includes('.') 
-        ? sceneTitle.split('.').slice(1).join('.').trim() 
+
+      const sceneTitleText = sceneTitle.includes('.')
+        ? sceneTitle.split('.').slice(1).join('.').trim()
         : sceneTitle;
-      
+
       // 씬별 클립 및 시간 할당 정보
       let clipBadgeHtml = '';
       if (sceneTitle.includes('SCENE 1') || sceneTitle.includes('SCENE 01') || sceneBadgeText.includes('01')) {
@@ -923,7 +923,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let finalThumbSrc = clip.thumb || 'CEO_clip01.00_00_06_01.스틸 001.jpg';
     if (minShotNum !== null && window.PROJECT_DATA && Array.isArray(window.PROJECT_DATA.frames)) {
       const matchedFrame = window.PROJECT_DATA.frames.find(f => f.index === minShotNum) ||
-                           window.PROJECT_DATA.frames.find(f => parseInt(f.shotNumber) === minShotNum);
+        window.PROJECT_DATA.frames.find(f => parseInt(f.shotNumber) === minShotNum);
       if (matchedFrame && matchedFrame.image) {
         finalThumbSrc = matchedFrame.image;
       }
@@ -1403,7 +1403,7 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
     exportJsonBackupBtn.addEventListener('click', () => {
       const now = new Date();
       const pad = n => String(n).padStart(2, '0');
-      const filename = `woman_ceo_prompts_backup_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.json`;
+      const filename = `woman_ceo_prompts_backup_${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.json`;
       const payload = {
         project: '생성형 AI로 달라진 CEO의 하루',
         exportedAt: now.toISOString(),
@@ -1644,15 +1644,27 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
   // 초기 비디오 결과 렌더링
   renderVideoResults();
 
-  // 7. 좌측 사이드바 페이지 단위 전환 (Page-by-Page Navigation)
-  const sidebarLinks = document.querySelectorAll('.sidebar-link');
+  // 7. 좌측 사이드바 및 서브메뉴 페이지 전환 (Page-by-Page Navigation)
+  const navLinks = document.querySelectorAll('.sidebar-link, .sidebar-sublink');
   const pages = document.querySelectorAll('.page-view');
+  const groupVideoProd = document.getElementById('group-video-prod');
+  const btnGroupVideoProd = document.getElementById('btnGroupVideoProd');
+
+  // 영상 기획부터 완성(00) 하위 페이지 목록
+  const videoProdPages = [
+    'page-script',
+    'page-assets',
+    'page-storyboard',
+    'page-prompts',
+    'page-results',
+    'page-final-video'
+  ];
 
   function switchPage(pageId) {
     // 모든 페이지 숨기기
     pages.forEach(p => p.classList.remove('active-page'));
     // 모든 메뉴 비활성화
-    sidebarLinks.forEach(l => l.classList.remove('active'));
+    navLinks.forEach(l => l.classList.remove('active'));
 
     // 대상 페이지 활성화
     const targetPage = document.getElementById(pageId);
@@ -1661,9 +1673,19 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
     }
 
     // 대상 메뉴 활성화
-    const targetLink = document.querySelector(`.sidebar-link[data-page="${pageId}"]`);
+    const targetLink = document.querySelector(`[data-page="${pageId}"]`);
     if (targetLink) {
       targetLink.classList.add('active');
+    }
+
+    // 00 상위 메뉴 활성/오픈 상태 동기화
+    if (groupVideoProd) {
+      if (videoProdPages.includes(pageId)) {
+        groupVideoProd.classList.add('open');
+        groupVideoProd.classList.add('active');
+      } else {
+        groupVideoProd.classList.remove('active');
+      }
     }
 
     // 화면 최상단으로 부드럽게 스크롤
@@ -1678,7 +1700,8 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
     }
   }
 
-  sidebarLinks.forEach(link => {
+  // 메뉴 버튼 클릭 이벤트 바인딩
+  navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const pageId = link.getAttribute('data-page');
       if (pageId) {
@@ -1689,10 +1712,54 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
     });
   });
 
+  // 00 상위 메뉴(영상 기획부터 완성) 아코디언 토글 버튼
+  if (btnGroupVideoProd && groupVideoProd) {
+    btnGroupVideoProd.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = groupVideoProd.classList.toggle('open');
+      // 만약 닫혀있다가 열렸는데 현재 활성 페이지가 00의 하위 페이지가 아니라면 첫 페이지로 전환
+      const activePage = document.querySelector('.page-view.active-page');
+      const activeId = activePage ? activePage.id : '';
+      if (isOpen && !videoProdPages.includes(activeId)) {
+        switchPage('page-script');
+      }
+    });
+  }
+
+  // 4+2 프롬프트 복사 버튼 이벤트 바인딩
+  document.querySelectorAll('.prompt-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-copy-target');
+      const targetEl = document.getElementById(targetId);
+      if (!targetEl) return;
+
+      // contenteditable 요소의 실제 줄바꿈을 완벽하게 보존하여 텍스트 추출
+      const textToCopy = (targetEl.innerText !== undefined ? targetEl.innerText : targetEl.textContent || '').trim();
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '✓ 복사 완료!';
+        btn.classList.add('copied');
+
+        // 전역 토스트 알림
+        if (typeof showToast === 'function') {
+          showToast('📋 프롬프트(수정 내용 반영)가 클립보드에 복사되었습니다! Gemini나 ChatGPT에 바로 붙여넣어 보세요.');
+        }
+
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.remove('copied');
+        }, 2500);
+      }).catch(err => {
+        console.error('클립보드 복사 실패:', err);
+      });
+    });
+  });
+
   // 초기 URL 해시 확인 및 해당 페이지 로드
   const currentHash = (typeof window !== 'undefined' && window.location && window.location.hash)
     ? window.location.hash.replace('#', '')
     : '';
+
   if (currentHash === 'assets') {
     switchPage('page-assets');
   } else if (currentHash === 'storyboard') {
@@ -1703,6 +1770,14 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
     switchPage('page-results');
   } else if (currentHash === 'final-video' || currentHash === 'final') {
     switchPage('page-final-video');
+  } else if (currentHash === 'birthday-ai' || currentHash === 'birthday' || currentHash === 'open') {
+    switchPage('page-birthday-ai');
+  } else if (currentHash === 'ai-market' || currentHash === 'market') {
+    switchPage('page-ai-market');
+  } else if (currentHash === 'strategy-prompt' || currentHash === 'prompt') {
+    switchPage('page-strategy-prompt');
+  } else if (currentHash === 'strategy-connect' || currentHash === 'connect' || currentHash === 'notebooklm') {
+    switchPage('page-strategy-connect');
   } else if (currentHash === 'cert' || currentHash === 'upload') {
     window.location.href = `auth.html#${currentHash}`;
   } else {
@@ -1879,6 +1954,71 @@ window.CLIP_PROMPTS_DATA = ${JSON.stringify(data, null, 2)};
         });
       }
     });
+  });
+
+  // 11. 상세 페이지(01~03 및 Open 모듈) 이미지 클릭 확대 라이트박스 로직
+  const lightboxModal = document.getElementById('imageLightboxModal');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCaptionText = document.getElementById('lightboxCaptionText');
+  const lightboxNewTabBtn = document.getElementById('lightboxNewTabBtn');
+  const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
+
+  function openImageLightbox(src, alt) {
+    if (!lightboxModal || !lightboxImg) return;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || '확대 이미지';
+    if (lightboxCaptionText) {
+      lightboxCaptionText.textContent = alt || '상세 이미지';
+    }
+    if (lightboxNewTabBtn) {
+      lightboxNewTabBtn.href = src;
+    }
+    lightboxModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeImageLightbox() {
+    if (!lightboxModal) return;
+    lightboxModal.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      if (lightboxImg && !lightboxModal.classList.contains('open')) {
+        lightboxImg.src = '';
+      }
+    }, 200);
+  }
+
+  // 상세 콘텐츠 영역 내의 모든 이미지에 클릭 확대 이벤트 연결
+  const contentImages = document.querySelectorAll(
+    '#page-birthday-ai img, #page-ai-market img, #page-strategy-prompt img, #page-strategy-connect img, .notion-content-wrapper img, .notion-media-card img, .connect-gallery-card img'
+  );
+
+  contentImages.forEach(img => {
+    img.setAttribute('title', '클릭하여 이미지 크게 보기 🔍');
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openImageLightbox(img.currentSrc || img.src, img.alt);
+    });
+  });
+
+  // 닫기 이벤트 (닫기 버튼, 이미지 클릭, 모달 배경 클릭, Esc 키)
+  if (lightboxCloseBtn) {
+    lightboxCloseBtn.addEventListener('click', closeImageLightbox);
+  }
+  if (lightboxImg) {
+    lightboxImg.addEventListener('click', closeImageLightbox);
+  }
+  if (lightboxModal) {
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal || e.target.classList.contains('image-lightbox-container')) {
+        closeImageLightbox();
+      }
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightboxModal && lightboxModal.classList.contains('open')) {
+      closeImageLightbox();
+    }
   });
 });
 
@@ -2557,8 +2697,8 @@ function initCertificationPage() {
       }
 
       const name = (certInputName ? certInputName.value.trim() : '');
-      const resolution = (certInputResolution && certInputResolution.value.trim()) 
-        ? certInputResolution.value.trim() 
+      const resolution = (certInputResolution && certInputResolution.value.trim())
+        ? certInputResolution.value.trim()
         : '생성형 AI와 함께 두려움 없이 비즈니스를 혁신하고 새로운 도약을 시작합니다!';
       const selectedRadio = document.querySelector('input[name="certPreset"]:checked');
       const presetKey = selectedRadio ? selectedRadio.value : 'cinematic_gold';

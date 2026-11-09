@@ -1,0 +1,17 @@
+{
+  "name": "womanceo-storyboard",
+  "version": "1.0.0",
+  "description": "생성형 AI로 달라진 CEO의 하루 - 시네마틱 스토리보드 웹 애플리케이션",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "storyboard",
+    "ai-video",
+    "cinematic"
+  ],
+  "author": "",
+  "license": "ISC"
+}
+
