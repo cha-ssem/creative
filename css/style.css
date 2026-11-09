@@ -2,7 +2,7 @@
    생성형 AI로 달라진 CEO의 하루 - 좌측 사이드바 & 프리미엄 시네마틱 스타일
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Noto+Serif+KR:wght@500;700;900&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
 
 :root {
   /* 색상 토큰 (Cinematic Luxury Dark Theme) */
@@ -892,7 +892,7 @@ button {
 }
 
 .brand-title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Cinzel', 'Noto Serif KR', serif;
   font-size: 1.45rem;
   font-weight: 800;
   letter-spacing: 2px;
