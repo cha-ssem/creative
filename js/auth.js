@@ -1802,16 +1802,16 @@ document.addEventListener('DOMContentLoaded', () => {
           icon = '🗑️';
           titleText = '전체 참석자 좌석 비우기 (초기화)';
           descHtml = `
-            <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 8px; padding: 0.85rem; margin-bottom: 0.9rem; text-align: left;">
-              <div style="font-weight: 800; color: #ef4444; margin-bottom: 0.35rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.35rem;">
-                <span>⚠️</span> <span>등록된 모든 참석자 사진이 영구 삭제됩니다</span>
+            <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 10px; padding: 0.95rem 1rem; margin-bottom: 1rem; text-align: center;">
+              <div style="font-weight: 800; color: #ef4444; margin-bottom: 0.45rem; font-size: 0.92rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
+                <span>⚠️</span> <span>등록된 모든 참석자 사진 영구 삭제</span>
               </div>
-              <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
-                현재 등록된 참석자 <strong>${participants.length}명</strong>의 사진과 정보가 완전히 삭제되고 <strong>0석 빈 좌석(대기 상태)</strong>으로 리셋됩니다.
+              <div style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.55; word-break: keep-all;">
+                현재 등록된 참석자 <strong>${participants.length}명</strong>의 사진과 정보가 완전히 삭제되고<br><strong>0석 빈 강의실(대기 상태)</strong>로 리셋됩니다.
               </div>
             </div>
-            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
-              이 작업은 되돌릴 수 없습니다. 계속 진행하시려면 <strong>관리자 보안 비밀번호</strong>를 입력해 주세요.
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; text-align: center; word-break: keep-all;">
+              이 작업은 되돌릴 수 없습니다. 계속 진행하시려면<br><strong>관리자 보안 비밀번호</strong>를 입력해 주세요.
             </p>
           `;
           submitText = '🗑️ 전체 비우기 실행';
@@ -1820,15 +1820,15 @@ document.addEventListener('DOMContentLoaded', () => {
           icon = '⚡';
           titleText = '실시간 연동 시작';
           descHtml = `
-            <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 8px; padding: 0.85rem; margin-bottom: 0.9rem; text-align: left;">
-              <div style="font-weight: 800; color: #10b981; margin-bottom: 0.35rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.35rem;">
+            <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 10px; padding: 0.95rem 1rem; margin-bottom: 1rem; text-align: center;">
+              <div style="font-weight: 800; color: #10b981; margin-bottom: 0.45rem; font-size: 0.92rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
                 <span>🟢</span> <span>모바일 ↔ 메인 스크린 실시간 연동 활성화</span>
               </div>
-              <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
-                스마트폰 카메라로 촬영 및 업로드한 참석자 사진이 메인 강의실 좌석에 <strong>실시간으로 즉시 등재</strong>됩니다.
+              <div style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.55; word-break: keep-all;">
+                스마트폰 카메라로 촬영 및 업로드한 참석자 사진이<br>메인 강의실 좌석에 <strong>실시간으로 즉시 등재</strong>됩니다.
               </div>
             </div>
-            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; text-align: center; word-break: keep-all;">
               실시간 연동을 시작하시려면 <strong>관리자 보안 비밀번호</strong>를 입력해 주세요.
             </p>
           `;
@@ -1838,15 +1838,15 @@ document.addEventListener('DOMContentLoaded', () => {
           icon = '🛑';
           titleText = '실시간 연동 중지';
           descHtml = `
-            <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 8px; padding: 0.85rem; margin-bottom: 0.9rem; text-align: left;">
-              <div style="font-weight: 800; color: #f59e0b; margin-bottom: 0.35rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.35rem;">
+            <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 10px; padding: 0.95rem 1rem; margin-bottom: 1rem; text-align: center;">
+              <div style="font-weight: 800; color: #f59e0b; margin-bottom: 0.45rem; font-size: 0.92rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
                 <span>⏸️</span> <span>실시간 자동 동기화 일시 중지</span>
               </div>
-              <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
-                진행 중인 실시간 자동 동기화를 안전하게 중지합니다. 중지 중에는 <strong>외부 기기의 사진 업로드가 화면에 자동 반영되지 않습니다.</strong>
+              <div style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.55; word-break: keep-all;">
+                진행 중인 실시간 자동 동기화를 안전하게 중지합니다.<br>중지 중에는 <strong>외부 기기의 사진 업로드가 화면에 자동 반영되지 않습니다.</strong>
               </div>
             </div>
-            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; text-align: center; word-break: keep-all;">
               실시간 연동을 중지하시려면 <strong>관리자 보안 비밀번호</strong>를 입력해 주세요.
             </p>
           `;
@@ -1856,15 +1856,15 @@ document.addEventListener('DOMContentLoaded', () => {
           icon = '🧪';
           titleText = '70명 실시간 업로드 시뮬레이션';
           descHtml = `
-            <div style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: 8px; padding: 0.85rem; margin-bottom: 0.9rem; text-align: left;">
-              <div style="font-weight: 800; color: #0284c7; margin-bottom: 0.35rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.35rem;">
+            <div style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: 10px; padding: 0.95rem 1rem; margin-bottom: 1rem; text-align: center;">
+              <div style="font-weight: 800; color: #0284c7; margin-bottom: 0.45rem; font-size: 0.92rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
                 <span>🧪</span> <span>대규모 동시 접속 부하 테스트</span>
               </div>
-              <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
-                가상 참석자 70명이 0.3초 간격으로 사진을 자동 등록하며 화면 렌더링 및 실시간 동기화 성능을 검증합니다.
+              <div style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.55; word-break: keep-all;">
+                가상 참석자 70명이 0.3초 간격으로 사진을 자동 등록하며<br>화면 렌더링 및 실시간 동기화 성능을 검증합니다.
               </div>
             </div>
-            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; text-align: center; word-break: keep-all;">
               시뮬레이션을 시작하시려면 <strong>관리자 보안 비밀번호</strong>를 입력해 주세요.
             </p>
           `;
