@@ -15,12 +15,41 @@ const os = require('os');
 const DEFAULT_PORT = 3000;
 const ROOT_DIR = __dirname;
 
-// 실시간 동기화 상태 저장소 (메모리 및 영속 캐시)
-const certStore = {
-  participants: [],
-  maxSeats: 72,
-  lastModified: Date.now()
-};
+// 실시간 동기화 상태 저장소 (메모리 및 영속 캐시 파일)
+const CERT_CACHE_FILE = path.join(ROOT_DIR, 'cert_participants_data.json');
+
+function loadCertStoreFromFile() {
+  try {
+    if (fs.existsSync(CERT_CACHE_FILE)) {
+      const content = fs.readFileSync(CERT_CACHE_FILE, 'utf8');
+      const data = JSON.parse(content);
+      if (data && Array.isArray(data.participants)) {
+        return {
+          participants: data.participants,
+          maxSeats: data.maxSeats || 72,
+          lastModified: data.lastModified || Date.now()
+        };
+      }
+    }
+  } catch (err) {
+    console.warn('Cache file read error:', err.message);
+  }
+  return {
+    participants: [],
+    maxSeats: 72,
+    lastModified: Date.now()
+  };
+}
+
+function saveCertStoreToFile() {
+  try {
+    fs.writeFileSync(CERT_CACHE_FILE, JSON.stringify(certStore, null, 2), 'utf8');
+  } catch (err) {
+    console.warn('Cache file write error:', err.message);
+  }
+}
+
+const certStore = loadCertStoreFromFile();
 
 // SSE(Server-Sent Events) 연결 클라이언트 풀
 const sseClients = new Set();
@@ -175,6 +204,7 @@ const handleRequest = (req, res) => {
             certStore.participants.unshift(newP);
           }
           certStore.lastModified = Date.now();
+          saveCertStoreToFile();
 
           // 모든 연결된 기기(메인 스크린 PC 포함)로 즉각 방송!
           broadcastSseEvent('new_participant', newP);
@@ -205,6 +235,7 @@ const handleRequest = (req, res) => {
             certStore.participants = [...reqData.defaults];
           }
           certStore.lastModified = Date.now();
+          saveCertStoreToFile();
 
           broadcastSseEvent('reset_participants', { mode: mode, participants: certStore.participants });
 

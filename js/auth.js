@@ -355,30 +355,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentFilter = 'all';
 
   // ==========================================================================
-  // [보안 강화: 암호학적 난수 비밀 룸(Secret Room ID) 생성 및 실시간 동기화]
+  // [단일 공용 세션 채널: 모든 기기가 동일한 방으로 자동 일치 동기화]
   // ==========================================================================
-  function generateSecureRoomId() {
-    try {
-      const array = new Uint8Array(16);
-      window.crypto.getRandomValues(array);
-      const hex = Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
-      return `sec_${hex}`;
-    } catch (e) {
-      return `sec_${Math.random().toString(36).substring(2, 12)}_${Date.now()}`;
-    }
-  }
-
   const urlParams = new URLSearchParams(window.location.search);
-  let currentRoomId = urlParams.get('room');
-  if (!currentRoomId) {
-    currentRoomId = localStorage.getItem('CEO_STORYBOARD_SECURE_ROOM_ID');
-    if (!currentRoomId) {
-      currentRoomId = generateSecureRoomId();
-      try {
-        localStorage.setItem('CEO_STORYBOARD_SECURE_ROOM_ID', currentRoomId);
-      } catch (e) { }
-    }
-  }
+  // URL에 room 파라미터가 없어도 항상 기본 공용 방 'womanceo_class_2026' 사용
+  const currentRoomId = urlParams.get('room') || 'womanceo_class_2026';
 
   const SYNC_TOPIC = `womanceo/secure_sync/${currentRoomId}`;
   let realtimeClient = null;
@@ -409,8 +390,13 @@ document.addEventListener('DOMContentLoaded', () => {
         sseEventSource.addEventListener('init', (e) => {
           try {
             const data = JSON.parse(e.data);
-            if (Array.isArray(data.participants) && data.participants.length > 0) {
-              participants = data.participants;
+            if (Array.isArray(data.participants)) {
+              if (data.participants.length > 0) {
+                participants = data.participants;
+              } else if (participants.length > 0) {
+                // 서버가 비어있고 로컬에 참가자가 있으면 서버로 초기 상태 동기화
+                participants.forEach(p => broadcastNewParticipant(p));
+              }
               if (data.maxSeats) maxSeats = data.maxSeats;
               renderCertCards(currentFilter);
             }
