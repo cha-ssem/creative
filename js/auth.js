@@ -337,6 +337,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const certSuccessView = document.getElementById('certSuccessView');
   const certSuccessParticipantName = document.getElementById('certSuccessParticipantName');
   const certRegisterAnotherBtn = document.getElementById('certRegisterAnotherBtn');
+  const certViewLiveClassroomBtn = document.getElementById('certViewLiveClassroomBtn');
+  const mobileFloatingUploadBtn = document.getElementById('mobileFloatingUploadBtn');
   const certModalMediaCol = document.querySelector('.cert-modal-media-col');
   const certModalInfoCol = document.querySelector('.cert-modal-info-col');
 
@@ -1241,6 +1243,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (certSuccessParticipantName) {
               certSuccessParticipantName.textContent = `👤 ${name} 님`;
             }
+
+            // 모바일 기기에서도 등록 2.2초 후 자동으로 모달을 닫고 실시간 가상 강의실 좌석 화면으로 전환
+            clearTimeout(window.__mobileAutoCloseTimer);
+            window.__mobileAutoCloseTimer = setTimeout(() => {
+              closeCertUploadModal();
+              focusOnSeat(newParticipant.id);
+            }, 2200);
           } else {
             // PC 모달 모드: 모달 닫기
             closeCertUploadModal();
@@ -1248,18 +1257,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           renderCertCards(currentFilter);
           showToastNotification(`🎉 ${name} 님의 참석 등록이 완료되었습니다!`);
-
-          const newSeatEl = document.getElementById(`seat-${newParticipant.id}`);
-          if (newSeatEl) {
-            newSeatEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            newSeatEl.style.transition = 'transform 0.4s ease, box-shadow 0.4s ease';
-            newSeatEl.style.transform = 'scale(1.15)';
-            newSeatEl.style.zIndex = '999';
-            setTimeout(() => {
-              newSeatEl.style.transform = '';
-              newSeatEl.style.zIndex = '';
-            }, 1800);
-          }
+          focusOnSeat(newParticipant.id);
         }, 1200);
 
       } catch (err) {
@@ -1273,9 +1271,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 특정 좌석으로 부드럽게 화면 이동 및 줌인 하이라이트
+  function focusOnSeat(seatId) {
+    if (!seatId) return;
+    setTimeout(() => {
+      const seatEl = document.getElementById(`seat-${seatId}`);
+      if (seatEl) {
+        seatEl.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+        seatEl.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease';
+        seatEl.style.transform = 'scale(1.22)';
+        seatEl.style.zIndex = '9999';
+        setTimeout(() => {
+          seatEl.style.transform = '';
+          seatEl.style.zIndex = '';
+        }, 2200);
+      }
+    }, 300);
+  }
+
   // 모달 열기 / 닫기
   function openCertUploadModal() {
     if (certUploadModal) {
+      if (certSuccessView) certSuccessView.style.display = 'none';
+      if (certModalMediaCol) certModalMediaCol.style.display = '';
+      if (certModalInfoCol) certModalInfoCol.style.display = '';
       certUploadModal.classList.add('open');
       certUploadModal.scrollTop = 0;
       setTimeout(() => {
@@ -1297,6 +1316,27 @@ document.addEventListener('DOMContentLoaded', () => {
     if (certTabUploadBtn) certTabUploadBtn.classList.add('active');
     if (certTabCameraBtn) certTabCameraBtn.classList.remove('active');
     if (certResolutionCharCount) certResolutionCharCount.textContent = '0';
+    if (certSuccessView) certSuccessView.style.display = 'none';
+    if (certModalMediaCol) certModalMediaCol.style.display = '';
+    if (certModalInfoCol) certModalInfoCol.style.display = '';
+  }
+
+  // [모바일] 실시간 가상 강의실 좌석 현황 보기 버튼 클릭 시 모달 닫고 좌석 뷰 활성화
+  if (certViewLiveClassroomBtn) {
+    certViewLiveClassroomBtn.addEventListener('click', () => {
+      clearTimeout(window.__mobileAutoCloseTimer);
+      closeCertUploadModal();
+      if (participants.length > 0) {
+        focusOnSeat(participants[0].id);
+      }
+    });
+  }
+
+  // [모바일] 우측 하단 플로팅 내 사진 등록 버튼
+  if (mobileFloatingUploadBtn) {
+    mobileFloatingUploadBtn.addEventListener('click', () => {
+      openCertUploadModal();
+    });
   }
 
   if (certRegisterAnotherBtn) {

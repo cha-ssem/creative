@@ -342,7 +342,7 @@
       }
     }
 
-    /* [QR 모바일 접속 전용] 독립형 직관적 업로드 모드 - 가로 스크롤 원천 차단 및 모바일 터치 최적화 */
+    /* [QR 모바일 접속 전용] 실시간 강의실 연동 뷰 & 모바일 터치 최적화 */
     html.mobile-upload-html,
     body.mobile-upload-mode {
       background: #0b0f19 !important;
@@ -350,12 +350,8 @@
       height: auto !important;
       width: 100% !important;
       max-width: 100% !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: flex-start !important;
-      padding: 0.75rem 0.5rem 5rem 0.5rem !important;
       margin: 0 !important;
+      padding: 0 !important;
       overflow-x: hidden !important;
       overflow-y: auto !important;
       box-sizing: border-box !important;
@@ -367,42 +363,61 @@
       box-sizing: border-box !important;
     }
 
-    body.mobile-upload-mode .auth-top-nav,
+    /* 모바일에서는 관리자용 복잡한 툴바와 플로팅 컨트롤만 숨김 (실시간 가상 강의실은 정상 표시!) */
     body.mobile-upload-mode .cert-action-toolbar,
-    body.mobile-upload-mode .cert-capture-wrapper,
-    body.mobile-upload-mode #fullscreenOverlayControls,
-    body.mobile-upload-mode .modal-close-btn,
-    body.mobile-upload-mode .auth-page-wrapper {
+    body.mobile-upload-mode #fullscreenOverlayControls {
       display: none !important;
     }
 
-    body.mobile-upload-mode #certUploadModal {
-      position: static !important;
-      display: flex !important;
-      align-items: flex-start !important;
-      justify-content: center !important;
-      background: transparent !important;
-      backdrop-filter: none !important;
-      width: 100% !important;
-      max-width: 480px !important;
-      margin: 0 auto !important;
-      padding: 0 !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-      pointer-events: auto !important;
-      overflow: visible !important;
+    /* 모바일 화면 상단 네비게이션 헤더 슬림화 */
+    body.mobile-upload-mode .auth-top-nav {
+      padding: 0.6rem 1rem !important;
+      background: rgba(11, 15, 25, 0.95) !important;
+      backdrop-filter: blur(12px) !important;
     }
 
+    /* 모바일 전용 우측 하단 사진 등록/변경 플로팅 FAB 버튼 */
+    .mobile-floating-upload-btn {
+      display: none;
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.2rem;
+      z-index: 1500;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #0f172a;
+      border: none;
+      border-radius: 30px;
+      padding: 0.8rem 1.3rem;
+      font-size: 0.95rem;
+      font-weight: 800;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.55);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    body.mobile-upload-mode .mobile-floating-upload-btn {
+      display: flex !important;
+    }
+
+    body.mobile-upload-mode .mobile-floating-upload-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* 모바일 모드에서의 업로드 모달 카드 */
     body.mobile-upload-mode .cert-modal-card {
-      width: 100% !important;
-      max-width: 100% !important;
-      max-height: none !important;
-      margin: 0 auto !important;
+      width: 95% !important;
+      max-width: 480px !important;
+      max-height: 90vh !important;
+      margin: auto !important;
       background: #111827 !important;
       border-radius: 20px !important;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
-      border: 1px solid rgba(250, 204, 21, 0.4) !important;
-      overflow: visible !important;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7) !important;
+      border: 1px solid rgba(250, 204, 21, 0.45) !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
     }
 
     body.mobile-upload-mode .cert-modal-body {
@@ -430,7 +445,7 @@
 
     body.mobile-upload-mode .cert-submit-btn {
       padding: 1.1rem 1.4rem !important;
-      font-size: 1.1rem !important;
+      font-size: 1.05rem !important;
       font-weight: 800 !important;
       box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5) !important;
       animation: pulseAttention 2s infinite !important;
@@ -453,6 +468,11 @@
 </head>
 
 <body class="light-theme">
+
+  <!-- [모바일 전용 우측 하단 플로팅 사진 등록 버튼] -->
+  <button type="button" id="mobileFloatingUploadBtn" class="mobile-floating-upload-btn" title="내 사진 등록 및 수정하기">
+    <span>📷</span> 내 사진 등록
+  </button>
 
   <!-- [전체 화면 보기 전용 우측 플로팅 액션 컨트롤 (해제 & 캡처)] -->
   <div class="fullscreen-overlay-controls" id="fullscreenOverlayControls">
@@ -688,19 +708,26 @@
 
         <!-- 등록 완료 상태 뷰 (초기 숨김) -->
         <div class="cert-modal-success-view" id="certSuccessView"
-          style="display: none; padding: 2.5rem 1.5rem; text-align: center; width: 100%;">
-          <div style="font-size: 3.5rem; margin-bottom: 0.8rem;">🎉</div>
+          style="display: none; padding: 2rem 1.2rem; text-align: center; width: 100%;">
+          <div style="font-size: 3.2rem; margin-bottom: 0.6rem;">🎉</div>
           <h3 style="font-size: 1.35rem; font-weight: 800; color: #fcd34d; margin: 0 0 0.5rem;">등록이 완료되었습니다!</h3>
           <p id="certSuccessParticipantName"
             style="font-size: 1.05rem; font-weight: 700; color: #ffffff; margin: 0 0 0.6rem;"></p>
-          <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.5; margin: 0 0 1.8rem;">
-            앞쪽 대형 스크린의 가상 강의실 좌석에<br>
+          <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.5; margin: 0 0 1.5rem;">
+            앞쪽 대형 스크린과 가상 강의실 좌석에<br>
             성공적으로 등재되었습니다. ✨
           </p>
-          <button type="button" id="certRegisterAnotherBtn" class="camera-action-btn secondary"
-            style="width: 100%; padding: 0.8rem; font-size: 0.95rem; border-radius: 10px;">
-            🔄 다른 사진으로 다시 등록하기
-          </button>
+
+          <div style="display: flex; flex-direction: column; gap: 0.65rem; width: 100%;">
+            <button type="button" id="certViewLiveClassroomBtn" class="camera-action-btn"
+              style="width: 100%; padding: 0.95rem; font-size: 1rem; font-weight: 800; border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #0f172a; border: none; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); cursor: pointer;">
+              👀 실시간 가상 강의실 좌석 현황 보기
+            </button>
+            <button type="button" id="certRegisterAnotherBtn" class="camera-action-btn secondary"
+              style="width: 100%; padding: 0.8rem; font-size: 0.9rem; border-radius: 10px;">
+              🔄 다른 사진으로 다시 등록하기
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -797,7 +824,7 @@
   <div id="toastNotification" class="toast-notification"></div>
 
   <!-- 전용 인증 스크립트 -->
-  <script src="js/auth.js?v=20261109_1900" defer></script>
+  <script src="js/auth.js?v=20261109_1920" defer></script>
 </body>
 
 </html>
