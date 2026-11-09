@@ -6,6 +6,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const LOCAL_STORAGE_KEY = 'CEO_STORYBOARD_CERT_PARTICIPANTS_V2';
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentRoomId = urlParams.get('room') || 'womanceo_global_sync_9985';
 
   // 0. Base64 안전 이미지 URL 변환 헬퍼 (로컬 file:// 환경 Taint 방지)
   function getSafeImageSrc(src) {
@@ -1267,6 +1269,32 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 10. QR 모달 로직 (auth.html 전용 링크 생성)
+  function getMobileUploadUrl(origin) {
+    const cleanRoom = encodeURIComponent(currentRoomId || 'womanceo_global_sync_9985');
+    try {
+      let targetOrigin = origin;
+      if (!targetOrigin || targetOrigin === 'null') {
+        targetOrigin = window.location.protocol.startsWith('http') ? window.location.origin : 'http://localhost:3000';
+      }
+
+      // 현재 파일 경로(pathname)를 온전히 보존 (GitHub Pages 등 서브디렉토리 지원)
+      let currentPath = window.location.pathname;
+      if (!currentPath || currentPath === '/' || currentPath.endsWith('/')) {
+        currentPath = (currentPath || '') + 'auth.html';
+      } else if (!currentPath.endsWith('auth.html')) {
+        const segments = currentPath.split('/');
+        segments[segments.length - 1] = 'auth.html';
+        currentPath = segments.join('/');
+      }
+
+      const base = new URL(currentPath, targetOrigin);
+      return `${base.origin}${base.pathname}?room=${cleanRoom}#upload`;
+    } catch (e) {
+      const fallbackOrigin = (origin && origin !== 'null') ? origin : (window.location.protocol.startsWith('http') ? window.location.origin : 'http://localhost:3000');
+      return `${fallbackOrigin}/auth.html?room=${cleanRoom}#upload`;
+    }
+  }
+
   function openCertQrModal() {
     if (!certQrModal) return;
     certQrModal.classList.add('open');
@@ -1288,7 +1316,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderQrCodeWithOrigin(origin) {
     if (!certQrContainer) return;
-    const currentUrl = new URL(`auth.html?room=${encodeURIComponent(currentRoomId)}#upload`, origin).href;
+    const currentUrl = getMobileUploadUrl(origin);
+
+    // [최우선] 입력창에 URL 즉시 반영 (QR 생성 에러 여부와 무관하게 100% 보장)
+    if (certDirectUrlInput) {
+      certDirectUrlInput.value = currentUrl;
+    }
 
     try {
       if (typeof qrcode !== 'undefined') {
@@ -1320,10 +1353,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       console.warn('QR render error, using image API fallback:', err);
       certQrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="display:block;margin:0 auto;width:180px;height:180px;">`;
-    }
-
-    if (certDirectUrlInput) {
-      certDirectUrlInput.value = currentUrl;
     }
   }
 
