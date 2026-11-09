@@ -387,9 +387,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isGlobalSyncActive) {
         syncBtn.classList.add('active-sync');
         syncBtn.textContent = '🟢 실시간 연동 중';
+        syncBtn.title = '실시간 연동이 활성화되어 있습니다. 클릭하여 비밀번호 확인 후 중지할 수 있습니다.';
       } else {
         syncBtn.classList.remove('active-sync');
         syncBtn.textContent = '⚡ 실시간 연동 시작';
+        syncBtn.title = '관리자 비밀번호를 입력하여 실시간 연동을 활성화합니다.';
       }
     }
   }
@@ -452,8 +454,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 participants = data.participants;
                 renderCertCards(currentFilter);
               }
+              isGlobalSyncActive = true;
+              localStorage.setItem('CEO_GLOBAL_SYNC_ACTIVE', 'true');
               updateRealtimeStatus('online', '실시간 연동 활성화 (전체 기기 연동 중)');
               showToastNotification('🔔 [실시간 연동]이 관리자에 의해 시작되었습니다. 실시간으로 화면이 동기화됩니다.');
+            } else if (data && data.type === 'SYNC_COMMAND_STOP') {
+              isGlobalSyncActive = false;
+              localStorage.setItem('CEO_GLOBAL_SYNC_ACTIVE', 'false');
+              updateRealtimeStatus('offline', '실시간 연동 중지됨 (대기 상태)');
+              showToastNotification('🛑 [실시간 연동]이 관리자에 의해 중지되었습니다.');
             }
           }
         } catch (err) {
@@ -577,6 +586,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
               } else if (msgObj && msgObj.type === 'SYNC_COMMAND_START' && Array.isArray(msgObj.participants)) {
                 mergeParticipantsList(msgObj.participants);
+                isGlobalSyncActive = true;
+                localStorage.setItem('CEO_GLOBAL_SYNC_ACTIVE', 'true');
+              } else if (msgObj && msgObj.type === 'SYNC_COMMAND_STOP') {
+                isGlobalSyncActive = false;
+                localStorage.setItem('CEO_GLOBAL_SYNC_ACTIVE', 'false');
               } else if (msgObj && msgObj.type === 'RESET_PARTICIPANTS') {
                 if (msgObj.mode === 'EMPTY') {
                   participants = [];
@@ -1766,34 +1780,137 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 12. [핵심] 관리자 보안 비밀번호 검증 및 실시간 연동 시작 / 전체 비우기 로직
+  // 12. [핵심] 관리자 보안 비밀번호 검증 (화면 마스킹/숨김 모달 방식)
   const ADMIN_PASSCODE = '9985';
 
   function verifyAdminPasscode(actionName = '이 작업') {
-    const input = window.prompt(`🔒 관리자 전용 기능입니다.\n[${actionName}]을(를) 실행하려면 비밀번호를 입력해 주세요:`);
-    if (input === null) return false;
-    if (input.trim() === ADMIN_PASSCODE) {
-      return true;
-    } else {
-      showToastNotification('⚠️ 비밀번호가 일치하지 않습니다.');
-      return false;
-    }
+    return new Promise((resolve) => {
+      const modal = document.getElementById('adminPasscodeModal');
+      const form = document.getElementById('adminPasscodeForm');
+      const input = document.getElementById('adminPasscodeInput');
+      const title = document.getElementById('adminPasscodeModalTitle');
+      const desc = document.getElementById('adminPasscodeModalDesc');
+      const errorMsg = document.getElementById('adminPasscodeErrorMsg');
+      const closeBtn = document.getElementById('adminPasscodeModalCloseBtn');
+      const cancelBtn = document.getElementById('adminPasscodeCancelBtn');
+
+      if (!modal || !form || !input) {
+        const fallbackVal = window.prompt(`🔒 [${actionName}] 관리자 비밀번호를 입력해 주세요:`);
+        resolve(Boolean(fallbackVal && fallbackVal.trim() === ADMIN_PASSCODE));
+        return;
+      }
+
+      if (title) {
+        title.textContent = `[${actionName}] 관리자 확인`;
+      }
+      if (desc) {
+        desc.innerHTML = `<strong>[${actionName}]</strong> 작업을 진행하시려면<br>관리자 보안 비밀번호를 입력해 주세요.`;
+      }
+      if (errorMsg) errorMsg.style.display = 'none';
+      input.value = '';
+
+      let isResolved = false;
+
+      const cleanup = () => {
+        modal.classList.remove('open');
+        form.removeEventListener('submit', onSubmit);
+        if (closeBtn) closeBtn.removeEventListener('click', onCancel);
+        if (cancelBtn) cancelBtn.removeEventListener('click', onCancel);
+        modal.removeEventListener('click', onOverlay);
+        document.removeEventListener('keydown', onKeyDown);
+      };
+
+      const onSubmit = (e) => {
+        e.preventDefault();
+        if (input.value.trim() === ADMIN_PASSCODE) {
+          isResolved = true;
+          cleanup();
+          resolve(true);
+        } else {
+          if (errorMsg) errorMsg.style.display = 'block';
+          input.value = '';
+          input.focus();
+        }
+      };
+
+      const onCancel = (e) => {
+        if (e) e.preventDefault();
+        if (!isResolved) {
+          isResolved = true;
+          cleanup();
+          resolve(false);
+        }
+      };
+
+      const onOverlay = (e) => {
+        if (e.target === modal) {
+          onCancel(e);
+        }
+      };
+
+      const onKeyDown = (e) => {
+        if (e.key === 'Escape') {
+          onCancel(e);
+        }
+      };
+
+      form.addEventListener('submit', onSubmit);
+      if (closeBtn) closeBtn.addEventListener('click', onCancel);
+      if (cancelBtn) cancelBtn.addEventListener('click', onCancel);
+      modal.addEventListener('click', onOverlay);
+      document.addEventListener('keydown', onKeyDown);
+
+      modal.classList.add('open');
+      setTimeout(() => input.focus(), 60);
+    });
   }
 
-  // 0. '실시간 연동 시작' 단추 핸들러 (PC 웹화면에서만 비밀번호 인증 후 시작 가능)
+  // 0. '실시간 연동 시작' / '실시간 연동 중' 단추 토글 핸들러 (PC 웹화면에서 비밀번호 인증 후 시작/중지 제어)
   const certStartSyncBtn = document.getElementById('certStartSyncBtn');
   if (certStartSyncBtn) {
-    certStartSyncBtn.addEventListener('click', (e) => {
+    certStartSyncBtn.addEventListener('click', async (e) => {
       e.stopPropagation();
 
       // 모바일 기기 접속 시 실행 방지
       const isMobileDevice = window.innerWidth <= 768 || document.body.classList.contains('mobile-upload-mode');
       if (isMobileDevice) {
-        showToastNotification('⚠️ 실시간 연동 시작 제어는 PC 메인 웹페이지에서만 가능합니다.');
+        showToastNotification('⚠️ 실시간 연동 제어는 PC 메인 웹페이지에서만 가능합니다.');
         return;
       }
 
-      if (!verifyAdminPasscode('실시간 연동 시작')) return;
+      // [핵심 1] 이미 실시간 연동 중일 때 클릭 -> 동일한 관리자 비밀번호 확인 후 연동 중지!
+      if (isGlobalSyncActive) {
+        const isConfirmed = await verifyAdminPasscode('실시간 연동 중지');
+        if (!isConfirmed) return;
+
+        isGlobalSyncActive = false;
+        localStorage.setItem('CEO_GLOBAL_SYNC_ACTIVE', 'false');
+        updateRealtimeStatus('offline', '실시간 연동 중지됨 (대기 상태)');
+
+        // 다른 모든 접속 기기로 실시간 연동 중지 명령 방송
+        try {
+          fetch('https://ntfy.sh', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              topic: NTFY_TOPIC,
+              title: '[명령] 실시간 연동 중지',
+              message: JSON.stringify({
+                type: 'SYNC_COMMAND_STOP',
+                timestamp: Date.now()
+              })
+            })
+          }).then(() => console.log('✦ [Global Sync NTFY] SYNC_COMMAND_STOP broadcasted.'))
+            .catch(err => console.warn('Sync stop broadcast error:', err));
+        } catch (err) { }
+
+        showToastNotification('🛑 [실시간 연동]이 안전하게 중지되었습니다. (새로운 자동 동기화 일시 정지)');
+        return;
+      }
+
+      // [핵심 2] 실시간 연동이 꺼져있을 때 클릭 -> 관리자 비밀번호 확인 후 연동 시작!
+      const isConfirmed = await verifyAdminPasscode('실시간 연동 시작');
+      if (!isConfirmed) return;
 
       isGlobalSyncActive = true;
       localStorage.setItem('CEO_GLOBAL_SYNC_ACTIVE', 'true');
@@ -1824,9 +1941,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // A. 전체 비우기 (0명 빈 좌석 상태로 리셋)
   if (certResetParticipantsBtn) {
-    certResetParticipantsBtn.addEventListener('click', (e) => {
+    certResetParticipantsBtn.addEventListener('click', async (e) => {
       e.stopPropagation();
-      if (!verifyAdminPasscode('전체 좌석 비우기(초기화)')) return;
+      const isConfirmed = await verifyAdminPasscode('전체 좌석 비우기(초기화)');
+      if (!isConfirmed) return;
 
       participants = [];
       try {
@@ -1848,9 +1966,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // B. 70명 실시간 업로드 시뮬레이션 테스트 버튼
   const certSimulate70Btn = document.getElementById('certSimulate70Btn');
   if (certSimulate70Btn) {
-    certSimulate70Btn.addEventListener('click', (e) => {
+    certSimulate70Btn.addEventListener('click', async (e) => {
       e.stopPropagation();
-      if (!verifyAdminPasscode('70명 실시간 업로드 테스트')) return;
+      const isConfirmed = await verifyAdminPasscode('70명 실시간 업로드 테스트');
+      if (!isConfirmed) return;
 
       if (typeof window.run70SimulationTest === 'function') {
         window.run70SimulationTest(300);
