@@ -5315,15 +5315,18 @@ body.is-fullscreen .cert-capture-wrapper {
 /* 6. 모달 공통 & 업로드 모달 (완벽한 좌우 대칭 5:5 골든 핏 & 중앙 정렬) */
 .cert-modal-card {
   display: block !important;
-  max-width: 680px !important;
+  max-width: 720px !important;
   width: 92% !important;
+  max-height: 90vh !important;
   margin: 0 auto !important;
   padding: 0 !important;
   border-radius: 20px !important;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5) !important;
   border: 1px solid rgba(250, 204, 21, 0.35) !important;
-  overflow: hidden !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   background: #0f172a !important;
+  -webkit-overflow-scrolling: touch;
 }
 
 .cert-modal-body {
@@ -5337,7 +5340,7 @@ body.is-fullscreen .cert-capture-wrapper {
 
 @media (max-width: 680px) {
   .cert-modal-card {
-    max-height: 90vh !important;
+    max-height: 92vh !important;
     overflow-y: auto !important;
   }
 

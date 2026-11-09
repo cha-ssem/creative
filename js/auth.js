@@ -953,14 +953,23 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 사진 등록 후 하단 전송 단추 바로가기 스크롤
+    // 사진 등록 후 '가상 강의실에 등록하기' 단추 클릭 시 동작
     if (certScrollToSubmitBtn) {
       certScrollToSubmitBtn.addEventListener('click', () => {
-        if (certInputName && !certInputName.value.trim()) {
-          certInputName.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          certInputName.focus();
-        } else if (certSubmitBtn) {
-          certSubmitBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (!certInputName || !certInputName.value.trim()) {
+          showToastNotification('⚠️ 성함과 소속(기업명)을 먼저 입력해 주세요.');
+          if (certInputName) {
+            certInputName.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            certInputName.focus();
+          }
+        } else {
+          if (certUploadForm) {
+            if (typeof certUploadForm.requestSubmit === 'function') {
+              certUploadForm.requestSubmit();
+            } else if (certSubmitBtn) {
+              certSubmitBtn.click();
+            }
+          }
         }
       });
     }
@@ -1221,7 +1230,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (certAiScanOverlay) certAiScanOverlay.classList.remove('active');
           if (certSubmitBtn) certSubmitBtn.disabled = false;
           if (certBtnSpinner) certBtnSpinner.style.display = 'none';
-          if (certBtnText) certBtnText.textContent = '🚀 사진 전송 및 참석 등록 완료';
+          if (certBtnText) certBtnText.textContent = '✨ 가상 강의실에 등록하기';
 
           const isMobileMode = document.body.classList.contains('mobile-upload-mode');
           if (isMobileMode && certSuccessView) {
@@ -1259,7 +1268,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (certAiScanOverlay) certAiScanOverlay.classList.remove('active');
         if (certSubmitBtn) certSubmitBtn.disabled = false;
         if (certBtnSpinner) certBtnSpinner.style.display = 'none';
-        if (certBtnText) certBtnText.textContent = '🚀 사진 전송 및 참석 등록 완료';
+        if (certBtnText) certBtnText.textContent = '✨ 가상 강의실에 등록하기';
       }
     });
   }

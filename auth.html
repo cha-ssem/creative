@@ -636,8 +636,8 @@
               <button type="button" id="certResetImgBtn" class="cert-reset-img-btn" style="flex: 1;">🔄 다른 사진
                 선택</button>
               <button type="button" id="certScrollToSubmitBtn" class="cert-reset-img-btn"
-                style="flex: 1.3; background: rgba(245, 158, 11, 0.25); color: #fcd34d; border-color: rgba(245, 158, 11, 0.5); font-weight: 800;">
-                🚀 전송 단추로 이동 ↓
+                style="flex: 1.4; background: linear-gradient(135deg, #f59e0b, #d97706); color: #0f172a; border: none; font-weight: 800; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35); cursor: pointer;">
+                ✨ 가상 강의실에 등록하기
               </button>
             </div>
           </div>
@@ -653,7 +653,7 @@
             </p>
           </div>
 
-          <form id="certUploadForm" class="cert-form">
+          <form id="certUploadForm" class="cert-form" novalidate>
             <!-- 1. 참여자 이름 / 기업명 (필수 입력) -->
             <div class="form-group">
               <label for="certInputName" class="form-label">
@@ -680,7 +680,7 @@
             <div class="cert-modal-action-bar">
               <button type="submit" id="certSubmitBtn" class="cert-submit-btn">
                 <span class="btn-spinner" id="certBtnSpinner" style="display: none;"></span>
-                <span id="certBtnText">🚀 사진 전송 및 참석 등록 완료</span>
+                <span id="certBtnText">✨ 가상 강의실에 등록하기</span>
               </button>
             </div>
           </form>
@@ -797,7 +797,7 @@
   <div id="toastNotification" class="toast-notification"></div>
 
   <!-- 전용 인증 스크립트 -->
-  <script src="js/auth.js?v=20261109_1840" defer></script>
+  <script src="js/auth.js?v=20261109_1850" defer></script>
 </body>
 
 </html>
