@@ -1780,31 +1780,156 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 12. [핵심] 관리자 보안 비밀번호 검증 (화면 마스킹/숨김 모달 방식)
+  // 12. [핵심] 관리자 보안 비밀번호 검증 (화면 마스킹/숨김 및 작업별 맞춤형 모달 안내)
   const ADMIN_PASSCODE = '9985';
 
-  function verifyAdminPasscode(actionName = '이 작업') {
+  /**
+   * 관리자 보안 비밀번호 검증 모달 (마스킹 및 작업별 맞춤형 UI 제공)
+   * @param {string|object} options 작업명 문자열 또는 세부 옵션 객체
+   * @returns {Promise<boolean>}
+   */
+  function verifyAdminPasscode(options = '이 작업') {
     return new Promise((resolve) => {
+      let icon = '🔒';
+      let titleText = '관리자 비밀번호 확인';
+      let descHtml = '작업을 진행하시려면 관리자 보안 비밀번호를 입력해 주세요.';
+      let submitText = '확인';
+      let theme = 'default'; // 'danger', 'sync-start', 'sync-stop', 'test', 'default'
+
+      if (typeof options === 'string') {
+        const actionName = options;
+        if (actionName.includes('비우기') || actionName.includes('초기화')) {
+          icon = '🗑️';
+          titleText = '전체 참석자 좌석 비우기 (초기화)';
+          descHtml = `
+            <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 8px; padding: 0.85rem; margin-bottom: 0.9rem; text-align: left;">
+              <div style="font-weight: 800; color: #ef4444; margin-bottom: 0.35rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.35rem;">
+                <span>⚠️</span> <span>등록된 모든 참석자 사진이 영구 삭제됩니다</span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
+                현재 등록된 참석자 <strong>${participants.length}명</strong>의 사진과 정보가 완전히 삭제되고 <strong>0석 빈 좌석(대기 상태)</strong>으로 리셋됩니다.
+              </div>
+            </div>
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
+              이 작업은 되돌릴 수 없습니다. 계속 진행하시려면 <strong>관리자 보안 비밀번호</strong>를 입력해 주세요.
+            </p>
+          `;
+          submitText = '🗑️ 전체 비우기 실행';
+          theme = 'danger';
+        } else if (actionName.includes('연동 시작')) {
+          icon = '⚡';
+          titleText = '실시간 연동 시작';
+          descHtml = `
+            <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 8px; padding: 0.85rem; margin-bottom: 0.9rem; text-align: left;">
+              <div style="font-weight: 800; color: #10b981; margin-bottom: 0.35rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.35rem;">
+                <span>🟢</span> <span>모바일 ↔ 메인 스크린 실시간 연동 활성화</span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
+                스마트폰 카메라로 촬영 및 업로드한 참석자 사진이 메인 강의실 좌석에 <strong>실시간으로 즉시 등재</strong>됩니다.
+              </div>
+            </div>
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
+              실시간 연동을 시작하시려면 <strong>관리자 보안 비밀번호</strong>를 입력해 주세요.
+            </p>
+          `;
+          submitText = '⚡ 실시간 연동 시작';
+          theme = 'sync-start';
+        } else if (actionName.includes('연동 중지')) {
+          icon = '🛑';
+          titleText = '실시간 연동 중지';
+          descHtml = `
+            <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 8px; padding: 0.85rem; margin-bottom: 0.9rem; text-align: left;">
+              <div style="font-weight: 800; color: #f59e0b; margin-bottom: 0.35rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.35rem;">
+                <span>⏸️</span> <span>실시간 자동 동기화 일시 중지</span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
+                진행 중인 실시간 자동 동기화를 안전하게 중지합니다. 중지 중에는 <strong>외부 기기의 사진 업로드가 화면에 자동 반영되지 않습니다.</strong>
+              </div>
+            </div>
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
+              실시간 연동을 중지하시려면 <strong>관리자 보안 비밀번호</strong>를 입력해 주세요.
+            </p>
+          `;
+          submitText = '🛑 실시간 연동 중지';
+          theme = 'sync-stop';
+        } else if (actionName.includes('테스트')) {
+          icon = '🧪';
+          titleText = '70명 실시간 업로드 시뮬레이션';
+          descHtml = `
+            <div style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: 8px; padding: 0.85rem; margin-bottom: 0.9rem; text-align: left;">
+              <div style="font-weight: 800; color: #0284c7; margin-bottom: 0.35rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.35rem;">
+                <span>🧪</span> <span>대규모 동시 접속 부하 테스트</span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
+                가상 참석자 70명이 0.3초 간격으로 사진을 자동 등록하며 화면 렌더링 및 실시간 동기화 성능을 검증합니다.
+              </div>
+            </div>
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
+              시뮬레이션을 시작하시려면 <strong>관리자 보안 비밀번호</strong>를 입력해 주세요.
+            </p>
+          `;
+          submitText = '🧪 테스트 시작';
+          theme = 'test';
+        } else {
+          titleText = `${actionName} 관리자 확인`;
+          descHtml = `<strong>[${actionName}]</strong> 작업을 진행하시려면 관리자 비밀번호를 입력해 주세요.`;
+        }
+      } else if (typeof options === 'object' && options !== null) {
+        if (options.icon) icon = options.icon;
+        if (options.title) titleText = options.title;
+        if (options.desc) descHtml = options.desc;
+        if (options.submitText) submitText = options.submitText;
+        if (options.theme) theme = options.theme;
+      }
+
       const modal = document.getElementById('adminPasscodeModal');
       const form = document.getElementById('adminPasscodeForm');
       const input = document.getElementById('adminPasscodeInput');
-      const title = document.getElementById('adminPasscodeModalTitle');
-      const desc = document.getElementById('adminPasscodeModalDesc');
+      const iconEl = document.getElementById('adminPasscodeModalIcon');
+      const titleEl = document.getElementById('adminPasscodeModalTitle');
+      const descEl = document.getElementById('adminPasscodeModalDesc');
       const errorMsg = document.getElementById('adminPasscodeErrorMsg');
       const closeBtn = document.getElementById('adminPasscodeModalCloseBtn');
       const cancelBtn = document.getElementById('adminPasscodeCancelBtn');
+      const submitBtn = document.getElementById('adminPasscodeSubmitBtn');
 
       if (!modal || !form || !input) {
-        const fallbackVal = window.prompt(`🔒 [${actionName}] 관리자 비밀번호를 입력해 주세요:`);
+        const fallbackVal = window.prompt(`🔒 [${titleText}] 관리자 비밀번호를 입력해 주세요:`);
         resolve(Boolean(fallbackVal && fallbackVal.trim() === ADMIN_PASSCODE));
         return;
       }
 
-      if (title) {
-        title.textContent = `[${actionName}] 관리자 확인`;
-      }
-      if (desc) {
-        desc.innerHTML = `<strong>[${actionName}]</strong> 작업을 진행하시려면<br>관리자 보안 비밀번호를 입력해 주세요.`;
+      if (iconEl) iconEl.textContent = icon;
+      if (titleEl) titleEl.textContent = titleText;
+      if (descEl) descEl.innerHTML = descHtml;
+      if (submitBtn) {
+        submitBtn.textContent = submitText;
+        if (theme === 'danger') {
+          submitBtn.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+          submitBtn.style.borderColor = '#ef4444';
+          submitBtn.style.color = '#ffffff';
+          submitBtn.style.boxShadow = '0 4px 14px rgba(239, 68, 68, 0.4)';
+        } else if (theme === 'sync-start') {
+          submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+          submitBtn.style.borderColor = '#10b981';
+          submitBtn.style.color = '#ffffff';
+          submitBtn.style.boxShadow = '0 4px 14px rgba(16, 185, 129, 0.4)';
+        } else if (theme === 'sync-stop') {
+          submitBtn.style.background = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
+          submitBtn.style.borderColor = '#f59e0b';
+          submitBtn.style.color = '#ffffff';
+          submitBtn.style.boxShadow = '0 4px 14px rgba(245, 158, 11, 0.4)';
+        } else if (theme === 'test') {
+          submitBtn.style.background = 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)';
+          submitBtn.style.borderColor = '#0284c7';
+          submitBtn.style.color = '#ffffff';
+          submitBtn.style.boxShadow = '0 4px 14px rgba(2, 132, 199, 0.4)';
+        } else {
+          submitBtn.style.background = '';
+          submitBtn.style.borderColor = '';
+          submitBtn.style.color = '';
+          submitBtn.style.boxShadow = '';
+        }
       }
       if (errorMsg) errorMsg.style.display = 'none';
       input.value = '';

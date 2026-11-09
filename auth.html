@@ -887,15 +887,15 @@
 
   <!-- [인증 모달 4] 관리자 보안 비밀번호 확인 모달 (비밀번호 숨김/마스킹 처리) -->
   <div class="modal-overlay" id="adminPasscodeModal">
-    <div class="modal-card" style="max-width: 420px; padding: 2rem 1.8rem; text-align: center;">
+    <div class="modal-card" style="max-width: 440px; padding: 2rem 1.8rem; text-align: center;">
       <button class="modal-close-btn" id="adminPasscodeModalCloseBtn" type="button">&times;</button>
-      <div style="font-size: 2.4rem; margin-bottom: 0.5rem;">🔒</div>
+      <div id="adminPasscodeModalIcon" style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔒</div>
       <h3 id="adminPasscodeModalTitle"
         style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin: 0 0 0.5rem;">관리자 비밀번호 확인</h3>
-      <p id="adminPasscodeModalDesc"
+      <div id="adminPasscodeModalDesc"
         style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin: 0 0 1.25rem;">
         작업을 실행하려면 관리자 비밀번호를 입력해 주세요.
-      </p>
+      </div>
 
       <form id="adminPasscodeForm" novalidate>
         <div class="form-group" style="margin-bottom: 1.25rem;">
@@ -922,7 +922,7 @@
   <div id="toastNotification" class="toast-notification"></div>
 
   <!-- 전용 인증 스크립트 -->
-  <script src="js/auth.js?v=20261109_2000" defer></script>
+  <script src="js/auth.js?v=20261109_2020" defer></script>
 </body>
 
 </html>
