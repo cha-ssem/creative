@@ -459,12 +459,13 @@
         <div class="view-control-bar cert-action-toolbar">
           <div class="filter-bar" id="certFilterBar" style="margin-bottom: 0;">
             <button type="button" class="filter-chip active" id="certFilterAllBtn" data-cert-filter="all" title="클릭하여 최대 참석자 정원(좌석 수) 변경하기">전체 참석자 (<span id="certCountTotal">0 / 72</span> ⚙️)</button>
+            <button type="button" class="filter-chip cert-sync-start-btn" id="certStartSyncBtn" title="관리자 비밀번호를 입력하여 실시간 연동을 활성화합니다" style="border-color: #10b981; color: #10b981; font-weight: 700;">⚡ 실시간 연동 시작</button>
             <button type="button" class="filter-chip cert-reset-btn" id="certResetParticipantsBtn" title="모든 사진을 비우고 0명 빈 좌석 상태로 초기화합니다">🔄 전체 비우기(0명)</button>
             <button type="button" class="filter-chip" id="certSimulate70Btn" title="70명이 실시간으로 사진을 등록하는 상황을 자동 시뮬레이션 테스트합니다" style="border-color: #38bdf8; color: #38bdf8; font-weight: 700;">🧪 70명 테스트</button>
             <button type="button" class="filter-chip" data-cert-filter="recent">✨ 최근 등록순</button>
-            <div class="realtime-status-badge" id="realtimeStatusBadge" title="모바일 ↔ 메인 화면 실시간 연동 중">
+            <div class="realtime-status-badge" id="realtimeStatusBadge" title="모바일 ↔ 메인 화면 실시간 연동 상태">
               <span class="realtime-pulse-dot" id="realtimePulseDot"></span>
-              <span id="realtimeStatusText">실시간 연동 준비 중</span>
+              <span id="realtimeStatusText">실시간 연동 대기 중</span>
             </div>
           </div>
 

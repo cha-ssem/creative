@@ -355,14 +355,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentFilter = 'all';
 
   // ==========================================================================
-  // [단일 공용 세션 채널: 모든 기기가 동일한 방으로 자동 일치 동기화]
+  // [인터넷 및 외부망 지원 초광역 글로벌 실시간 동기화 (NTFY HTTPS SSE + 로컬 SSE)]
   // ==========================================================================
-  const urlParams = new URLSearchParams(window.location.search);
-  // URL에 room 파라미터가 없어도 항상 기본 공용 방 'womanceo_class_2026' 사용
-  const currentRoomId = urlParams.get('room') || 'womanceo_class_2026';
-
-  const SYNC_TOPIC = `womanceo/secure_sync/${currentRoomId}`;
-  let realtimeClient = null;
+  const NTFY_TOPIC = 'womanceo_global_sync_9985';
+  let isGlobalSyncActive = localStorage.getItem('CEO_GLOBAL_SYNC_ACTIVE') === 'true';
+  let ntfyEventSource = null;
+  let sseEventSource = null;
 
   function updateRealtimeStatus(status, text) {
     if (realtimeStatusText) realtimeStatusText.textContent = text;
@@ -372,156 +370,87 @@ document.addEventListener('DOMContentLoaded', () => {
     if (realtimeStatusBadge) {
       realtimeStatusBadge.title = `⚡ 실시간 연동: ${text}`;
     }
+    const syncBtn = document.getElementById('certStartSyncBtn');
+    if (syncBtn) {
+      if (isGlobalSyncActive) {
+        syncBtn.classList.add('active-sync');
+        syncBtn.textContent = '🟢 실시간 연동 중';
+      } else {
+        syncBtn.classList.remove('active-sync');
+        syncBtn.textContent = '⚡ 실시간 연동 시작';
+      }
+    }
   }
 
-  // 1) 내장 로컬 SSE 실시간 동기화 (최우선 & 100% 무료 로컬 중계)
-  let sseEventSource = null;
+  // A) 초광역 HTTPS SSE 실시간 수신 (같은 와이파이가 아니어도 LTE/5G 어디서나 100% 실시간 수신)
+  function startNtfyGlobalSync() {
+    if (ntfyEventSource) return;
+    try {
+      updateRealtimeStatus('connecting', '인터넷 실시간 연동 연결 중...');
+      ntfyEventSource = new EventSource(`https://ntfy.sh/${NTFY_TOPIC}/sse`);
+
+      ntfyEventSource.addEventListener('open', () => {
+        console.log('✦ [Global Sync NTFY] Connected to real-time pubsub stream.');
+        updateRealtimeStatus('online', '인터넷 실시간 연동 활성화 (연결됨)');
+      });
+
+      ntfyEventSource.addEventListener('message', (e) => {
+        try {
+          const raw = JSON.parse(e.data);
+          if (raw.event === 'message' && raw.message) {
+            const data = JSON.parse(raw.message);
+            if (data.type === 'NEW_PARTICIPANT' && data.participant) {
+              handleRemoteParticipant(data.participant);
+            } else if (data.type === 'RESET_PARTICIPANTS') {
+              handleRemoteReset(data.mode);
+            }
+          }
+        } catch (err) {
+          console.warn('NTFY parse error:', err);
+        }
+      });
+
+      ntfyEventSource.addEventListener('error', () => {
+        console.warn('NTFY connection retry...');
+      });
+    } catch (err) {
+      console.warn('NTFY init error:', err);
+    }
+  }
+
+  // B) 로컬 내장 SSE 실시간 수신 (같은 PC/로컬망)
   function initLocalSseSync() {
     try {
       if (typeof EventSource !== 'undefined') {
-        updateRealtimeStatus('connecting', '로컬 서버 연동 중...');
         sseEventSource = new EventSource('/api/cert/events');
-
         sseEventSource.addEventListener('open', () => {
-          console.log('✦ [Realtime SSE] Connected to local server.');
-          updateRealtimeStatus('online', '실시간 연동 완료 (로컬)');
+          if (!isGlobalSyncActive) {
+            updateRealtimeStatus('online', '로컬 실시간 연동 완료');
+          }
         });
-
         sseEventSource.addEventListener('init', (e) => {
           try {
             const data = JSON.parse(e.data);
-            if (Array.isArray(data.participants)) {
-              if (data.participants.length > 0) {
-                participants = data.participants;
-              } else if (participants.length > 0) {
-                // 서버가 비어있고 로컬에 참가자가 있으면 서버로 초기 상태 동기화
-                participants.forEach(p => broadcastNewParticipant(p));
-              }
-              if (data.maxSeats) maxSeats = data.maxSeats;
+            if (Array.isArray(data.participants) && data.participants.length > 0) {
+              participants = data.participants;
               renderCertCards(currentFilter);
             }
           } catch (err) { }
         });
-
         sseEventSource.addEventListener('new_participant', (e) => {
           try {
             const newP = JSON.parse(e.data);
             handleRemoteParticipant(newP);
           } catch (err) { }
         });
-
         sseEventSource.addEventListener('reset_participants', (e) => {
           try {
             const data = JSON.parse(e.data);
             handleRemoteReset(data.mode);
           } catch (err) { }
         });
-
-        sseEventSource.addEventListener('error', () => {
-          // SSE 일시 중단 시 MQTT 또는 폴링 백업
-          initMqttFallback();
-        });
-      } else {
-        initMqttFallback();
       }
-    } catch (e) {
-      initMqttFallback();
-    }
-  }
-
-  // 2) 외부 공용 MQTT 폴백 (서버 미지원 정적 호스팅 환경용)
-  function initMqttFallback() {
-    if (realtimeClient && realtimeClient.connected) return;
-    initRealtimeSync();
-  }
-
-  function initRealtimeSync() {
-    if (typeof mqtt === 'undefined') {
-      console.warn('MQTT library not loaded.');
-      updateRealtimeStatus('offline', '오프라인 (로컬 모드)');
-      return;
-    }
-
-    try {
-      updateRealtimeStatus('connecting', '실시간 서버 연결 중...');
-      const clientId = 'womanceo_' + Math.random().toString(36).substring(2, 10);
-
-      realtimeClient = mqtt.connect('wss://broker.emqx.io:8084/mqtt', {
-        clientId: clientId,
-        clean: true,
-        connectTimeout: 6000,
-        reconnectPeriod: 3000
-      });
-
-      realtimeClient.on('connect', () => {
-        console.log('✦ [Realtime MQTT] Connected to live broker. Channel:', currentRoomId);
-        updateRealtimeStatus('online', '실시간 연동 완료 (MQTT)');
-        realtimeClient.subscribe(SYNC_TOPIC, { qos: 1 }, (err) => {
-          if (!err) {
-            // 접속 시 방 내의 최신 상태(빈 좌석인지, 참가자 목록 등)를 요청
-            setTimeout(() => {
-              if (realtimeClient && realtimeClient.connected) {
-                realtimeClient.publish(SYNC_TOPIC, JSON.stringify({
-                  type: 'STATE_REQUEST',
-                  sender: clientId
-                }), { qos: 1 });
-              }
-            }, 300);
-          }
-        });
-      });
-
-      realtimeClient.on('reconnect', () => {
-        updateRealtimeStatus('connecting', '재연결 시도 중...');
-      });
-
-      realtimeClient.on('offline', () => {
-        updateRealtimeStatus('offline', '연결 대기 중');
-      });
-
-      realtimeClient.on('error', (err) => {
-        console.warn('Realtime MQTT error:', err);
-        updateRealtimeStatus('offline', '연결 대기 중');
-      });
-
-      realtimeClient.on('message', (topic, message) => {
-        if (topic === SYNC_TOPIC) {
-          try {
-            const data = JSON.parse(message.toString());
-            if (data.type === 'NEW_PARTICIPANT' && data.participant) {
-              handleRemoteParticipant(data.participant);
-            } else if (data.type === 'RESET_PARTICIPANTS') {
-              handleRemoteReset(data.mode);
-            } else if (data.type === 'STATE_REQUEST' && data.sender !== clientId) {
-              // 다른 기기가 접속하여 상태를 요청한 경우 현재 상태 전송
-              if (realtimeClient && realtimeClient.connected) {
-                realtimeClient.publish(SYNC_TOPIC, JSON.stringify({
-                  type: 'STATE_RESPONSE',
-                  target: data.sender,
-                  participants: participants,
-                  maxSeats: maxSeats
-                }), { qos: 1 });
-              }
-            } else if (data.type === 'STATE_RESPONSE' && data.target === clientId && Array.isArray(data.participants)) {
-              // 내 요청에 대한 최신 상태 수신
-              participants = data.participants;
-              if (data.maxSeats) maxSeats = data.maxSeats;
-              try {
-                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(participants));
-                localStorage.setItem(MAX_SEATS_KEY, String(maxSeats));
-              } catch (e) { }
-              renderCertCards(currentFilter);
-              console.log('✦ [Realtime] Initial room state synced:', participants.length, 'participants');
-            }
-          } catch (parseErr) {
-            console.error('Realtime msg parse error:', parseErr);
-          }
-        }
-      });
-    } catch (e) {
-      console.warn('Realtime sync init exception:', e);
-      updateRealtimeStatus('offline', '로컬 단독 모드');
-    }
+    } catch (e) { }
   }
 
   // 원격(스마트폰)에서 새로 등록된 참석자 수신 처리
@@ -571,7 +500,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function broadcastNewParticipant(newP) {
-    // 1) 로컬 내장 서버로 전송 (SSE 연결된 모든 PC/모바일로 자동 브로드캐스트)
+    // 1) 인터넷 초광역 실시간 전송 (NTFY - 같은 와이파이가 아니어도 LTE/5G 어디서나 전송)
+    try {
+      fetch('https://ntfy.sh', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          topic: NTFY_TOPIC,
+          title: `[참석인증] ${newP.name}`,
+          message: JSON.stringify({ type: 'NEW_PARTICIPANT', participant: newP })
+        })
+      }).then(() => console.log('✦ [Global Sync NTFY] Broadcasted successfully.'))
+        .catch(err => console.warn('Global Sync post error:', err));
+    } catch (e) { }
+
+    // 2) 로컬 내장 서버로 전송 (SSE 연결된 PC/모바일)
     fetch('/api/cert/participant', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -579,46 +522,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }).then(res => res.json())
       .then(res => console.log('✦ [Local Sync] Server broadcast response:', res))
       .catch(err => console.warn('Local Sync post error:', err));
-
-    // 2) MQTT 브로커 전송 (서버 미지원 정적 환경 대비)
-    if (realtimeClient && realtimeClient.connected) {
-      try {
-        const payload = JSON.stringify({
-          type: 'NEW_PARTICIPANT',
-          participant: newP,
-          timestamp: Date.now()
-        });
-        realtimeClient.publish(SYNC_TOPIC, payload, { qos: 1 });
-        console.log('✦ [Realtime MQTT] Broadcasted new participant:', newP.name);
-      } catch (err) {
-        console.warn('Broadcast error:', err);
-      }
-    }
   }
 
   function broadcastResetParticipants(mode = 'EMPTY') {
-    // 1) 로컬 내장 서버 리셋 요청
+    // 1) 인터넷 초광역 실시간 리셋 전송
+    try {
+      fetch('https://ntfy.sh', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          topic: NTFY_TOPIC,
+          title: '[참석인증] 전체 초기화',
+          message: JSON.stringify({ type: 'RESET_PARTICIPANTS', mode: mode })
+        })
+      }).catch(() => { });
+    } catch (e) { }
+
+    // 2) 로컬 내장 서버 리셋 요청
     fetch('/api/cert/reset', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ mode: mode, defaults: DEFAULT_PARTICIPANTS })
     }).catch(() => { });
-
-    // 2) MQTT 브로커 전송
-    if (realtimeClient && realtimeClient.connected) {
-      try {
-        const payload = JSON.stringify({
-          type: 'RESET_PARTICIPANTS',
-          mode: mode,
-          timestamp: Date.now()
-        });
-        realtimeClient.publish(SYNC_TOPIC, payload, { qos: 1 });
-      } catch (err) { }
-    }
   }
 
-  // 실시간 동기화 시작 (로컬 SSE 최우선 실행)
+  // 실시간 동기화 시작
   initLocalSseSync();
+  if (isGlobalSyncActive) {
+    startNtfyGlobalSync();
+  }
 
   // 3. 테마 제어
   function applyTheme(isLight) {
@@ -1429,7 +1361,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 12. [핵심] 관리자 보안 비밀번호 검증 및 참석자 사진 전체 비우기(0명) / 테스트 로직
+  // 12. [핵심] 관리자 보안 비밀번호 검증 및 실시간 연동 시작 / 전체 비우기 로직
   const ADMIN_PASSCODE = '9985';
 
   function verifyAdminPasscode(actionName = '이 작업') {
@@ -1441,6 +1373,26 @@ document.addEventListener('DOMContentLoaded', () => {
       showToastNotification('⚠️ 비밀번호가 일치하지 않습니다.');
       return false;
     }
+  }
+
+  // 0. '실시간 연동 시작' 단추 핸들러 (비밀번호 인증 후 실시간 연동 시작)
+  const certStartSyncBtn = document.getElementById('certStartSyncBtn');
+  if (certStartSyncBtn) {
+    certStartSyncBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isGlobalSyncActive) {
+        showToastNotification('🟢 실시간 연동이 이미 활성화되어 실시간 수신 대기 중입니다.');
+        return;
+      }
+
+      if (!verifyAdminPasscode('실시간 연동 시작')) return;
+
+      isGlobalSyncActive = true;
+      localStorage.setItem('CEO_GLOBAL_SYNC_ACTIVE', 'true');
+      startNtfyGlobalSync();
+      updateRealtimeStatus('online', '인터넷 실시간 연동 활성화됨 (9985 인증 완료)');
+      showToastNotification('🎉 [실시간 연동]이 시작되었습니다! 이제 다른 기기나 외부망에서 업로드한 사진도 즉시 실시간 동기화됩니다.');
+    });
   }
 
   // A. 전체 비우기 (0명 빈 좌석 상태로 리셋)
