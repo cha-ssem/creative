@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
               try {
                 data = JSON.parse(decodeURIComponent(raw.message));
               } catch (e1) {
-                try { data = JSON.parse(raw.message); } catch (e2) {}
+                try { data = JSON.parse(raw.message); } catch (e2) { }
               }
             }
 
@@ -575,7 +575,7 @@ document.addEventListener('DOMContentLoaded', () => {
             title: `[참석인증] ${newP.name}`,
             message: encodeURIComponent(JSON.stringify(participantMeta))
           })
-        }).catch(() => {});
+        }).catch(() => { });
       }
     } catch (e) { }
 
