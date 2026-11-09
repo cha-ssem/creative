@@ -1214,37 +1214,47 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!certQrModal) return;
     certQrModal.classList.add('open');
 
-    // 서버에서 탐색된 로컬 IP 기반 접속 주소 확인
+    // 1차 즉시 렌더링 (지연 없이 즉시 QR 생성)
+    renderQrCodeWithOrigin(window.location.origin);
+
+    // 2차 서버 탐색 IP가 확인되면 스마트폰 친화적 IP 주소로 업데이트
     fetch('/api/cert/state')
       .then(res => res.json())
       .then(data => {
-        let mobileOrigin = window.location.origin;
         if (data && data.localIp && data.localIp !== 'localhost' && window.location.hostname === 'localhost') {
-          // PC가 localhost로 열려 있어도 QR은 스마트폰이 접속할 수 있는 실제 로컬 IP로 자동 치환
-          mobileOrigin = `http://${data.localIp}:${window.location.port || 3000}`;
+          const mobileOrigin = `http://${data.localIp}:${window.location.port || 3000}`;
+          renderQrCodeWithOrigin(mobileOrigin);
         }
-        renderQrCodeWithOrigin(mobileOrigin);
       })
-      .catch(() => {
-        renderQrCodeWithOrigin(window.location.origin);
-      });
+      .catch(() => {});
   }
 
   function renderQrCodeWithOrigin(origin) {
-    if (certQrContainer && typeof QRCode !== 'undefined') {
+    if (!certQrContainer) return;
+    const currentUrl = new URL(`auth.html?room=${encodeURIComponent(currentRoomId)}#upload`, origin).href;
+
+    if (typeof QRCode !== 'undefined') {
       certQrContainer.innerHTML = '';
-      const currentUrl = new URL(`auth.html?room=${encodeURIComponent(currentRoomId)}#upload`, origin).href;
-      new QRCode(certQrContainer, {
-        text: currentUrl,
-        width: 180,
-        height: 180,
-        colorDark: '#0f172a',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-      });
-      if (certDirectUrlInput) {
-        certDirectUrlInput.value = currentUrl;
+      try {
+        new QRCode(certQrContainer, {
+          text: currentUrl,
+          width: 180,
+          height: 180,
+          colorDark: '#0f172a',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      } catch (err) {
+        console.warn('QRCode instance error, fallback to image API:', err);
+        certQrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="display:block;margin:0 auto;width:180px;height:180px;">`;
       }
+    } else {
+      // QRCode 라이브러리 미로딩 시 온라인 이미지 API 폴백
+      certQrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(currentUrl)}" alt="QR Code" style="display:block;margin:0 auto;width:180px;height:180px;">`;
+    }
+
+    if (certDirectUrlInput) {
+      certDirectUrlInput.value = currentUrl;
     }
   }
 
