@@ -7309,10 +7309,9 @@ body.light-theme .prompt-copy-btn.copied {
   text-align: left !important;
   text-indent: 0 !important;
   line-height: 1.85;
-  white-space: pre-wrap;
+  white-space: normal;
   word-break: keep-all;
   overflow-wrap: break-word;
-  tab-size: 2;
 }
 
 .prompt-text-block.editable-prompt:hover {
@@ -8147,6 +8146,49 @@ body.light-theme .role-search-input {
 
 body.light-theme .role-search-btn {
   color: #ffffff;
+}
+
+/* ChatGPT 공유 링크 바로가기 단추 */
+.role-chatgpt-link-btn {
+  background: linear-gradient(135deg, #10a37f 0%, #0d8c6d 100%);
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.88rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 1.15rem;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(16, 163, 127, 0.3);
+}
+
+.role-chatgpt-link-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(16, 163, 127, 0.45);
+  filter: brightness(1.08);
+  background: linear-gradient(135deg, #12b78f 0%, #0e9a78 100%);
+}
+
+@media (max-width: 768px) {
+  .role-input-bar {
+    flex-wrap: wrap;
+    padding: 0.75rem 0.85rem;
+  }
+  .role-search-input {
+    min-width: 100%;
+    margin-bottom: 0.35rem;
+  }
+  .role-search-btn,
+  .role-chatgpt-link-btn {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+  }
 }
 
 /* 결과 컨테이너 */
