@@ -6852,6 +6852,83 @@ body.light-theme .notion-block {
   box-shadow: 0 6px 16px var(--accent-cyan-glow);
 }
 
+/* 내가 태어난 날 배너 우측 액션 & QR 코드 컨테이너 */
+.notion-preview-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-shrink: 0;
+}
+
+.birthday-qr-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-decoration: none;
+  background: rgba(15, 23, 42, 0.45);
+  padding: 0.5rem 0.6rem 0.4rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.birthday-qr-wrapper:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 4px 14px var(--accent-cyan-glow);
+  background: rgba(15, 23, 42, 0.75);
+}
+
+.birthday-qr-box {
+  background: #ffffff;
+  padding: 4px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.birthday-qr-img {
+  width: 72px;
+  height: 72px;
+  display: block;
+  border-radius: 4px;
+  image-rendering: pixelated;
+}
+
+.birthday-qr-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  letter-spacing: -0.01em;
+}
+
+body.light-theme .birthday-qr-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(2, 132, 199, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+body.light-theme .birthday-qr-wrapper:hover {
+  background: #ffffff;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+}
+
+@media (max-width: 640px) {
+  .notion-preview-actions {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+}
+
 /* 쇼케이스 미디어 그리드 */
 .notion-showcase-grid {
   display: grid;

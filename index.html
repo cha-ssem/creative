@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20261110_1345">
   <link rel="stylesheet" href="css/mobile.css" media="screen and (max-width: 768px)">
   <!-- Marked for Scenario Markdown Rendering -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
@@ -547,9 +547,22 @@
                 <span>생년월일을 넣으면 내가 태어난 날의 날씨와 달, 그해 물가·동갑 수·1위 노래·있었던 일까지 공공데이터로 그날의 대한민국을 카드로 보여 드려요.</span>
               </div>
             </div>
-            <a href="https://birthday.altolab.ai/" target="_blank" rel="noopener noreferrer" class="notion-link-btn">
-              <span>서비스 직접 체험하기</span> ↗
-            </a>
+            <div class="notion-preview-actions">
+              <a href="https://birthday.altolab.ai/" target="_blank" rel="noopener noreferrer" class="notion-link-btn"
+                title="새 창에서 서비스 직접 체험하기">
+                <span>서비스 직접 체험하기</span> ↗
+              </a>
+              <a href="https://birthday.altolab.ai/" target="_blank" rel="noopener noreferrer"
+                class="birthday-qr-wrapper" title="스마트폰 카메라로 스캔하여 모바일에서 바로 체험해 보세요 (클릭 시 사이트 이동)">
+                <div class="birthday-qr-box">
+                  <img src="images/qr-birthday-altolab.jpg" alt="내가 태어난 날의 대한민국 서비스 QR코드" class="birthday-qr-img"
+                    width="72" height="72">
+                </div>
+                <div class="birthday-qr-label">
+                  <span>📱 모바일 스캔</span>
+                </div>
+              </a>
+            </div>
           </div>
 
           <!-- 영상 설명 쇼케이스 -->
