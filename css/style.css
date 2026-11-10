@@ -6881,6 +6881,11 @@ body.light-theme .notion-block {
   background: rgba(15, 23, 42, 0.75);
 }
 
+.birthday-qr-wrapper:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 2px;
+}
+
 .birthday-qr-box {
   background: #ffffff;
   padding: 4px;
@@ -7284,10 +7289,11 @@ body.light-theme .prompt-copy-btn.copied {
 .prompt-text-block {
   font-family: 'Noto Sans KR', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.88rem;
-  line-height: 1.7;
+  line-height: 1.8;
   letter-spacing: -0.015em;
   white-space: pre-wrap;
-  word-break: break-word;
+  word-break: keep-all;
+  overflow-wrap: break-word;
   color: var(--text-primary);
   background: rgba(0, 0, 0, 0.22);
   padding: 1.1rem 1.25rem;
@@ -7302,9 +7308,9 @@ body.light-theme .prompt-copy-btn.copied {
   min-height: 200px;
   text-align: left !important;
   text-indent: 0 !important;
-  line-height: 1.8;
+  line-height: 1.85;
   white-space: pre-wrap;
-  word-break: break-all;
+  word-break: keep-all;
   overflow-wrap: break-word;
   tab-size: 2;
 }
@@ -7344,6 +7350,7 @@ body.light-theme .prompt-text-block.editable-prompt:focus {
   font-weight: normal !important;
   display: inline-block;
   user-select: none;
+  vertical-align: baseline;
 }
 
 body:not(.light-theme) .prompt-tag-label {
@@ -7353,38 +7360,49 @@ body:not(.light-theme) .prompt-tag-label {
   padding: 0.05rem 0.35rem;
   border-radius: 4px;
   line-height: 1.25;
-  margin-right: 0.15rem;
+  margin-right: 0.2rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 body.light-theme .prompt-tag-label {
-  color: #000000 !important;
+  background: #e2e8f0;
+  color: #0f172a !important;
   font-weight: normal !important;
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  line-height: 1.25;
+  margin-right: 0.2rem;
 }
 
 .prompt-var-text {
   color: #fb923c;
   /* 밝은 주황색 계열 (다크 모드 가독성 극대화) */
   font-weight: 600;
-  border-bottom: 1px dashed rgba(251, 146, 60, 0.5);
+  border-bottom: none !important;
+  background: rgba(251, 146, 60, 0.12);
+  padding: 0.08rem 0.35rem;
+  border-radius: 4px;
   transition: all var(--transition-fast);
 }
 
 .prompt-text-block.editable-prompt:focus .prompt-var-text {
   color: #fdba74;
-  border-bottom-color: #fdba74;
+  background: rgba(251, 146, 60, 0.2);
 }
 
 body.light-theme .prompt-var-text {
   color: #ea580c;
   /* 선명한 딥 주황색 (라이트 모드 고대비 가독성) */
   font-weight: 700;
-  border-bottom: 1px dashed rgba(234, 88, 12, 0.55);
+  border-bottom: none !important;
+  background: rgba(234, 88, 12, 0.1);
+  padding: 0.08rem 0.35rem;
+  border-radius: 4px;
 }
 
 body.light-theme .prompt-text-block.editable-prompt:focus .prompt-var-text {
   color: #c2410c;
-  border-bottom-color: #c2410c;
+  background: rgba(234, 88, 12, 0.16);
 }
 
 /* 6대 콘텐츠 갤러리 그리드 (전략2 쇼케이스) */

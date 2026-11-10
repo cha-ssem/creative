@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=20261110_1345">
+  <link rel="stylesheet" href="css/style.css?v=20261110_1400">
   <link rel="stylesheet" href="css/mobile.css" media="screen and (max-width: 768px)">
   <!-- Marked for Scenario Markdown Rendering -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
@@ -552,16 +552,16 @@
                 title="새 창에서 서비스 직접 체험하기">
                 <span>서비스 직접 체험하기</span> ↗
               </a>
-              <a href="https://birthday.altolab.ai/" target="_blank" rel="noopener noreferrer"
-                class="birthday-qr-wrapper" title="스마트폰 카메라로 스캔하여 모바일에서 바로 체험해 보세요 (클릭 시 사이트 이동)">
+              <div class="birthday-qr-wrapper" id="birthdayQrTrigger" role="button" tabindex="0"
+                title="클릭하여 QR 코드를 화면에 크게 띄웁니다 🔍">
                 <div class="birthday-qr-box">
-                  <img src="images/qr-birthday-altolab.jpg" alt="내가 태어난 날의 대한민국 서비스 QR코드" class="birthday-qr-img"
-                    width="72" height="72">
+                  <img src="images/qr-birthday-altolab.jpg" alt="내가 태어난 날의 대한민국 서비스 QR코드"
+                    class="birthday-qr-img no-lightbox" width="72" height="72">
                 </div>
                 <div class="birthday-qr-label">
-                  <span>📱 모바일 스캔</span>
+                  <span>📱 QR 크게 보기</span>
                 </div>
-              </a>
+              </div>
             </div>
           </div>
 
@@ -1191,20 +1191,25 @@
                 <div class="prompt-text-block editable-prompt" id="promptCase1" contenteditable="true"
                   spellcheck="false" title="클릭하여 주황색 프롬프트 내용을 직접 수정할 수 있습니다"><span class="prompt-tag-label">[역할]</span>
                   너는 <span class="prompt-var-text">15년 경력의 중소기업 경영 및 마케팅 전략 전문 컨설턴트</span>야.
+
                   <span class="prompt-tag-label">[배경]</span> 나는 <span class="prompt-var-text">직원 5명 규모의 여성 의류 온라인
                     쇼핑몰</span>을 운영하는 대표야. 주요 고객은 <span class="prompt-var-text">40~50대 여성</span>이고, 최근 <span
                     class="prompt-var-text">신규 고객 유입이 감소하면서 매출 성장이 정체된 상황</span>이야.
+
                   <span class="prompt-tag-label">[지시]</span> 신규 고객을 확보하고 기존 고객의 재구매율을 높일 수 있는 <span
                     class="prompt-var-text">실질적인 마케팅 전략 3가지</span>를 제안해 줘. 각 전략의 <span class="prompt-var-text">구체적인 실행
                     방법</span>도 설명해 줘.
+
                   <span class="prompt-tag-label">[형식]</span> <span class="prompt-var-text">전략명, 실행 방법, 예상 비용, 기대
                     효과</span>를 <span class="prompt-var-text">표(Table)</span> 형태로 정리하고, <span class="prompt-var-text">가장
                     먼저 실행할 전략</span>을 추천해 줘.
+
                   <span class="prompt-tag-label">[조건]</span> 월 마케팅 예산은 <span class="prompt-var-text">100만 원 이내</span>로
                   제한하고, <span class="prompt-var-text">별도 마케팅 담당자 없이도 실행할 수 있는 방안</span>으로 제안해 줘. 기대 효과는 과장하지 말고, 확인되지 않은
                   수치를 임의로 만들지 마.
-                  <span class="prompt-tag-label">[샘플]</span> 다음 예시의 구조를 참고해 작성해 줘. <span
-                    class="prompt-tag-label">[전략명]</span> → <span class="prompt-tag-label">[실행 방법]</span> → <span
+
+                  <span class="prompt-tag-label">[샘플]</span> 다음 예시의 구조를 참고해 작성해 줘.
+                  <span class="prompt-tag-label">[전략명]</span> → <span class="prompt-tag-label">[실행 방법]</span> → <span
                     class="prompt-tag-label">[예상 비용]</span> → <span class="prompt-tag-label">[기대 효과]</span>
                 </div>
                 <p style="font-size: 0.8rem; color: #34d399; line-height: 1.5; margin: 0;">
@@ -1238,14 +1243,19 @@
                 <div class="prompt-text-block editable-prompt" id="promptCase2" contenteditable="true"
                   spellcheck="false" title="클릭하여 주황색 프롬프트 내용을 직접 수정할 수 있습니다"><span class="prompt-tag-label">[역할]</span>
                   너는 <span class="prompt-var-text">공공데이터 기반 상권 분석 및 창업 컨설턴트</span>야.
+
                   <span class="prompt-tag-label">[배경]</span> 나는 <span class="prompt-var-text">부산</span>에서 <span
                     class="prompt-var-text">카페 창업</span>을 준비 중인 여성 CEO야.
+
                   <span class="prompt-tag-label">[지시]</span> 공공데이터를 활용해 <span class="prompt-var-text">부산의 주요 상권별 유동인구,
                     경쟁 점포 수, 소비 특성</span>을 분석하고 <span class="prompt-var-text">창업 후보 지역 3곳</span>을 제안해 줘.
+
                   <span class="prompt-tag-label">[형식]</span> <span class="prompt-var-text">지역명, 주요 고객층, 경쟁 현황, 창업 시
                     고려사항</span>을 <span class="prompt-var-text">표</span>로 정리해 줘.
+
                   <span class="prompt-tag-label">[조건]</span> <span class="prompt-var-text">공공데이터 출처와 기준연도</span>를 표시하고,
                   확인되지 않은 수치는 임의로 만들지 마.
+
                   <span class="prompt-tag-label">[샘플]</span> <span class="prompt-tag-label">[지역명]</span> → <span
                     class="prompt-tag-label">[주요 고객층]</span> → <span class="prompt-tag-label">[경쟁 현황]</span> → <span
                     class="prompt-tag-label">[창업 시 고려사항]</span>
@@ -2343,12 +2353,42 @@ files.download(OUTPUT_FILE)</pre>
     </div>
   </div>
 
+  <!-- [내가 태어난 날의 대한민국] 전용 QR 코드 크게 보기 모달 -->
+  <div id="birthdayQrModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-card qr-modal-card"
+      style="border-color: rgba(56, 189, 248, 0.4); box-shadow: var(--shadow-lg), 0 0 35px rgba(56, 189, 248, 0.25);">
+      <button type="button" class="modal-close-btn" id="birthdayQrModalCloseBtn" title="닫기 (Esc)">&times;</button>
+      <span class="qr-modal-badge" style="color: var(--accent-cyan); border-color: rgba(56, 189, 248, 0.35);">SERVICE
+        EXPERIENCE</span>
+      <h3 class="qr-modal-title" style="color: var(--text-primary); margin-bottom: 0.25rem;">🎂 내가 태어난 날의 대한민국</h3>
+      <p class="qr-modal-desc" style="margin-bottom: 0.6rem; word-break: keep-all;">
+        스마트폰 기본 카메라로 아래 QR 코드를 비추시면<br><strong>「내가 태어난 날의 대한민국」</strong> 서비스를 즉시 체험하실 수 있습니다.
+      </p>
+      <div class="qr-image-frame" style="margin-bottom: 0.5rem;">
+        <img src="images/qr-birthday-altolab.jpg" alt="내가 태어난 날의 대한민국 모바일 접속 QR 코드" style="width: 240px; height: 240px;"
+          loading="lazy">
+      </div>
+      <div style="font-size: 0.8rem; color: var(--accent-cyan); margin-bottom: 0.9rem; font-weight: 600;">
+        🔗 https://birthday.altolab.ai/
+      </div>
+      <div style="display: flex; gap: 0.65rem; justify-content: center; width: 100%;">
+        <a href="https://birthday.altolab.ai/" target="_blank" rel="noopener noreferrer" class="notion-link-btn"
+          style="padding: 0.55rem 1.25rem;">
+          <span>새 창에서 직접 열기</span> ↗
+        </a>
+        <button type="button" class="toggle-view-btn" id="birthdayQrModalDismissBtn" style="padding: 0.55rem 1.2rem;">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- YouTube IFrame API & 메인 스크립트 -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script src="js/project-data.js" defer></script>
   <script src="js/clip-prompts-data.js" defer></script>
   <script src="js/ceo-roles-data.js" defer></script>
-  <script src="js/app.js" defer></script>
+  <script src="js/app.js?v=20261110_1355" defer></script>
 </body>
 
 </html>

@@ -2223,6 +2223,7 @@ if (document.readyState === 'loading') {
     initIntroOverlay();
     initCertificationPage();
     initQrModal();
+    initBirthdayQrModal();
     initCeoRoleGenerator();
     initMobileNav();
   });
@@ -2230,6 +2231,7 @@ if (document.readyState === 'loading') {
   initIntroOverlay();
   initCertificationPage();
   initQrModal();
+  initBirthdayQrModal();
   initCeoRoleGenerator();
   initMobileNav();
 }
@@ -3052,6 +3054,73 @@ function initQrModal() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && qrModal.classList.contains('open')) {
       closeQrModal();
+    }
+  });
+}
+
+/**
+ * ==========================================================================
+ * [OPENING] 「내가 태어난 날의 대한민국」 QR 코드 크게 보기 모달 컨트롤러
+ * ==========================================================================
+ */
+function initBirthdayQrModal() {
+  const modal = document.getElementById('birthdayQrModal');
+  const trigger = document.getElementById('birthdayQrTrigger');
+  const closeBtn = document.getElementById('birthdayQrModalCloseBtn');
+  const dismissBtn = document.getElementById('birthdayQrModalDismissBtn');
+
+  if (!modal || !trigger) return;
+
+  function openBirthdayQrModal() {
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeBirthdayQrModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // QR 박스 클릭 시 새 창 이동 방지 및 모달 열기
+  trigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openBirthdayQrModal();
+  });
+
+  // 키보드 접근성 지원 (Enter / Space)
+  trigger.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openBirthdayQrModal();
+    }
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeBirthdayQrModal();
+    });
+  }
+
+  if (dismissBtn) {
+    dismissBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeBirthdayQrModal();
+    });
+  }
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeBirthdayQrModal();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) {
+      closeBirthdayQrModal();
     }
   });
 }
